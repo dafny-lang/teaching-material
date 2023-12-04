@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta name="generator" content="Madoko, version 1.2.3" />
+  <meta name="viewport" content="initial-scale=1.0" />
+  <meta name="author" content="Jean-Baptiste Tristan \&amp, K. Rustan M. Leino" />
+  <title>Object-Oriented Programming</title>
+  <style type="text/css"  class="link">
+  /*# sourceURL=madoko.css */
+  
+  .madoko .toc>.tocblock .tocblock .tocblock {
+    margin-left: 2.25em;
+  }
+  .madoko .toc>.tocblock .tocblock {
+    margin-left: 1.5em;
+  }
+  .madoko .toc-contents>.tocblock>.tocitem {
+    font-weight: bold;
+  }
+  .madoko .toc {
+    margin-top: 1em;
+  }
+  .madoko p.para-continue {
+    margin-bottom: 0pt;
+  }
+  .madoko .para-block+p {
+    margin-top: 0pt;
+  }
+  .madoko ul.para-block, .madoko ol.para-block {
+    margin-top: 0pt;
+    margin-bottom: 0pt;
+  }
+  .madoko ul.para-end, .madoko ol.para-end {
+    margin-bottom: 1em;
+  }
+  .madoko dl {
+    margin-left: 0em;
+  }
+  .madoko blockquote {
+    font-style: italic;
+  }
+  .madoko a.localref {
+    text-decoration: none;
+  }
+  .madoko a.localref:hover {
+    text-decoration: underline;
+  }
+  .madoko .footnotes {
+    font-size: smaller;
+    margin-top: 2em;
+  }
+  .madoko .footnotes hr {
+    width: 50%;
+    text-align: left;
+  }
+  .madoko .footnote {
+    margin-left: 1em;
+  }
+  .madoko .footnote-before {
+    margin-left: -1em;
+    width: 1em;
+    display: inline-block;
+  }
+  .madoko .align-center, .madoko .align-center>p {
+    text-align: center !important;
+  }
+  .madoko .align-center pre {
+    text-align: left;
+  }
+  .madoko .align-center>* {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .madoko .align-left, .madoko .align-left>p {
+    text-align: left !important;
+  }
+  .madoko .align-left>* {
+    margin-left: 0pt !important;
+    margin-right: auto !important;
+  }
+  .madoko .align-right, .madoko .align-right>p {
+    text-align: right !important;
+  }
+  .madoko .align-right>* {
+    margin-left: auto !important;
+    margin-right: 0pt !important;
+  }
+  .madoko .align-center>table,
+  .madoko .align-left>table,
+  .madoko .align-right>table {
+    text-align: left !important;
+  }
+  .madoko .equation-before {
+    float: right;
+  }
+  .madoko .bibitem {
+    font-size: smaller;
+  }
+  .madoko .bibsearch {
+    font-size: x-small;
+    text-decoration:none;
+    color: black;
+    font-family: "Segoe UI Symbol", Symbola, serif;
+  }
+  .madoko .block, .madoko .figure, .madoko .bibitem, .madoko .equation, .madoko div.math {
+    margin-top: 1ex;
+    margin-bottom: 1ex;
+  }
+  .madoko .figure {
+    padding: 0.5em;
+    margin-left: 0pt;
+    margin-right: 0pt;
+  }
+  .madoko .hidden {
+    display: none;
+  }
+  .madoko .invisible {
+    visibility: hidden;
+  }
+  .madoko.preview .invisible {
+    visibility: visible;
+    opacity: 0.5;
+  }
+  .madoko code.code, .madoko span.code {
+    white-space: pre-wrap;
+  }
+  .madoko hr, hr.madoko {
+    border: none;
+    border-bottom: black solid 1px;
+    margin-bottom: 0.5ex;
+  }
+  .madoko .framed>*:first-child {
+    margin-top: 0pt;
+  }
+  .madoko .framed>*:last-child {
+    margin-bottom: 0pt;
+  }
+  .madoko ul.list-style-type-dash {
+      list-style-type: none !important;
+  }
+  .madoko ul.list-style-type-dash > li:before {
+      content: "\2013";
+      position: absolute;
+      margin-left: -1em;
+  }
+  .madoko table.madoko {
+    border-collapse: collapse;
+  }
+  .madoko td, .madoko th {
+    padding: 0ex 0.5ex;
+    margin: 0pt;
+    vertical-align: top;
+  }
+  .madoko .cell-border-left {
+    border-left: 1px solid black;
+  }
+  .madoko .cell-border-right {
+    border-right: 1px solid black;
+  }
+  .madoko thead>tr:first-child>.cell-line,
+  .madoko tbody:first-child>tr:first-child>.cell-line {
+    border-top: 1px solid black;
+    border-bottom: none;
+  }
+  .madoko .cell-line, .madoko .cell-double-line {
+    border-bottom: 1px solid black;
+    border-top: none;
+  }
+  .madoko .cell-double-line {
+    border-top: 1px solid black;
+    padding-top: 1.5px !important;
+  }
+  .madoko .input-mathpre .MathJax_Display {
+    text-align: left !important;
+  }
+  .madoko div.input-mathpre {
+    text-align: left;
+    margin-top: 1.5ex;
+    margin-bottom: 1ex;
+  }
+  .madoko .math-rendering {
+    text-align: left;
+    white-space: pre;
+    color: gray;
+  }
+  .madoko .mathdisplay {
+    text-align: center;
+  }
+  .madoko span.math-rendering {
+    display:inline-block;
+    width:8em;
+    overflow-x:auto;
+    font-size:70%;
+  }
+  .madoko span.math-rendering::-webkit-scrollbar {
+    width:4px;
+  }
+  .madoko .pretty table {
+    border-collapse: collapse;
+  }
+  .madoko .pretty td {
+    padding: 0em;
+  }
+  .madoko .pretty td.empty {
+    min-width: 1.5ex;
+  }
+  .madoko .pretty td.expander {
+    width: 100em;
+  }
+  body.madoko, .madoko .serif {
+    font-family: Cambria,"Times New Roman","Liberation Serif","Times",serif;
+  }
+  .madoko .sans-serif {
+    font-family: "Calibri", "Optima", sans-serif;
+  }
+  .madoko .symbol {
+    font-family: "Segoe UI Symbol", Symbola, serif;
+  }
+  body.madoko {
+    -webkit-text-size-adjust: 100%;       
+    text-rendering: optimizeLegibility;
+  }
+  body.madoko {
+    max-width: 88ex; 
+    margin: 1em auto;
+    padding: 0em 2em;
+  }
+  body.preview.madoko {
+    padding: 0em 1em;
+  }
+  .madoko p {
+    text-align: justify;
+  }
+  .madoko h1, .madoko h2, .madoko h3, .madoko h4 {
+    margin-top: 1.22em;
+    margin-bottom: 1ex;
+  }
+  .madoko h1+p, .madoko h2+p, .madoko h3+p, .madoko h4+p, .madoko h5+p  {
+    margin-top: 1ex;
+  }
+  .madoko h5, .madoko h6 {
+    margin-top: 1ex;
+    font-size: 1em;
+  }
+  .madoko h5 {
+    margin-bottom: 0.5ex;
+  }
+  .madoko h5 + p {
+    margin-top: 0.5ex;
+  }
+  .madoko h6 {
+    margin-bottom: 0pt;
+  }
+  .madoko h6 + p {
+    margin-top: 0pt;
+  }
+  .madoko pre, .madoko code, .madoko kbd, .madoko samp, .madoko tt,
+  .madoko .monospace, .madoko .token-indent, .madoko .reveal pre, .madoko .reveal code, .madoko .email {
+    font-family: Consolas,"Andale Mono WT","Andale Mono",Lucida Console,Monaco,monospace,monospace;
+    font-size: 0.85em;
+  }
+  .madoko pre code, .madoko .token-indent {
+    font-size: 0.95em;
+  }
+  .madoko pre code {
+    font-family: inherit !important;
+  }
+  .madoko ol.linenums li {
+    background-color: white;
+    list-style-type: decimal;
+  }
+  .madoko .remote {
+    background-color: #F0FFF0;
+  }
+  .madoko .remote + * {
+    margin-top: 0pt;
+  }
+  @media print {
+    body.madoko {
+      font-size: 10pt;
+    }
+    @page {
+      margin: 1in 1.5in;
+    }
+  }
+  @media only screen and (max-device-width:1024px) {
+    body.madoko {
+      padding: 0em 0.5em;
+    }
+    .madoko li {
+      text-align: left;
+    }
+  }
+  
+    </style>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/reveal.js/2.6.2/css/reveal.min.css"  class="link">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/reveal.js/2.6.2/css/theme/solarized.css"  class="link">
+  <script src="https://cdn.jsdelivr.net/reveal.js/2.6.2/lib/js/head.min.js"  class="script preview"></script>
+  <script src="https://cdn.jsdelivr.net/reveal.js/2.6.2/js/reveal.js"  class="script preview"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$']]},
+       TeX: { 
+         Macros: { mathid: ['\\mathit{#1\\hspace{0.1ex}}',1],
+                   mathkw: ['\\mathsf{#1}',1],
+                   mdmathindent: ['\\hspace{#1ex}',1],
+                   mathpre: ['#1',1],
+                 },
+  
+       }
+    });
+    MathJax.Hub.Register.StartupHook('TeX AMSmath Ready',function () { 
+      MathJax.InputJax.TeX.Definitions.environment['mdmathpre'] = ['AMSarray',null,null,null,'l','0em','0em'];
+    });
+  </script>
+  <script type="text/javascript" class="preview"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/reveal.js/2.6.2/css/theme/solarized.css" id="theme">    
+      <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/reveal.js/2.6.2/lib/js/html5shiv.js"></script>
+      <![endif]-->
+      <style>
+      body.madoko {
+        margin: 0pt;
+        padding: 0pt;
+        max-width: 100%;      
+      }
+      .madoko .reveal h1 {
+          font-size: 3.7em;
+      }
+      .madoko .reveal h2 {
+          font-size: 2.1em;
+      }
+      .reveal .authorblock .author {
+          font-size: 120%;
+          margin-bottom: 1ex;
+      }        
+      .reveal table {
+          margin-left: auto;
+          margin-right: auto;
+      }
+      .reveal pre table {
+        margin-left: 0pt;
+      }
+      .madoko .reveal pre.pretty {
+        padding-top: 0pt;
+        padding-bottom: 0pt;
+      }
+      .reveal li p {
+          text-align: left;
+      }
+      .reveal h2 {
+          margin-bottom: 0.7em;
+      }
+      .reveal section ul,
+      .reveal section ol {
+          margin-top: 0.35em;
+          margin-bottom: 0.35em;
+      }
+      .reveal section img.math-display {
+          padding: 1em;
+          box-shadow: none;
+          border: none;
+      }
+      .reveal section img.math-inline {
+          margin: 0pt;
+          padding: 0pt;
+          background-color: none;
+          box-shadow: none;
+          border: none;
+      }
+      .reveal section img {
+          box-shadow: none;
+          border: none;
+      }
+      .madoko .reveal pre {
+          border: 1px solid black;
+          word-wrap: normal;
+          background-color: white;
+          font-size: 0.7em;
+          padding: 0.7em;
+          line-height: 100%;
+          width: 100%;
+      }      
+      .reveal pre code, .reveal code {
+          padding: 0pt;
+      }
+      .reveal nav.toc {
+          line-height: 1em;
+          font-size: 60%;
+          overflow-y: auto;
+      }    
+      .reveal .tocitem {
+          text-align: left;
+      }
+      .reveal .toc>.tocblock .tocblock {
+          margin-left: 0.5em;
+      }   
+      .reveal .toc>.tocblock .tocblock .tocblock {
+          margin-left: 1em;
+      }
+      .reveal .bibliography {
+        height: 18em;
+        overflow-y: auto;
+        font-size: 0.8em;
+        line-height: 1.25;
+      }
+      .reveal section[data-smaller=""],
+      .reveal section[data-smaller="true"] {
+        font-size: 80%;
+        width: 110%;
+      }
+      .reveal .slides>section[data-smaller=""],
+      .reveal .slides>section[data-smaller="true"] {
+        left: -55%;
+      }
+      .reveal .details {
+        display: none;
+      }
+      .reveal[data-details=""] .details,
+      .reveal[data-details="true"] .details {
+        display: initial;
+      }
+      /* Display in the preview window */
+      html, body.madoko.preview, body.madoko.preview-full, .body.madoko {
+        height  : 100% !important;
+        width   : auto!important;
+        padding : 0pt !important;
+        margin  : 0pt !important;
+      }
+      body.madoko.preview, body.madoko.preview-full, .preview .body.madoko {
+        overflow: hidden !important;
+      }
+      body.preview .reveal .slides .fragment {
+        visibility: visible;
+        opacity: 0.5;
+      }
+      body.preview .reveal .slides .fragment.visible {
+        opacity: 1.0;
+      }
+      .preview .reveal div.notes,
+      .preview .reveal aside.notes {
+        display  : block;
+        position : absolute;
+        width    : 30%;
+        left     : 70%;
+        top      : -15%;
+        font-size: 50%;
+        border   : 1px solid black;
+        border-radius   : 10px;
+        background-color: white;
+      }
+      /* 'static' display in the preview window, unused for now */
+      body.preview.static div.reveal, 
+      body.preview.static div.ticreveal .slides, 
+      body.preview.static div.reveal section {
+        display: block !important;
+        position: relative !important;
+        width: auto !important;      
+      }
+      body.preview.static div.reveal section {
+        border: solid 1px black;
+        padding: 1em !important;
+        margin-top: 1em;
+        min-height: 15em;
+        top: 0pt;
+      }
+      body.madoko.preview.static section {
+        font-size: 75%;
+      }
+      body.madoko.preview.static {
+        padding: 0em 1em !important;
+      }
+      body.madoko.preview.static .reveal pre {
+        width: 95%;
+      }    
+      body.preview .reveal[data-details="false"] .details {
+        display: initial;
+        color: gray;
+      }
+      body.preview .reveal[data-long="false"] section[data-long] {
+        border-left: 2px black solid;
+      }
+      </style>
+      <script>    
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      window.revealConfig = {
+          controls: true,
+          progress: true,
+          history: true,
+          center: /^\s*(true|1)\s*$/i.test("true"),
+          slideNumber: /^\s*(true|1)\s*$/i.test("true"),
+          dependencies: [
+            { src: 'https://cdn.jsdelivr.net/reveal.js/2.6.2/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+            { src: 'https://cdn.jsdelivr.net/reveal.js/2.6.2/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+            { src: 'https://cdn.jsdelivr.net/reveal.js/2.6.2/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+          ],
+      };
+      function revealAddFragments() {
+        [].forEach.call(document.querySelectorAll( ".fragmented" ), function(elem0) {
+          var elem = (/^H\d$/.test(elem0.nodeName) ? elem0.parentNode : elem0);
+          [].forEach.call(elem.children, function(item) {
+            if (item==elem0) return;
+            if (item && !/\bfragment(ed)?\b/.test(item.className) && item.nodeType===1) {
+              item.className = item.className + " fragment";
+            }
+          });
+        });
+      }
+      function revealQuotedList(listType) {
+        //compatibility with Rmarkdown slides
+        [].forEach.call( document.querySelectorAll("blockquote>" + listType), function(ul) {
+          if (!/\bfragmented\b/.test(ul.className)) {
+            ul.className = ul.className + " fragmented";
+          }        
+          var quote = ul.parentNode;
+          if (quote.childElementCount===1) {
+            quote.parentNode.replaceChild(ul,quote);
+          }
+        });
+      }
+      function revealBuildToFragmented() {
+        [].forEach.call(document.querySelectorAll( ".build" ), function(elem) {
+          if (elem && !/\bfragmented\b/.test(elem.className) && elem.nodeType===1) {
+            elem.className = elem.className + " fragmented";
+          }
+        });
+      }
+      function revealDivNotesToAside() {
+        [].forEach.call(document.querySelectorAll("div.notes"), function(elem) {
+          var aside = document.createElement("ASIDE");
+          if (elem.id) aside.id = elem.id;
+          aside.className = elem.className;
+          [].forEach.call(elem.attributes, function(attr) {
+            aside.setAttribute( attr.name, attr.value );
+          });
+          aside.innerHTML = elem.innerHTML;
+          elem.parentNode.replaceChild(aside,elem);
+        });
+      }
+      function revealDataQuery() {
+        var reveal = document.querySelector(".reveal");
+        if (!reveal) return;
+        window.location.search.replace(/\bdata-(\w+)(?:=(\w+))?\b/g, function(matched,key,value) {
+          reveal.setAttribute("data-" + key, (value ? value : ""));
+          return matched;
+        });
+      }
+      function revealRemoveLong() {
+        // remove parts for 'long' presentation
+        if (/\bpreview(?![\w\-])/.test(document.body.className)) return;
+        var reveal = document.querySelector(".reveal");
+        if (!reveal) return;
+        var value = reveal.hasAttribute("data-long") ? reveal.getAttribute("data-long") : null;
+        if (value==null || value=="false" || value=="0") {
+          [].forEach.call( document.querySelectorAll("section[data-long]"), function(elem) {
+            elem.parentNode.removeChild(elem);
+          });
+        }
+      }
+      revealConfig.onLoad = function() {
+        revealConfig.getEmbeddedImages();
+        revealDataQuery();
+        revealRemoveLong();
+        revealQuotedList("ul");
+        revealQuotedList("ol");
+        revealBuildToFragmented();
+        revealDivNotesToAside();
+        revealAddFragments();
+      };
+      document.addEventListener("load",revealConfig.onLoad);    
+      document.addEventListener("DOMContentLoaded", function() {
+        if (typeof Reveal !== "undefined" && !Reveal.isReady()) {
+          revealConfig.onLoad();
+          Reveal.initialize(revealConfig);
+        }
+      });    
+      // add support for printing:
+      // use  ?print-pdf to get a pdf-printable version (in Chrome)
+      // use  ?print-paper to get a paper-printable version.
+      revealConfig.initPrint = function() {
+        var cssLink = null;
+        var bodyClass = null;
+        var cap = window.location.search.match(/\bprint-(\w+)\b/);
+        if (cap) {
+          bodyClass = cap[0];
+          cssLink = "https://cdn.jsdelivr.net/reveal.js/2.6.2/css/print/" + cap[1] + ".css";
+        }
+        if (cssLink) {
+          var link  = document.createElement( "link" );
+          link.rel  = "stylesheet";
+          link.type = "text/css";
+          link.href = cssLink;
+          var head = document.getElementsByTagName( 'head' )[0];
+          if (head) head.appendChild( link );
+        }
+        if (bodyClass) {
+          document.body.className = document.body.className + " " + bodyClass;
+        }
+      };
+      revealConfig.getEmbeddedImages = function() {
+        var images = {};
+        [].forEach.call( document.querySelectorAll("img[data-linkid]"), function(img) {
+          var linkid = img.getAttribute("data-linkid");
+          if (linkid) images["/" + linkid] = img.src;
+          var path = img.getAttribute("data-path");
+          if (path) images["/" + path] = img.src;
+        });     
+        [].forEach.call( document.querySelectorAll("section"), function(slide) {
+          var attrName = "data-background";
+          var image = slide.getAttribute(attrName);
+          if (!image) {
+            attrName = "data-background-image";
+            image = slide.getAttribute(attrName);
+          }
+          if (!image) return;
+          var cap = /^\s*!?\[([^\]]+)\]\s*$/.exec(image);
+          var href = images["/" + (cap ? cap[1] : image)];
+          if (!href) return;
+          if (attrName==="data-background" && /^data:/.test(href)) href = "url(" + href + ")";
+          slide.setAttribute(attrName, href);
+        });
+      };    
+      </script>
+  </head>
+<body class="madoko">
+
+<div class="body madoko" style="line-adjust:0">
+<div class="reveal" data-long="false" data-details="false" data-line="36" style="line-adjust:0">
+<div class="slides" data-line="36" style="line-adjust:0">
+
+<section class="titleblock align-center para-block" data-line="37" style="text-align:center;line-adjust:0">
+<div class="titleheader align-center" data-line="37" style="text-align:center;line-adjust:0">
+<h1 class="title para-block" data-line="37" style="font-weight:bold;margin-bottom:0.5ex;font-size:3em;line-adjust:0"><span data-line="37"></span>Object-Oriented Programming</h1></div>
+<div class="authors align-center" data-line="42" style="text-align:center;width:80%;line-adjust:0"><table class="authorrow columns block" data-line="42" style="margin-top:2ex;width:100%;line-adjust:0">
+<tbody><tr><td class="author column" data-line="42" style="text-align:center;font-size:x-large;line-adjust:0">
+<div class="authorname" data-line="42" style="font-size:1.4em;line-adjust:0"><span data-line="42"></span>Jean-Baptiste Tristan & K. Rustan M. Leino</div></td></tr></tbody></table></div></section><!-- This file was automatically generated from ObjectOrientedProgramming.mdk -->
+
+
+
+<section id="sec-class-definition" class="section section1" data-section-depth="1" data-line="43"><h2 id="heading-sec-class-definition" class="h1" data-heading-depth="1" style="display:block">Class definition</h2><!-- inline-dafny ObjectOrientedProgramming/A0 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="46" data-line-first="47" style="display:block"><code data-line="47">  <span style="color:blue">class</span> ClassName {}
+
+  <span style="color:blue">predicate</span> IsObject(c: ClassName) { c <span style="color:blue">is</span> <span style="color:teal">object</span> }
+
+  <span style="color:blue">predicate</span> IsRef(c: ClassName?) { c <span style="color:blue">is</span> <span style="color:teal">object?</span> }</code></pre>
+<ul class="ul list-dash compact" data-line="54">
+<li class="li ul-li list-dash-li compact-li" data-line="54"><span data-line="54"></span>The <span data-line="54"></span><code class="code code1">class</code><span data-line="54"></span> declaration gives rise to two types:
+
+<ul class="ul list-dash compact" data-line="55">
+<li class="li ul-li list-dash-li compact-li" data-line="55"><span data-line="55"></span><code class="code code1">ClassName</code><span data-line="55"></span> is the type of references to <span data-line="55"></span><code class="code code1">ClassName</code><span data-line="55"></span> objects
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="56"><span data-line="56"></span><code class="code code1">ClassName?</code><span data-line="56"></span> additionally contains the value <span data-line="56"></span><code class="code code1">null</code><span data-line="56"></span>
+</li></ul></li>
+<li class="li ul-li list-dash-li compact-li" data-line="57"><span data-line="57"></span><code class="code code1">object</code><span data-line="57"></span> is the type of all references
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="58"><span data-line="58"></span><code class="code code1">object?</code><span data-line="58"></span> additionally contains the value <span data-line="58"></span><code class="code code1">null</code><span data-line="58"></span>
+</li></ul>
+</section>
+<section id="sec-generic-class-definition" class="section section1" data-section-depth="1" data-line="60"><h2 id="heading-sec-generic-class-definition" class="h1" data-heading-depth="1" style="display:block">Generic class definition</h2><!-- inline-dafny ObjectOrientedProgramming/A0' -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="63" data-line-first="64" style="display:block"><code data-line="64">  <span style="color:blue">class</span> ClassName&lt;T&gt; {}</code></pre>
+<ul class="ul list-dash compact" data-line="67">
+<li class="li ul-li list-dash-li compact-li" data-line="67"><span data-line="67"></span>A class definition can be parameterized by other types
+</li></ul>
+</section>
+<section id="sec-mutable-fields" class="section section1" data-section-depth="1" data-line="69"><h2 id="heading-sec-mutable-fields" class="h1" data-heading-depth="1" style="display:block">Mutable fields</h2><!-- inline-dafny ObjectOrientedProgramming/A1 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="72" data-line-first="73" style="display:block"><code data-line="73">  <span style="color:blue">class</span> C&lt;T(<span class="constant" style="color:purple">0</span>)&gt; {
+
+    <span style="color:blue">var</span> mutableField: T
+
+  }</code></pre>
+<ul class="ul list-dash compact" data-line="80">
+<li class="li ul-li list-dash-li compact-li" data-line="80"><span data-line="80"></span>Dafny does not have information hiding modifiers (<span data-line="80"></span><code class="code code1">private</code><span data-line="80"></span>, <span data-line="80"></span><code class="code code1">protected</code><span data-line="80"></span>, <span data-line="80"></span>&#8230;<span data-line="80"></span>)
+
+<ul class="ul list-dash compact" data-line="81">
+<li class="li ul-li list-dash-li compact-li" data-line="81"><span data-line="81"></span>(Hiding is done via module export sets)
+</li></ul></li>
+<li class="li ul-li list-dash-li compact-li" data-line="82"><span data-line="82"></span>We see our second type characteristic: auto-init <span data-line="82"></span><code class="code code1">(0)</code><span data-line="82"></span>
+
+<ul class="ul list-dash compact" data-line="83">
+<li class="li ul-li list-dash-li compact-li" data-line="83"><span data-line="83"></span>Type characteristic <span data-line="83"></span><code class="code code1">0</code><span data-line="83"></span> says that variables of the type can be auto-initialized
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="84"><span data-line="84"></span>Corresponding type arguments must come with a way to choose some value at run time
+</li></ul></li>
+<li class="li ul-li list-dash-li compact-li" data-line="85"><span data-line="85"></span>Auto-init types
+
+<ul class="ul list-dash compact" data-line="86">
+<li class="li ul-li list-dash-li compact-li" data-line="86"><span data-line="86"></span>All built-in types are auto-init
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="87"><span data-line="87"></span>Possibly-null reference types are auto-init
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="88"><span data-line="88"></span>A datatype instantiated with auto-init type arguments is auto-init
+</li></ul></li></ul>
+</section>
+<section id="sec-new-functional-expressions" class="section section1" data-section-depth="1" data-line="90"><h2 id="heading-sec-new-functional-expressions" class="h1" data-heading-depth="1" style="display:block">New functional expressions</h2><!-- inline-dafny ObjectOrientedProgramming/A1' -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="93" data-line-first="94" style="display:block"><code data-line="94">  <span style="color:blue">predicate</span> MemberAccess&lt;T(<span class="constant" style="color:purple">0</span>)&gt;(c: C) { c.mutableField <span style="color:blue">is</span> T }</code></pre></section>
+<section id="sec-new-rhs-expressions" class="section section1" data-section-depth="1" data-line="97"><h2 id="heading-sec-new-rhs-expressions" class="h1" data-heading-depth="1" style="display:block">New RHS expressions</h2><!-- inline-dafny ObjectOrientedProgramming/A1'' -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="100" data-line-first="101" style="display:block"><code data-line="101">  <span style="color:blue">method</span> Allocate&lt;T(<span class="constant" style="color:purple">0</span>)&gt;() <span style="color:blue">returns</span> (c: C) {
+    c := <span style="color:blue">new</span> C;
+  }</code></pre>
+<ul class="ul list-dash compact" data-line="106">
+<li class="li ul-li list-dash-li compact-li" data-line="106"><span data-line="106"></span>Once allocated, all the object<span data-line="106"></span>&#39;<span data-line="106"></span>s fields are auto-initialized
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="107"><span data-line="107"></span>To arbitrary values of their types
+</li></ul>
+</section>
+<section id="sec-new-ell-values" class="section section1" data-section-depth="1" data-line="109"><h2 id="heading-sec-new-ell-values" class="h1" data-heading-depth="1" style="display:block">New <span class="math-inline">$\ell$</span>-values</h2><!-- inline-dafny ObjectOrientedProgramming/A1''' -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="112" data-line-first="113" style="display:block"><code data-line="113">  <span style="color:blue">method</span> Update&lt;T(<span class="constant" style="color:purple">0</span>)&gt;(c: C, value: T) {
+    c.mutableField := value;
+  }</code></pre>
+<ul class="ul list-dash compact" data-line="118">
+<li class="li ul-li list-dash-li compact-li" data-line="118"><span data-line="118"></span>Side effect
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="119"><span data-line="119"></span>Updates the value of field <span data-line="119"></span><code class="code code1">mutableField</code><span data-line="119"></span> of the object referenced by <span data-line="119"></span><code class="code code1">c</code><span data-line="119"></span>
+</li></ul>
+</section>
+<section id="sec-immutable-fields" class="section section1" data-section-depth="1" data-line="121"><h2 id="heading-sec-immutable-fields" class="h1" data-heading-depth="1" style="display:block">Immutable fields</h2><!-- inline-dafny ObjectOrientedProgramming/A2 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="124" data-line-first="125" style="display:block"><code data-line="125">  <span style="color:blue">class</span> C {
+
+    <span style="color:blue">const</span> immutableField: <span style="color:teal">int</span> := <span class="constant" style="color:purple">4</span>
+
+  }</code></pre></section>
+<section id="sec-new-functional-expression--this" class="section section1" data-section-depth="1" data-line="132"><h2 id="heading-sec-new-functional-expression--this" class="h1" data-heading-depth="1" style="display:block">New functional expression: this</h2><!-- inline-dafny ObjectOrientedProgramming/A5 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="135" data-line-first="136" style="display:block"><code data-line="136">  <span style="color:blue">class</span> C {
+
+    <span style="color:blue">var</span> mutableField: <span style="color:teal">int</span>
+
+    <span style="color:blue">predicate</span> This() { <span style="color:blue">this</span> <span style="color:blue">is</span> C }
+
+  }</code></pre>
+<ul class="ul list-dash compact" data-line="145">
+<li class="li ul-li list-dash-li compact-li" data-line="145"><span data-line="145"></span>Self reference to the object
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="146"><span data-line="146"></span>Member-access expressions can omit <span data-line="146"></span>&#8220;<span data-line="146"></span><code class="code code1">this.</code><span data-line="146"></span>&#8221;<span data-line="146"></span> (if there are no name conflicts)
+
+<ul class="ul list-dash compact" data-line="147">
+<li class="li ul-li list-dash-li compact-li" data-line="147"><span data-line="147"></span>For example, <span data-line="147"></span><code class="code code1">this.mutableField</code><span data-line="147"></span> can be written simply as <span data-line="147"></span><code class="code code1">mutableField</code><span data-line="147"></span>
+</li></ul></li></ul>
+</section>
+<section id="sec-constructors" class="section section1" data-section-depth="1" data-line="149"><h2 id="heading-sec-constructors" class="h1" data-heading-depth="1" style="display:block">Constructors</h2><!-- inline-dafny ObjectOrientedProgramming/A3 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="152" data-line-first="153" style="display:block"><code data-line="153">  <span style="color:blue">class</span> C {
+
+    <span style="color:blue">var</span> mutableField: <span style="color:teal">int</span>
+    <span style="color:blue">const</span> immutableField: <span style="color:teal">int</span>
+
+    <span style="color:blue">constructor</span> (i: <span style="color:teal">int</span>, j: <span style="color:teal">int</span>) {
+      immutableField := i;
+      mutableField := j;
+    }
+
+  }
+
+  <span style="color:blue">method</span> M() {
+    <span style="color:blue">var</span> c := <span style="color:blue">new</span> C(<span class="constant" style="color:purple">3</span>, <span class="constant" style="color:purple">4</span>);
+  }</code></pre>
+<ul class="ul list-dash compact" data-line="170">
+<li class="li ul-li list-dash-li compact-li" data-line="170"><span data-line="170"></span>A class can provide a custom constructors
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="171"><span data-line="171"></span>One constructor can be unnamed (the anonymous constructor)
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="172"><span data-line="172"></span>Constant fields can be initialized in constructor bodies
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="173"><span data-line="173"></span>When a class has a constructor, some constructor must be called as part of <span data-line="173"></span><code class="code code1">new</code><span data-line="173"></span>
+</li></ul>
+</section>
+<section id="sec-multiple-constructors" class="section section1" data-section-depth="1" data-line="175"><h2 id="heading-sec-multiple-constructors" class="h1" data-heading-depth="1" style="display:block">Multiple constructors</h2><!-- inline-dafny ObjectOrientedProgramming/A3' -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="178" data-line-first="179" style="display:block"><code data-line="179">  <span style="color:blue">class</span> C {
+
+    <span style="color:blue">var</span> mutableField: <span style="color:teal">int</span>
+    <span style="color:blue">const</span> immutableField: <span style="color:teal">int</span>
+
+    <span style="color:blue">constructor</span> Partial(i: <span style="color:teal">int</span>) {
+      immutableField := i;
+    }
+
+    <span style="color:blue">constructor</span> FromStringLength(s: <span style="color:teal">string</span>) {
+      mutableField := <span class="constant" style="color:purple">0</span>;
+      immutableField := |s|;
+    }
+
+    <span style="color:blue">method</span> M() {
+      <span style="color:blue">var</span> c := <span style="color:blue">new</span> C.FromStringLength(<span style="color:maroon">&quot;</span><span style="color:maroon">abc</span><span style="color:maroon">&quot;</span>);
+    }
+
+  }</code></pre></section>
+<section id="sec-two-phase-construction" class="section section1" data-section-depth="1" data-line="200"><h2 id="heading-sec-two-phase-construction" class="h1" data-heading-depth="1" style="display:block">Two-phase construction</h2><!-- inline-dafny ObjectOrientedProgramming/A4 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="203" data-line-first="204" style="display:block"><code data-line="204">  <span style="color:blue">class</span> C {
+
+    <span style="color:blue">var</span> mutableField: <span style="color:teal">int</span>
+    <span style="color:blue">const</span> immutableField: <span style="color:teal">int</span>
+
+    <span style="color:blue">constructor</span>(i: <span style="color:teal">int</span>, j: <span style="color:teal">int</span>) {
+      immutableField := i;
+      <span style="color:blue">new</span>;
+      mutableField := j;
+    }
+
+  }</code></pre>
+<ul class="ul list-dash compact" data-line="218">
+<li class="li ul-li list-dash-li compact-li" data-line="218"><span data-line="218"></span><code class="code code1">new;</code><span data-line="218"></span> divides the two phases of the constructor
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="219"><span data-line="219"></span>If <span data-line="219"></span><code class="code code1">new;</code><span data-line="219"></span> is omitted, the first phase is the entire constructor body and the second phase is empty
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="220"><span data-line="220"></span>After <span data-line="220"></span><code class="code code1">new;</code><span data-line="220"></span>, the object is considered allocated
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="221"><span data-line="221"></span>The first phase restricts the use of <span data-line="221"></span><code class="code code1">this</code><span data-line="221"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="222"><span data-line="222"></span>Constant fields can be set only in the first phase
+</li></ul>
+</section>
+<section id="sec-other-member-declarationsdefinitions" class="section section1" data-section-depth="1" data-line="224"><h2 id="heading-sec-other-member-declarationsdefinitions" class="h1" data-heading-depth="1" style="display:block">Other member declarations/definitions</h2><!-- inline-dafny ObjectOrientedProgramming/A6 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="227" data-line-first="228" style="display:block"><code data-line="228">  <span style="color:blue">class</span> C {
+
+    <span style="color:blue">var</span> mutableField: <span style="color:teal">int</span>
+
+    <span style="color:blue">method</span> Print() {
+      <span style="color:blue">print</span> mutableField, <span style="color:maroon">&quot;</span><span style="color:gray">\n</span><span style="color:maroon">&quot;</span>;
+    }
+
+    <span style="color:blue">function</span> Get(): <span style="color:teal">int</span> {
+      mutableField
+    }
+
+  }</code></pre>
+<ul class="ul list-dash compact" data-line="243">
+<li class="li ul-li list-dash-li compact-li" data-line="243"><span data-line="243"></span>Methods and functions can be members of a class definition
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="244"><span data-line="244"></span>Types are not allowed as members
+
+<ul class="ul list-dash compact" data-line="245">
+<li class="li ul-li list-dash-li compact-li" data-line="245"><span data-line="245"></span>No lexically nested type declarations
+</li></ul></li></ul>
+</section>
+<section id="sec-traits" class="section section1" data-section-depth="1" data-line="247"><h2 id="heading-sec-traits" class="h1" data-heading-depth="1" style="display:block">Traits</h2><!-- inline-dafny ObjectOrientedProgramming/B1 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="250" data-line-first="251" style="display:block"><code data-line="251">  <span style="color:blue">trait</span> TraitName { }</code></pre>
+<ul class="ul list-dash compact" data-line="254">
+<li class="li ul-li list-dash-li compact-li" data-line="254"><span data-line="254"></span>A <span data-line="254"></span><em class="em-low1">trait</em><span data-line="254"></span> is an abstract supertype of other types
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="255"><span data-line="255"></span>Traits can be defined in the same way as classes
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="256"><span data-line="256"></span>Unlike classes, traits cannot be instantiated and have no constuctors
+</li></ul>
+</section>
+<section id="sec-inheritance" class="section section1" data-section-depth="1" data-line="258"><h2 id="heading-sec-inheritance" class="h1" data-heading-depth="1" style="display:block">Inheritance</h2><!-- inline-dafny ObjectOrientedProgramming/Inheritance -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="261" data-line-first="262" style="display:block"><code data-line="262">  <span style="color:blue">trait</span> T {
+    <span style="color:blue">method</span> Print() { <span style="color:blue">print</span>(<span style="color:maroon">&quot;</span><span style="color:maroon">Hello, World!</span><span style="color:maroon">&quot;</span>); }
+  }
+
+  <span style="color:blue">class</span> C <span style="color:blue">extends</span> T {
+    <span style="color:blue">method</span> RePrint() { Print(); }
+  }</code></pre>
+<ul class="ul list-dash compact" data-line="271">
+<li class="li ul-li list-dash-li compact-li" data-line="271"><span data-line="271"></span>A type (<span data-line="271"></span><code class="code code1">trait</code><span data-line="271"></span>, <span data-line="271"></span><code class="code code1">class</code><span data-line="271"></span>, <span data-line="271"></span><code class="code code1">datatype</code><span data-line="271"></span>, opaque type) can <span data-line="271"></span><em class="em-low1">inherit from</em><span data-line="271"></span> (that is, <span data-line="271"></span><em class="em-low1">extend</em><span data-line="271"></span>, or <span data-line="271"></span><em class="em-low1">implement</em><span data-line="271"></span>) any number of <span data-line="271"></span><code class="code code1">trait</code><span data-line="271"></span>s
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="272"><span data-line="272"></span>Nothing can inherit from a <span data-line="272"></span><code class="code code1">class</code><span data-line="272"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="273"><span data-line="273"></span>A type is allowed to inherit a <span data-line="273"></span><code class="code code1">trait</code><span data-line="273"></span> more than once, but only if each time is with the same type-parameter instantiation
+</li></ul>
+</section>
+<section id="sec-subtyping" class="section section1" data-section-depth="1" data-line="275"><h2 id="heading-sec-subtyping" class="h1" data-heading-depth="1" style="display:block">Subtyping</h2><!-- inline-dafny ObjectOrientedProgramming/Subtyping -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="278" data-line-first="279" style="display:block"><code data-line="279">  <span style="color:blue">trait</span> A {
+    <span style="color:blue">method</span> Print() { <span style="color:blue">print</span>(<span style="color:maroon">&quot;</span><span style="color:maroon">Hello, World!</span><span style="color:maroon">&quot;</span>); }
+  }
+
+  <span style="color:blue">trait</span> B <span style="color:blue">extends</span> A {}
+  
+  <span style="color:blue">method</span> M1(o: A) { o.Print(); }
+  
+  <span style="color:blue">method</span> M2(o: B) { M1(o); }</code></pre>
+<ul class="ul list-dash compact" data-line="290">
+<li class="li ul-li list-dash-li compact-li" data-line="290"><span data-line="290"></span>Subtyping is nominal
+</li></ul>
+</section>
+<section id="sec-late-binding" class="section section1" data-section-depth="1" data-line="292"><h2 id="heading-sec-late-binding" class="h1" data-heading-depth="1" style="display:block">Late binding</h2><!-- inline-dafny ObjectOrientedProgramming/LateBinding -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="295" data-line-first="296" style="display:block"><code data-line="296">  <span style="color:blue">trait</span> T {
+
+    <span style="color:blue">function</span> G(x: <span style="color:teal">int</span>): <span style="color:teal">int</span>
+    
+    <span style="color:blue">function</span> F(x: <span style="color:teal">int</span>): <span style="color:teal">int</span> { G(x) }
+
+  }
+
+  <span style="color:blue">class</span> C <span style="color:blue">extends</span> T {
+    
+    <span style="color:blue">function</span> G(x: <span style="color:teal">int</span>): <span style="color:teal">int</span> { x + <span class="constant" style="color:purple">1</span> }
+  
+  }</code></pre>
+<ul class="ul list-dash compact" data-line="311">
+<li class="li ul-li list-dash-li compact-li" data-line="311"><span data-line="311"></span>A member declaration in a <span data-line="311"></span><code class="code code1">trait</code><span data-line="311"></span> can be left undefined
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="312"><span data-line="312"></span>Member declarations are eventually defined in the <span data-line="312"></span><code class="code code1">class</code><span data-line="312"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="313"><span data-line="313"></span>The use of a declaration is late bound to that definition
+</li></ul>
+</section>
+<section id="sec-overriding" class="section section1" data-section-depth="1" data-line="315"><h2 id="heading-sec-overriding" class="h1" data-heading-depth="1" style="display:block">Overriding</h2>
+<ul class="ul list-dash compact" data-line="317">
+<li class="li ul-li list-dash-li compact-li" data-line="317"><span data-line="317"></span>As a  first approximation
+
+<ul class="ul list-dash compact" data-line="318">
+<li class="li ul-li list-dash-li compact-li" data-line="318"><span data-line="318"></span>A declaration can override another declaration
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="319"><span data-line="319"></span>A definition can override a declaration
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="320"><span data-line="320"></span>A definition can never override a definition
+</li></ul></li></ul>
+</section>
+<section id="sec-encapsulation" class="section section1" data-section-depth="1" data-line="322"><h2 id="heading-sec-encapsulation" class="h1" data-heading-depth="1" style="display:block">Encapsulation</h2><!-- inline-dafny ObjectOrientedProgramming/Encapsulation -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="325" data-line-first="326" style="display:block"><code data-line="326">  <span style="color:blue">trait</span> Complex {
+    <span style="color:blue">function</span> Real(): <span style="color:teal">real</span>
+    <span style="color:blue">function</span> Im(): <span style="color:teal">real</span>
+  }
+
+  <span style="color:blue">class</span> PolarComplex <span style="color:blue">extends</span> Complex {
+  
+    <span style="color:blue">var</span> r: <span style="color:teal">real</span>
+    <span style="color:blue">var</span> i: <span style="color:teal">real</span>
+  
+    <span style="color:blue">function</span> Real(): <span style="color:teal">real</span> { r }
+    <span style="color:blue">function</span> Im(): <span style="color:teal">real</span> { r }
+  
+  }</code></pre>
+<ul class="ul list-dash compact" data-line="342">
+<li class="li ul-li list-dash-li compact-li" data-line="342"><span data-line="342"></span>Information hiding achieved through traits
+</li></ul>
+</section>
+<section id="sec-dynamic-dispatch" class="section section1" data-section-depth="1" data-line="344"><h2 id="heading-sec-dynamic-dispatch" class="h1" data-heading-depth="1" style="display:block">Dynamic dispatch</h2><!-- inline-dafny ObjectOrientedProgramming/DynamicDispatch -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="347" data-line-first="348" style="display:block"><code data-line="348">  <span style="color:blue">trait</span> Printer {
+    <span style="color:blue">method</span> Print()
+  }
+  <span style="color:blue">class</span> A <span style="color:blue">extends</span> Printer {
+    <span style="color:blue">method</span> Print() { <span style="color:blue">print</span>(<span style="color:maroon">&quot;</span><span style="color:maroon">A</span><span style="color:gray">\n</span><span style="color:maroon">&quot;</span>); }
+  }
+  <span style="color:blue">class</span> B <span style="color:blue">extends</span> Printer {
+    <span style="color:blue">method</span> Print() { <span style="color:blue">print</span>(<span style="color:maroon">&quot;</span><span style="color:maroon">B</span><span style="color:gray">\n</span><span style="color:maroon">&quot;</span>); }
+  }
+
+  <span style="color:blue">method</span> Print(p: Printer) {
+    p.Print();
+  }
+
+  <span style="color:blue">method</span> Main() {
+
+    <span style="color:blue">var</span> a := <span style="color:blue">new</span> A;
+    <span style="color:blue">var</span> b := <span style="color:blue">new</span> B;
+    Print(a);
+    Print(b);
+
+  }</code></pre></section>
+<section id="sec-conclusion" class="section section1" data-section-depth="1" data-line="372"><h2 id="heading-sec-conclusion" class="h1" data-heading-depth="1" style="display:block">Conclusion</h2>
+<ul class="ul list-dash compact" data-line="374">
+<li class="li ul-li list-dash-li compact-li" data-line="374"><span data-line="374"></span>Dafny<span data-line="374"></span>&#39;<span data-line="374"></span>s OO system has been carefully designed
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="375"><span data-line="375"></span>Object initialization is flexibly controlled by two-phase constructors
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="376"><span data-line="376"></span>Restrictions on overriding are stronger that in most other OO languages
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="377"><span data-line="377"></span>Semantics is simpler 
+</li></ul></section></div></div><span data-line=""></span></div>
+</body>
+<script type="text/javascript">
+  Reveal.initialize({
+          history: true,
+          transition: "none",
+          width: 1600,
+            height: 900,
+          center: false,
+          controls: false,
+             progress: false,
+          slideNumber: true
+          });
+  Reveal.configure({
+          history: true,
+          transition: "none",
+          width: 1600,
+            height: 900,
+          center: false,
+          controls: false,
+             progress: false,
+          slideNumber: true
+     });
+</script>
+<script>
+    // initialize printing
+    revealConfig.initPrint();
+    // initialize background embedded images
+    revealConfig.getEmbeddedImages();
+    </script>
+</html>

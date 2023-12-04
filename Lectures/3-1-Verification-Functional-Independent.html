@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta name="generator" content="Madoko, version 1.2.3" />
+  <meta name="viewport" content="initial-scale=1.0" />
+  <meta name="author" content="Jean-Baptiste Tristan \&amp, K. Rustan M. Leino" />
+  <title>Independent Verification of Functional Programs</title>
+  <style type="text/css"  class="link">
+  /*# sourceURL=madoko.css */
+  
+  .madoko .toc>.tocblock .tocblock .tocblock {
+    margin-left: 2.25em;
+  }
+  .madoko .toc>.tocblock .tocblock {
+    margin-left: 1.5em;
+  }
+  .madoko .toc-contents>.tocblock>.tocitem {
+    font-weight: bold;
+  }
+  .madoko .toc {
+    margin-top: 1em;
+  }
+  .madoko p.para-continue {
+    margin-bottom: 0pt;
+  }
+  .madoko .para-block+p {
+    margin-top: 0pt;
+  }
+  .madoko ul.para-block, .madoko ol.para-block {
+    margin-top: 0pt;
+    margin-bottom: 0pt;
+  }
+  .madoko ul.para-end, .madoko ol.para-end {
+    margin-bottom: 1em;
+  }
+  .madoko dl {
+    margin-left: 0em;
+  }
+  .madoko blockquote {
+    font-style: italic;
+  }
+  .madoko a.localref {
+    text-decoration: none;
+  }
+  .madoko a.localref:hover {
+    text-decoration: underline;
+  }
+  .madoko .footnotes {
+    font-size: smaller;
+    margin-top: 2em;
+  }
+  .madoko .footnotes hr {
+    width: 50%;
+    text-align: left;
+  }
+  .madoko .footnote {
+    margin-left: 1em;
+  }
+  .madoko .footnote-before {
+    margin-left: -1em;
+    width: 1em;
+    display: inline-block;
+  }
+  .madoko .align-center, .madoko .align-center>p {
+    text-align: center !important;
+  }
+  .madoko .align-center pre {
+    text-align: left;
+  }
+  .madoko .align-center>* {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .madoko .align-left, .madoko .align-left>p {
+    text-align: left !important;
+  }
+  .madoko .align-left>* {
+    margin-left: 0pt !important;
+    margin-right: auto !important;
+  }
+  .madoko .align-right, .madoko .align-right>p {
+    text-align: right !important;
+  }
+  .madoko .align-right>* {
+    margin-left: auto !important;
+    margin-right: 0pt !important;
+  }
+  .madoko .align-center>table,
+  .madoko .align-left>table,
+  .madoko .align-right>table {
+    text-align: left !important;
+  }
+  .madoko .equation-before {
+    float: right;
+  }
+  .madoko .bibitem {
+    font-size: smaller;
+  }
+  .madoko .bibsearch {
+    font-size: x-small;
+    text-decoration:none;
+    color: black;
+    font-family: "Segoe UI Symbol", Symbola, serif;
+  }
+  .madoko .block, .madoko .figure, .madoko .bibitem, .madoko .equation, .madoko div.math {
+    margin-top: 1ex;
+    margin-bottom: 1ex;
+  }
+  .madoko .figure {
+    padding: 0.5em;
+    margin-left: 0pt;
+    margin-right: 0pt;
+  }
+  .madoko .hidden {
+    display: none;
+  }
+  .madoko .invisible {
+    visibility: hidden;
+  }
+  .madoko.preview .invisible {
+    visibility: visible;
+    opacity: 0.5;
+  }
+  .madoko code.code, .madoko span.code {
+    white-space: pre-wrap;
+  }
+  .madoko hr, hr.madoko {
+    border: none;
+    border-bottom: black solid 1px;
+    margin-bottom: 0.5ex;
+  }
+  .madoko .framed>*:first-child {
+    margin-top: 0pt;
+  }
+  .madoko .framed>*:last-child {
+    margin-bottom: 0pt;
+  }
+  .madoko ul.list-style-type-dash {
+      list-style-type: none !important;
+  }
+  .madoko ul.list-style-type-dash > li:before {
+      content: "\2013";
+      position: absolute;
+      margin-left: -1em;
+  }
+  .madoko table.madoko {
+    border-collapse: collapse;
+  }
+  .madoko td, .madoko th {
+    padding: 0ex 0.5ex;
+    margin: 0pt;
+    vertical-align: top;
+  }
+  .madoko .cell-border-left {
+    border-left: 1px solid black;
+  }
+  .madoko .cell-border-right {
+    border-right: 1px solid black;
+  }
+  .madoko thead>tr:first-child>.cell-line,
+  .madoko tbody:first-child>tr:first-child>.cell-line {
+    border-top: 1px solid black;
+    border-bottom: none;
+  }
+  .madoko .cell-line, .madoko .cell-double-line {
+    border-bottom: 1px solid black;
+    border-top: none;
+  }
+  .madoko .cell-double-line {
+    border-top: 1px solid black;
+    padding-top: 1.5px !important;
+  }
+  .madoko .input-mathpre .MathJax_Display {
+    text-align: left !important;
+  }
+  .madoko div.input-mathpre {
+    text-align: left;
+    margin-top: 1.5ex;
+    margin-bottom: 1ex;
+  }
+  .madoko .math-rendering {
+    text-align: left;
+    white-space: pre;
+    color: gray;
+  }
+  .madoko .mathdisplay {
+    text-align: center;
+  }
+  .madoko span.math-rendering {
+    display:inline-block;
+    width:8em;
+    overflow-x:auto;
+    font-size:70%;
+  }
+  .madoko span.math-rendering::-webkit-scrollbar {
+    width:4px;
+  }
+  .madoko .pretty table {
+    border-collapse: collapse;
+  }
+  .madoko .pretty td {
+    padding: 0em;
+  }
+  .madoko .pretty td.empty {
+    min-width: 1.5ex;
+  }
+  .madoko .pretty td.expander {
+    width: 100em;
+  }
+  body.madoko, .madoko .serif {
+    font-family: Cambria,"Times New Roman","Liberation Serif","Times",serif;
+  }
+  .madoko .sans-serif {
+    font-family: "Calibri", "Optima", sans-serif;
+  }
+  .madoko .symbol {
+    font-family: "Segoe UI Symbol", Symbola, serif;
+  }
+  body.madoko {
+    -webkit-text-size-adjust: 100%;       
+    text-rendering: optimizeLegibility;
+  }
+  body.madoko {
+    max-width: 88ex; 
+    margin: 1em auto;
+    padding: 0em 2em;
+  }
+  body.preview.madoko {
+    padding: 0em 1em;
+  }
+  .madoko p {
+    text-align: justify;
+  }
+  .madoko h1, .madoko h2, .madoko h3, .madoko h4 {
+    margin-top: 1.22em;
+    margin-bottom: 1ex;
+  }
+  .madoko h1+p, .madoko h2+p, .madoko h3+p, .madoko h4+p, .madoko h5+p  {
+    margin-top: 1ex;
+  }
+  .madoko h5, .madoko h6 {
+    margin-top: 1ex;
+    font-size: 1em;
+  }
+  .madoko h5 {
+    margin-bottom: 0.5ex;
+  }
+  .madoko h5 + p {
+    margin-top: 0.5ex;
+  }
+  .madoko h6 {
+    margin-bottom: 0pt;
+  }
+  .madoko h6 + p {
+    margin-top: 0pt;
+  }
+  .madoko pre, .madoko code, .madoko kbd, .madoko samp, .madoko tt,
+  .madoko .monospace, .madoko .token-indent, .madoko .reveal pre, .madoko .reveal code, .madoko .email {
+    font-family: Consolas,"Andale Mono WT","Andale Mono",Lucida Console,Monaco,monospace,monospace;
+    font-size: 0.85em;
+  }
+  .madoko pre code, .madoko .token-indent {
+    font-size: 0.95em;
+  }
+  .madoko pre code {
+    font-family: inherit !important;
+  }
+  .madoko ol.linenums li {
+    background-color: white;
+    list-style-type: decimal;
+  }
+  .madoko .remote {
+    background-color: #F0FFF0;
+  }
+  .madoko .remote + * {
+    margin-top: 0pt;
+  }
+  @media print {
+    body.madoko {
+      font-size: 10pt;
+    }
+    @page {
+      margin: 1in 1.5in;
+    }
+  }
+  @media only screen and (max-device-width:1024px) {
+    body.madoko {
+      padding: 0em 0.5em;
+    }
+    .madoko li {
+      text-align: left;
+    }
+  }
+  
+    </style>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/reveal.js/2.6.2/css/reveal.min.css"  class="link">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/reveal.js/2.6.2/css/theme/solarized.css"  class="link">
+  <script src="https://cdn.jsdelivr.net/reveal.js/2.6.2/lib/js/head.min.js"  class="script preview"></script>
+  <script src="https://cdn.jsdelivr.net/reveal.js/2.6.2/js/reveal.js"  class="script preview"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$']]},
+       TeX: { 
+         Macros: { mathid: ['\\mathit{#1\\hspace{0.1ex}}',1],
+                   mathkw: ['\\mathsf{#1}',1],
+                   mdmathindent: ['\\hspace{#1ex}',1],
+                   mathpre: ['#1',1],
+                 },
+  
+       }
+    });
+    MathJax.Hub.Register.StartupHook('TeX AMSmath Ready',function () { 
+      MathJax.InputJax.TeX.Definitions.environment['mdmathpre'] = ['AMSarray',null,null,null,'l','0em','0em'];
+    });
+  </script>
+  <script type="text/javascript" class="preview"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/reveal.js/2.6.2/css/theme/solarized.css" id="theme">    
+      <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/reveal.js/2.6.2/lib/js/html5shiv.js"></script>
+      <![endif]-->
+      <style>
+      body.madoko {
+        margin: 0pt;
+        padding: 0pt;
+        max-width: 100%;      
+      }
+      .madoko .reveal h1 {
+          font-size: 3.7em;
+      }
+      .madoko .reveal h2 {
+          font-size: 2.1em;
+      }
+      .reveal .authorblock .author {
+          font-size: 120%;
+          margin-bottom: 1ex;
+      }        
+      .reveal table {
+          margin-left: auto;
+          margin-right: auto;
+      }
+      .reveal pre table {
+        margin-left: 0pt;
+      }
+      .madoko .reveal pre.pretty {
+        padding-top: 0pt;
+        padding-bottom: 0pt;
+      }
+      .reveal li p {
+          text-align: left;
+      }
+      .reveal h2 {
+          margin-bottom: 0.7em;
+      }
+      .reveal section ul,
+      .reveal section ol {
+          margin-top: 0.35em;
+          margin-bottom: 0.35em;
+      }
+      .reveal section img.math-display {
+          padding: 1em;
+          box-shadow: none;
+          border: none;
+      }
+      .reveal section img.math-inline {
+          margin: 0pt;
+          padding: 0pt;
+          background-color: none;
+          box-shadow: none;
+          border: none;
+      }
+      .reveal section img {
+          box-shadow: none;
+          border: none;
+      }
+      .madoko .reveal pre {
+          border: 1px solid black;
+          word-wrap: normal;
+          background-color: white;
+          font-size: 0.7em;
+          padding: 0.7em;
+          line-height: 100%;
+          width: 100%;
+      }      
+      .reveal pre code, .reveal code {
+          padding: 0pt;
+      }
+      .reveal nav.toc {
+          line-height: 1em;
+          font-size: 60%;
+          overflow-y: auto;
+      }    
+      .reveal .tocitem {
+          text-align: left;
+      }
+      .reveal .toc>.tocblock .tocblock {
+          margin-left: 0.5em;
+      }   
+      .reveal .toc>.tocblock .tocblock .tocblock {
+          margin-left: 1em;
+      }
+      .reveal .bibliography {
+        height: 18em;
+        overflow-y: auto;
+        font-size: 0.8em;
+        line-height: 1.25;
+      }
+      .reveal section[data-smaller=""],
+      .reveal section[data-smaller="true"] {
+        font-size: 80%;
+        width: 110%;
+      }
+      .reveal .slides>section[data-smaller=""],
+      .reveal .slides>section[data-smaller="true"] {
+        left: -55%;
+      }
+      .reveal .details {
+        display: none;
+      }
+      .reveal[data-details=""] .details,
+      .reveal[data-details="true"] .details {
+        display: initial;
+      }
+      /* Display in the preview window */
+      html, body.madoko.preview, body.madoko.preview-full, .body.madoko {
+        height  : 100% !important;
+        width   : auto!important;
+        padding : 0pt !important;
+        margin  : 0pt !important;
+      }
+      body.madoko.preview, body.madoko.preview-full, .preview .body.madoko {
+        overflow: hidden !important;
+      }
+      body.preview .reveal .slides .fragment {
+        visibility: visible;
+        opacity: 0.5;
+      }
+      body.preview .reveal .slides .fragment.visible {
+        opacity: 1.0;
+      }
+      .preview .reveal div.notes,
+      .preview .reveal aside.notes {
+        display  : block;
+        position : absolute;
+        width    : 30%;
+        left     : 70%;
+        top      : -15%;
+        font-size: 50%;
+        border   : 1px solid black;
+        border-radius   : 10px;
+        background-color: white;
+      }
+      /* 'static' display in the preview window, unused for now */
+      body.preview.static div.reveal, 
+      body.preview.static div.ticreveal .slides, 
+      body.preview.static div.reveal section {
+        display: block !important;
+        position: relative !important;
+        width: auto !important;      
+      }
+      body.preview.static div.reveal section {
+        border: solid 1px black;
+        padding: 1em !important;
+        margin-top: 1em;
+        min-height: 15em;
+        top: 0pt;
+      }
+      body.madoko.preview.static section {
+        font-size: 75%;
+      }
+      body.madoko.preview.static {
+        padding: 0em 1em !important;
+      }
+      body.madoko.preview.static .reveal pre {
+        width: 95%;
+      }    
+      body.preview .reveal[data-details="false"] .details {
+        display: initial;
+        color: gray;
+      }
+      body.preview .reveal[data-long="false"] section[data-long] {
+        border-left: 2px black solid;
+      }
+      </style>
+      <script>    
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      window.revealConfig = {
+          controls: true,
+          progress: true,
+          history: true,
+          center: /^\s*(true|1)\s*$/i.test("true"),
+          slideNumber: /^\s*(true|1)\s*$/i.test("true"),
+          dependencies: [
+            { src: 'https://cdn.jsdelivr.net/reveal.js/2.6.2/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+            { src: 'https://cdn.jsdelivr.net/reveal.js/2.6.2/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+            { src: 'https://cdn.jsdelivr.net/reveal.js/2.6.2/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+          ],
+      };
+      function revealAddFragments() {
+        [].forEach.call(document.querySelectorAll( ".fragmented" ), function(elem0) {
+          var elem = (/^H\d$/.test(elem0.nodeName) ? elem0.parentNode : elem0);
+          [].forEach.call(elem.children, function(item) {
+            if (item==elem0) return;
+            if (item && !/\bfragment(ed)?\b/.test(item.className) && item.nodeType===1) {
+              item.className = item.className + " fragment";
+            }
+          });
+        });
+      }
+      function revealQuotedList(listType) {
+        //compatibility with Rmarkdown slides
+        [].forEach.call( document.querySelectorAll("blockquote>" + listType), function(ul) {
+          if (!/\bfragmented\b/.test(ul.className)) {
+            ul.className = ul.className + " fragmented";
+          }        
+          var quote = ul.parentNode;
+          if (quote.childElementCount===1) {
+            quote.parentNode.replaceChild(ul,quote);
+          }
+        });
+      }
+      function revealBuildToFragmented() {
+        [].forEach.call(document.querySelectorAll( ".build" ), function(elem) {
+          if (elem && !/\bfragmented\b/.test(elem.className) && elem.nodeType===1) {
+            elem.className = elem.className + " fragmented";
+          }
+        });
+      }
+      function revealDivNotesToAside() {
+        [].forEach.call(document.querySelectorAll("div.notes"), function(elem) {
+          var aside = document.createElement("ASIDE");
+          if (elem.id) aside.id = elem.id;
+          aside.className = elem.className;
+          [].forEach.call(elem.attributes, function(attr) {
+            aside.setAttribute( attr.name, attr.value );
+          });
+          aside.innerHTML = elem.innerHTML;
+          elem.parentNode.replaceChild(aside,elem);
+        });
+      }
+      function revealDataQuery() {
+        var reveal = document.querySelector(".reveal");
+        if (!reveal) return;
+        window.location.search.replace(/\bdata-(\w+)(?:=(\w+))?\b/g, function(matched,key,value) {
+          reveal.setAttribute("data-" + key, (value ? value : ""));
+          return matched;
+        });
+      }
+      function revealRemoveLong() {
+        // remove parts for 'long' presentation
+        if (/\bpreview(?![\w\-])/.test(document.body.className)) return;
+        var reveal = document.querySelector(".reveal");
+        if (!reveal) return;
+        var value = reveal.hasAttribute("data-long") ? reveal.getAttribute("data-long") : null;
+        if (value==null || value=="false" || value=="0") {
+          [].forEach.call( document.querySelectorAll("section[data-long]"), function(elem) {
+            elem.parentNode.removeChild(elem);
+          });
+        }
+      }
+      revealConfig.onLoad = function() {
+        revealConfig.getEmbeddedImages();
+        revealDataQuery();
+        revealRemoveLong();
+        revealQuotedList("ul");
+        revealQuotedList("ol");
+        revealBuildToFragmented();
+        revealDivNotesToAside();
+        revealAddFragments();
+      };
+      document.addEventListener("load",revealConfig.onLoad);    
+      document.addEventListener("DOMContentLoaded", function() {
+        if (typeof Reveal !== "undefined" && !Reveal.isReady()) {
+          revealConfig.onLoad();
+          Reveal.initialize(revealConfig);
+        }
+      });    
+      // add support for printing:
+      // use  ?print-pdf to get a pdf-printable version (in Chrome)
+      // use  ?print-paper to get a paper-printable version.
+      revealConfig.initPrint = function() {
+        var cssLink = null;
+        var bodyClass = null;
+        var cap = window.location.search.match(/\bprint-(\w+)\b/);
+        if (cap) {
+          bodyClass = cap[0];
+          cssLink = "https://cdn.jsdelivr.net/reveal.js/2.6.2/css/print/" + cap[1] + ".css";
+        }
+        if (cssLink) {
+          var link  = document.createElement( "link" );
+          link.rel  = "stylesheet";
+          link.type = "text/css";
+          link.href = cssLink;
+          var head = document.getElementsByTagName( 'head' )[0];
+          if (head) head.appendChild( link );
+        }
+        if (bodyClass) {
+          document.body.className = document.body.className + " " + bodyClass;
+        }
+      };
+      revealConfig.getEmbeddedImages = function() {
+        var images = {};
+        [].forEach.call( document.querySelectorAll("img[data-linkid]"), function(img) {
+          var linkid = img.getAttribute("data-linkid");
+          if (linkid) images["/" + linkid] = img.src;
+          var path = img.getAttribute("data-path");
+          if (path) images["/" + path] = img.src;
+        });     
+        [].forEach.call( document.querySelectorAll("section"), function(slide) {
+          var attrName = "data-background";
+          var image = slide.getAttribute(attrName);
+          if (!image) {
+            attrName = "data-background-image";
+            image = slide.getAttribute(attrName);
+          }
+          if (!image) return;
+          var cap = /^\s*!?\[([^\]]+)\]\s*$/.exec(image);
+          var href = images["/" + (cap ? cap[1] : image)];
+          if (!href) return;
+          if (attrName==="data-background" && /^data:/.test(href)) href = "url(" + href + ")";
+          slide.setAttribute(attrName, href);
+        });
+      };    
+      </script>
+  </head>
+<body class="madoko">
+
+<div class="body madoko" style="line-adjust:0">
+<div class="reveal" data-long="false" data-details="false" data-line="36" style="line-adjust:0">
+<div class="slides" data-line="36" style="line-adjust:0">
+
+<section class="titleblock align-center para-block" data-line="37" style="text-align:center;line-adjust:0">
+<div class="titleheader align-center" data-line="37" style="text-align:center;line-adjust:0">
+<h1 class="title para-block" data-line="37" style="font-weight:bold;margin-bottom:0.5ex;font-size:3em;line-adjust:0"><span data-line="37"></span>Independent Verification of Functional Programs</h1></div>
+<div class="authors align-center" data-line="42" style="text-align:center;width:80%;line-adjust:0"><table class="authorrow columns block" data-line="42" style="margin-top:2ex;width:100%;line-adjust:0">
+<tbody><tr><td class="author column" data-line="42" style="text-align:center;font-size:x-large;line-adjust:0">
+<div class="authorname" data-line="42" style="font-size:1.4em;line-adjust:0"><span data-line="42"></span>Jean-Baptiste Tristan & K. Rustan M. Leino</div></td></tr></tbody></table></div></section><!-- This file was automatically generated from FPVerification.mdk -->
+
+
+<section id="sec-verification-of-functional-programs" class="section section1" data-section-depth="1" data-line="42"><h2 id="heading-sec-verification-of-functional-programs" class="h1" data-heading-depth="1" style="display:block">Verification of functional programs</h2>
+<ul class="ul list-dash compact" data-line="44">
+<li class="li ul-li list-dash-li compact-li" data-line="44"><span data-line="44"></span>We start our program verification journey with functional programming
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="45"><span data-line="45"></span>The rules to reason about functional programs are simple, and the difficulty of verification essentially amounts to the complexity of what you are trying to prove 
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="46"><span data-line="46"></span>Functional programming should be your default programming style
+</li></ul>
+</section>
+<section id="sec-verification-of-functional-code----specification" class="section section1" data-section-depth="1" data-line="48"><h2 id="heading-sec-verification-of-functional-code----specification" class="h1" data-heading-depth="1" style="display:block">Verification of functional code &#8211; specification</h2>
+<ul class="ul list-dash loose" data-line="50">
+<li class="li ul-li list-dash-li loose-li" data-line="50">
+<p data-line="50"><span data-line="50"></span>How do we verify functional code?
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="51">
+<p data-line="51"><span data-line="51"></span>That is, how do we tell Dafny: <span data-line="51"></span>&#8220;I want to prove that my function has this property&#8221;<span data-line="51"></span>?
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="52">
+<p data-line="52"><span data-line="52"></span>Recall that function calls are functional expressions, and as such, they are valid logical expressions
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="53">
+<p data-line="53"><span data-line="53"></span>Therefore, a lemma<span data-line="53"></span>&#39;<span data-line="53"></span>s formula can state properties on a function
+</p><!-- inline-dafny FPVerification/A10 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="56" data-line-first="57" style="display:block"><code data-line="57">  <span style="color:blue">function</span> Increment(n: <span style="color:teal">int</span>): <span style="color:teal">int</span> {
+    n + <span class="constant" style="color:purple">1</span>
+  }
+
+  <span style="color:blue">lemma</span> IncrementLarger()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> n: <span style="color:teal">int</span> :: Increment(n) &gt; n
+
+  <span style="color:blue">lemma</span> InrementEvenIsOdd()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> n: <span style="color:teal">int</span> :: n % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; Increment(n) % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">1</span></code></pre></li></ul>
+</section>
+<section id="sec-verifying-functional-code----proof" class="section section1" data-section-depth="1" data-line="68"><h2 id="heading-sec-verifying-functional-code----proof" class="h1" data-heading-depth="1" style="display:block">Verifying functional code &#8211; proof</h2>
+<ul class="ul list-dash compact" data-line="70">
+<li class="li ul-li list-dash-li compact-li" data-line="70"><span data-line="70"></span>What about proofs? It is essentially like verifying mathematics
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="71"><span data-line="71"></span>First, note that much of the language of formulas is shared with functional programming, and so reasoning about function programs is similar to reasoning about formulas
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="72"><span data-line="72"></span>If the code uses a conditional expression, then the proof can use a conditional statement
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="73"><span data-line="73"></span>If the code uses a <span data-line="73"></span><code class="code code1">match</code><span data-line="73"></span> expression, then the proof can use a <span data-line="73"></span><code class="code code1">match</code><span data-line="73"></span> statement
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="74"><span data-line="74"></span>In simple cases, the proof follows the structure of the code
+</li></ul>
+</section>
+<section id="sec-conditional" class="section section1" data-section-depth="1" data-line="76"><h2 id="heading-sec-conditional" class="h1" data-heading-depth="1" style="display:block">Conditional</h2><!-- inline-dafny FPVerification/A10_1 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="79" data-line-first="80" style="display:block"><code data-line="80">  <span style="color:blue">function</span> Abs(x: <span style="color:teal">int</span>): <span style="color:teal">int</span> {
+    <span style="color:blue">if</span> x &lt; <span class="constant" style="color:purple">0</span> <span style="color:blue">then</span> -x <span style="color:blue">else</span> x
+  }
+
+  <span style="color:blue">lemma</span> AbsPositive(x: <span style="color:teal">int</span>)
+    <span style="color:purple">ensures</span> Abs(x) &gt;= <span class="constant" style="color:purple">0</span>
+  {
+    <span style="color:blue">if</span> x &lt; <span class="constant" style="color:purple">0</span> {
+      <span style="color:blue">assert</span> -x &gt; <span class="constant" style="color:purple">0</span>;
+    } <span style="color:blue">else</span> {
+      <span style="color:blue">assert</span> x &gt;= <span class="constant" style="color:purple">0</span>;
+    }
+  }</code></pre>
+<p class="p noindent para-continued" data-line="95"><span data-line="95"></span>(Note the syntactic difference between the <span data-line="95"></span><code class="code code1">if-then-else</code><span data-line="95"></span> expression and the <span data-line="95"></span><code class="code code1">if</code><span data-line="95"></span> statement)
+</p></section>
+<section id="sec-pattern-matching" class="section section1" data-section-depth="1" data-line="97"><h2 id="heading-sec-pattern-matching" class="h1" data-heading-depth="1" style="display:block">Pattern matching</h2><!-- inline-dafny FPVerification/A10_2 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="100" data-line-first="101" style="display:block"><code data-line="101">  <span style="color:blue">datatype</span> Size =
+    | Small
+    | Large
+
+  <span style="color:blue">function</span> Ounces(s: Size): <span style="color:teal">int</span> {
+    <span style="color:blue">match</span> s
+    <span style="color:blue">case</span> Small =&gt; <span class="constant" style="color:purple">4</span>
+    <span style="color:blue">case</span> Large =&gt; <span class="constant" style="color:purple">8</span>
+  }
+
+  <span style="color:blue">lemma</span> OuncesMultiple4(s: Size)
+    <span style="color:purple">ensures</span> <span style="color:blue">exists</span> n: <span style="color:teal">int</span> :: Ounces(s) == <span class="constant" style="color:purple">4</span> * n
+  {
+    <span style="color:blue">match</span> s
+    <span style="color:blue">case</span> Small =&gt;
+      <span style="color:blue">assert</span> Ounces(s) == <span class="constant" style="color:purple">4</span> * <span class="constant" style="color:purple">1</span>;
+    <span style="color:blue">case</span> Large =&gt;
+      <span style="color:blue">assert</span> Ounces(s) == <span class="constant" style="color:purple">4</span> * <span class="constant" style="color:purple">2</span>;
+  }</code></pre></section>
+<section id="sec-example-1" class="section section1" data-section-depth="1" data-line="122"><h2 id="heading-sec-example-1" class="h1" data-heading-depth="1" style="display:block">Example 1</h2><!-- inline-dafny FPVerification/A11 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="125" data-line-first="126" style="display:block"><code data-line="126">  <span style="color:blue">function</span> Increment(n: <span style="color:teal">int</span>): <span style="color:teal">int</span> {
+    n + <span class="constant" style="color:purple">1</span>
+  }
+
+  <span style="color:blue">lemma</span> IncrementLarger()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> n: <span style="color:teal">int</span> :: Increment(n) &gt; n
+  {}
+
+  <span style="color:blue">lemma</span> InrementEvenIsOdd()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> n: <span style="color:teal">int</span> :: n % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; Increment(n) % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">1</span>
+  {
+    <span style="color:blue">forall</span> n: <span style="color:teal">int</span>
+      <span style="color:purple">ensures</span> n % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; Increment(n) % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">1</span>
+    {
+      <span style="color:blue">if</span> n % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> {
+        <span style="color:blue">assert</span> Increment(n) == n + <span class="constant" style="color:purple">1</span>;
+      }
+    }
+  }</code></pre>
+<ul class="ul list-dash compact" data-line="147">
+<li class="li ul-li list-dash-li compact-li" data-line="147"><span data-line="147"></span>Note that Dafny knows that <span data-line="147"></span><code class="code code1">Increment(n) == n + 1</code><span data-line="147"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="148"><span data-line="148"></span>Dafny can always use the definition of a function to reason about it
+</li></ul>
+</section>
+<section id="sec-warning--controlling-dafnys-knowledge" class="section section1" data-section-depth="1" data-line="150"><h2 id="heading-sec-warning--controlling-dafnys-knowledge" class="h1" data-heading-depth="1" style="display:block">Warning: controlling dafny&#39;s knowledge</h2>
+<ul class="ul list-dash loose" data-line="152">
+<li class="li ul-li list-dash-li loose-li" data-line="152">
+<p data-line="152"><span data-line="152"></span>You may not want Dafny to use the definition of the function on its own 
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="153">
+<p data-line="153"><span data-line="153"></span>You can declare it <span data-line="153"></span><code class="code code1">opaque</code><span data-line="153"></span>
+</p><!-- inline-dafny FPVerification/A12 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="156" data-line-first="157" style="display:block"><code data-line="157">  <span style="color:blue">opaque</span> <span style="color:blue">function</span> Increment(n: <span style="color:teal">int</span>): <span style="color:teal">int</span> {
+    n + <span class="constant" style="color:purple">1</span>
+  }
+
+  <span style="color:blue">lemma</span> IncrementLarger()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> n: <span style="color:teal">int</span> :: Increment(n) &gt; n
+  {
+    <span style="color:blue">reveal</span> Increment();
+  }
+
+  <span style="color:blue">lemma</span> InrementEvenIsOdd()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> n: <span style="color:teal">int</span> :: n % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; Increment(n) % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">1</span>
+  {
+    <span style="color:blue">reveal</span> Increment();
+    <span style="color:blue">forall</span> n: <span style="color:teal">int</span>
+      <span style="color:purple">ensures</span> n % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; Increment(n) % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">1</span>
+    {
+      <span style="color:blue">if</span> n % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> {
+      }
+    }
+  }</code></pre></li></ul>
+</section>
+<section id="sec-recall" class="section section1" data-section-depth="1" data-line="180"><h2 id="heading-sec-recall" class="h1" data-heading-depth="1" style="display:block">Recall</h2><!-- inline-dafny FPVerification/B123 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="183" data-line-first="184" style="display:block"><code data-line="184">  <span style="color:blue">datatype</span> List&lt;T&gt; =
+    | Nil
+    | Cons(head: T, tail: List)
+
+  <span style="color:blue">function</span> Length&lt;T&gt;(l: List): <span style="color:teal">nat</span> {
+    <span style="color:blue">if</span> l.Nil? <span style="color:blue">then</span> <span class="constant" style="color:purple">0</span> <span style="color:blue">else</span> <span class="constant" style="color:purple">1</span> + Length(l.tail)
+  }
+
+  <span style="color:blue">function</span> Append&lt;T&gt;(l1: List, l2: List): List {
+    <span style="color:blue">match</span> l1
+    <span style="color:blue">case</span> Nil =&gt; l2
+    <span style="color:blue">case</span> Cons(e, l) =&gt; Cons(e, Append(l, l2))
+  }</code></pre></section>
+<section id="sec-recursive-programs-inductive-proofs" class="section section1" data-section-depth="1" data-line="199"><h2 id="heading-sec-recursive-programs-inductive-proofs" class="h1" data-heading-depth="1" style="display:block">Recursive programs? inductive proofs!</h2>
+<ul class="ul list-dash compact" data-line="201">
+<li class="li ul-li list-dash-li compact-li" data-line="201"><span data-line="201"></span>What about recursive functions?
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="202"><span data-line="202"></span>Typically, a proof will be by induction, thereby calling the lemma being proved with
+  <span data-line="203"></span>&#8220;smaller&#8221;<span data-line="203"></span> arguments
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="204"><span data-line="204"></span>Every algebraic datatype induces an induction principle defined on the structure of its definition
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="205"><span data-line="205"></span>This is called <span data-line="205"></span><em class="em-star1">structural induction</em><span data-line="205"></span>
+</li></ul>
+<!-- inline-dafny FPVerification/B13 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="208" data-line-first="209" style="display:block"><code data-line="209">  <span style="color:blue">lemma</span> AppendAssoc&lt;T&gt;(l1: List, l2: List, l3: List)
+    <span style="color:purple">ensures</span> Append(Append(l1, l2), l3) == Append(l1, Append(l2, l3))
+  {
+    <span style="color:blue">match</span> l1
+    <span style="color:blue">case</span> Nil =&gt;
+    <span style="color:blue">case</span> Cons(e, l) =&gt;
+      AppendAssoc(l, l2, l3); <span style="color:darkgreen">// this makes the proof clear to a human, but this line is not needed to convince Dafny</span>
+  }</code></pre></section>
+<section id="sec-structural-induction--take-1" class="section section1" data-section-depth="1" data-line="220"><h2 id="heading-sec-structural-induction--take-1" class="h1" data-heading-depth="1" style="display:block">Structural induction: take 1</h2>
+<ul class="ul list-dash compact" data-line="222">
+<li class="li ul-li list-dash-li compact-li" data-line="222"><span data-line="222"></span>For natural numbers, the induction principle to prove <span data-line="222"></span><span class="math-inline">$P(n)$</span><span data-line="222"></span> for all <span data-line="222"></span><span class="math-inline">$n$</span><span data-line="222"></span> is
+
+<ul class="ul list-dash compact" data-line="223">
+<li class="li ul-li list-dash-li compact-li" data-line="223"><span data-line="223"></span>Prove <span data-line="223"></span><span class="math-inline">$P(0)$</span><span data-line="223"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="224"><span data-line="224"></span>Assume <span data-line="224"></span><span class="math-inline">$P(n)$</span><span data-line="224"></span>, prove <span data-line="224"></span><span class="math-inline">$P(n+1)$</span><span data-line="224"></span>
+</li></ul></li>
+<li class="li ul-li list-dash-li compact-li" data-line="225"><span data-line="225"></span>For lists, the induction principle to prove <span data-line="225"></span><span class="math-inline">$P(l)$</span><span data-line="225"></span> for all <span data-line="225"></span><span class="math-inline">$l$</span><span data-line="225"></span> is:
+
+<ul class="ul list-dash compact" data-line="226">
+<li class="li ul-li list-dash-li compact-li" data-line="226"><span data-line="226"></span>Prove <span data-line="226"></span><span class="math-inline">$P(Nil)$</span><span data-line="226"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="227"><span data-line="227"></span>Assume <span data-line="227"></span><span class="math-inline">$P(l)$</span><span data-line="227"></span>, prove <span data-line="227"></span><span class="math-inline">$\forall e \cdot P(Cons(e, l))$</span><span data-line="227"></span> 
+</li></ul></li></ul>
+</section>
+<section id="sec-structural-induction--take-2" class="section section1" data-section-depth="1" data-line="229"><h2 id="heading-sec-structural-induction--take-2" class="h1" data-heading-depth="1" style="display:block">Structural induction: take 2</h2>
+<ul class="ul list-dash compact" data-line="231">
+<li class="li ul-li list-dash-li compact-li" data-line="231"><span data-line="231"></span>Dafny actually uses much stronger induction principles
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="232"><span data-line="232"></span>For natural numbers, the induction principle to prove <span data-line="232"></span><span class="math-inline">$P(n)$</span><span data-line="232"></span> for all <span data-line="232"></span><span class="math-inline">$n$</span><span data-line="232"></span> is
+
+<ul class="ul list-dash compact" data-line="233">
+<li class="li ul-li list-dash-li compact-li" data-line="233"><span data-line="233"></span>Prove <span data-line="233"></span><span class="math-inline">$P(0)$</span><span data-line="233"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="234"><span data-line="234"></span>Assume <span data-line="234"></span><span class="math-inline">$P(m)$</span><span data-line="234"></span> for all <span data-line="234"></span><span class="math-inline">$m \leq n$</span><span data-line="234"></span>, prove <span data-line="234"></span><span class="math-inline">$P(n+1)$</span><span data-line="234"></span>
+</li></ul></li>
+<li class="li ul-li list-dash-li compact-li" data-line="235"><span data-line="235"></span>For lists, the induction principle to prove <span data-line="235"></span><span class="math-inline">$P(l)$</span><span data-line="235"></span> for all <span data-line="235"></span><span class="math-inline">$l$</span><span data-line="235"></span> is:
+
+<ul class="ul list-dash compact" data-line="236">
+<li class="li ul-li list-dash-li compact-li" data-line="236"><span data-line="236"></span>Prove <span data-line="236"></span><span class="math-inline">$P(Nil)$</span><span data-line="236"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="237"><span data-line="237"></span>Assume <span data-line="237"></span><span class="math-inline">$P(i)$</span><span data-line="237"></span> for every prefix <span data-line="237"></span><span class="math-inline">$i$</span><span data-line="237"></span> of <span data-line="237"></span><span class="math-inline">$l$</span><span data-line="237"></span>, prove <span data-line="237"></span><span class="math-inline">$\forall e \cdot P(Cons(e, l))$</span><span data-line="237"></span> 
+</li></ul></li></ul>
+</section>
+<section id="sec-structural-induction--take-3" class="section section1" data-section-depth="1" data-line="239"><h2 id="heading-sec-structural-induction--take-3" class="h1" data-heading-depth="1" style="display:block">Structural induction: take 3</h2>
+<ul class="ul list-dash compact" data-line="241">
+<li class="li ul-li list-dash-li compact-li" data-line="241"><span data-line="241"></span>In fact, it is even more powerful than this
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="242"><span data-line="242"></span>The induction principle is defined over all the arguments of
+  the lemma
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="244"><span data-line="244"></span>Ties are broken by considering the arguments in order
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="245"><span data-line="245"></span>In the same way that ties are broken to order words in a
+  dictionary: the lexicographic order
+</li></ul>
+</section>
+<section id="sec-example-proof-by-induction----1" class="section section1" data-section-depth="1" data-line="248"><h2 id="heading-sec-example-proof-by-induction----1" class="h1" data-heading-depth="1" style="display:block">Example proof by induction &#8211; 1</h2>
+<ul class="ul list-dash compact" data-line="250">
+<li class="li ul-li list-dash-li compact-li" data-line="250"><span data-line="250"></span>Note that Dafny doesn<span data-line="250"></span>&#39;<span data-line="250"></span>t even need that much convincing and can do some proofs by induction all on its own
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="251"><span data-line="251"></span>But that<span data-line="251"></span>&#39;<span data-line="251"></span>s not always the case
+</li></ul>
+<!-- inline-dafny FPVerification/B13 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="254" data-line-first="255" style="display:block"><code data-line="255">  <span style="color:blue">lemma</span> AppendAssoc&lt;T&gt;(l1: List, l2: List, l3: List)
+    <span style="color:purple">ensures</span> Append(Append(l1, l2), l3) == Append(l1, Append(l2, l3))
+  {
+    <span style="color:blue">match</span> l1
+    <span style="color:blue">case</span> Nil =&gt;
+    <span style="color:blue">case</span> Cons(e, l) =&gt;
+      AppendAssoc(l, l2, l3); <span style="color:darkgreen">// this makes the proof clear to a human, but this line is not needed to convince Dafny</span>
+  }</code></pre></section>
+<section id="sec-example-proof-by-induction----2" class="section section1" data-section-depth="1" data-line="265"><h2 id="heading-sec-example-proof-by-induction----2" class="h1" data-heading-depth="1" style="display:block">Example proof by induction &#8211; 2</h2><!-- inline-dafny FPVerification/B14 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="268" data-line-first="269" style="display:block"><code data-line="269">  <span style="color:blue">lemma</span> AppendLength&lt;T&gt;(l1: List, l2: List)
+    <span style="color:purple">ensures</span> Length(Append(l1, l2)) == Length(l1) + Length(l2)
+  {
+    <span style="color:blue">match</span> l1
+    <span style="color:blue">case</span> Nil =&gt;
+    <span style="color:blue">case</span> Cons(e, l) =&gt;
+      AppendLength(l, l2); <span style="color:darkgreen">// Dafny doesn&#39;t actually need this line</span>
+  }</code></pre></section>
+<section id="sec-generalization----1" class="section section1" data-section-depth="1" data-line="279"><h2 id="heading-sec-generalization----1" class="h1" data-heading-depth="1" style="display:block">Generalization &#8211; 1</h2>
+<ul class="ul list-dash compact" data-line="281">
+<li class="li ul-li list-dash-li compact-li" data-line="281"><span data-line="281"></span>If you<span data-line="281"></span>&#39;<span data-line="281"></span>re going to remember only one slide, it should be this one
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="282"><span data-line="282"></span>Sometimes, a proposition cannot be proved as is
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="283"><span data-line="283"></span>Instead, you need to prove a more general result
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="284"><span data-line="284"></span>In such cases, Dafny is hopeless, and you need to discover the generalized proposition
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="285"><span data-line="285"></span>This can be genuinely difficult
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="286"><span data-line="286"></span>You need to learn to recognize when you<span data-line="286"></span>&#39;<span data-line="286"></span>re not making progress because you are in need of generalization
+</li></ul>
+</section>
+<section id="sec-generalization----2" class="section section1" data-section-depth="1" data-line="288"><h2 id="heading-sec-generalization----2" class="h1" data-heading-depth="1" style="display:block">Generalization &#8211; 2</h2>
+<ul class="ul list-dash loose" data-line="290">
+<li class="li ul-li list-dash-li loose-li" data-line="290">
+<p data-line="290"><span data-line="290"></span>Consider an alternative, tail-recursive, definition of the length function
+</p><!-- inline-dafny FPVerification/B15 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="293" data-line-first="294" style="display:block"><code data-line="294">  <span style="color:blue">function</span> LengthTr&#39;&lt;T&gt;(l: List, acc: <span style="color:teal">nat</span>): <span style="color:teal">nat</span> {
+    <span style="color:blue">match</span> l
+    <span style="color:blue">case</span> Nil =&gt; acc
+    <span style="color:blue">case</span> Cons(_, tail) =&gt; LengthTr&#39;(tail, <span class="constant" style="color:purple">1</span> + acc)
+  }
+
+  <span style="color:blue">function</span> LengthTr&lt;T&gt;(l: List): <span style="color:teal">nat</span> {
+    LengthTr&#39;(l, <span class="constant" style="color:purple">0</span>)
+  }</code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="305">
+<p data-line="305"><span data-line="305"></span>First, note how the code had to be restructured
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="306">
+<p data-line="306"><span data-line="306"></span>Indeed, we had to define a more general function
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="307">
+<p data-line="307"><span data-line="307"></span>The <span data-line="307"></span><code class="code code1">Length</code><span data-line="307"></span> function is just a special case
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="309">
+<p data-line="309"><span data-line="309"></span>(As a side note, Dafny implements <span data-line="309"></span><em class="em-low1">auto-accumulator tail recursion</em><span data-line="309"></span>, so even the original definition of
+<span data-line="310"></span><code class="code code1">Length</code><span data-line="310"></span> is compiled into a loop. But that<span data-line="310"></span>&#39;<span data-line="310"></span>s not the point of this example.)
+</p></li></ul>
+</section>
+<section id="sec-generalization----3" class="section section1" data-section-depth="1" data-line="312"><h2 id="heading-sec-generalization----3" class="h1" data-heading-depth="1" style="display:block">Generalization &#8211; 3</h2>
+<ul class="ul list-dash compact" data-line="314">
+<li class="li ul-li list-dash-li compact-li" data-line="314"><span data-line="314"></span>We would like to prove the following property
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="315"><span data-line="315"></span>It seems obvious
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="316"><span data-line="316"></span>Clearly, this should be proved by induction on <span data-line="316"></span><code class="code code1">l</code><span data-line="316"></span>
+</li></ul>
+<!-- inline-dafny FPVerification/B16 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="319" data-line-first="320" style="display:block"><code data-line="320">  <span style="color:blue">lemma</span> LengthSame&lt;T&gt;(l: List)
+    <span style="color:purple">ensures</span> Length(l) == LengthTr(l)</code></pre>
+<ul class="ul list-dash compact" data-line="324">
+<li class="li ul-li list-dash-li compact-li" data-line="324"><span data-line="324"></span>Step 1: Prove that <span data-line="324"></span><span class="math-inline">$Length(Nil) = LengthTr(Nil)$</span><span data-line="324"></span>
+
+<ul class="ul list-dash compact" data-line="325">
+<li class="li ul-li list-dash-li compact-li" data-line="325"><span data-line="325"></span>Easy: <span data-line="325"></span><span class="math-inline">$LengthTr(Nil) = LengthTr&#39;(Nil,0) = 0 = Length(Nil)$</span><span data-line="325"></span>
+</li></ul></li>
+<li class="li ul-li list-dash-li compact-li" data-line="326"><span data-line="326"></span>Step 2: Assume that <span data-line="326"></span><span class="math-inline">$Length(l) = LengthTr(l)$</span><span data-line="326"></span>, prove <span data-line="326"></span><span class="math-inline">$\forall e \cdot Length(Cons(e,l)) = LengthTr(Cons(e,l))$</span><span data-line="326"></span>
+
+<ul class="ul list-dash compact" data-line="327">
+<li class="li ul-li list-dash-li compact-li" data-line="327"><span data-line="327"></span><span class="math-inline">$LengthTr(Cons(e,l)) = LengthTr&#39;(Cons(e,l),0)$</span><span data-line="327"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="328"><span data-line="328"></span><strong class="strong-star2">Ouch</strong><span data-line="328"></span>: the induction hypothesis mentions <span data-line="328"></span><span class="math-inline">$Length(l) = LengthTr(l) = LengthTr&#39;(l,0)$</span><span data-line="328"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="329"><span data-line="329"></span>But we are trying to say something about <span data-line="329"></span><span class="math-inline">$LengthTr&#39;(Cons(e,l),0) = LengthTr&#39;(l,1)$</span><span data-line="329"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="330"><span data-line="330"></span>Game over
+</li></ul></li></ul>
+</section>
+<section id="sec-generalization----4" class="section section1" data-section-depth="1" data-line="332"><h2 id="heading-sec-generalization----4" class="h1" data-heading-depth="1" style="display:block">Generalization &#8211; 4</h2>
+<ul class="ul list-dash compact" data-line="334">
+<li class="li ul-li list-dash-li compact-li" data-line="334"><span data-line="334"></span>It<span data-line="334"></span>&#39;<span data-line="334"></span>s not that the proposition is false
+
+<ul class="ul list-dash compact" data-line="335">
+<li class="li ul-li list-dash-li compact-li" data-line="335"><span data-line="335"></span>It<span data-line="335"></span>&#39;<span data-line="335"></span>s just that this proof attempt that is naive
+</li></ul></li>
+<li class="li ul-li list-dash-li compact-li" data-line="336"><span data-line="336"></span>Note how <span data-line="336"></span><span class="math-inline">$LengthTr&#39;$</span><span data-line="336"></span> is more general than what we use it for
+
+<ul class="ul list-dash compact" data-line="337">
+<li class="li ul-li list-dash-li compact-li" data-line="337"><span data-line="337"></span>Huge red flag
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="338"><span data-line="338"></span>The proof needs to follow that structure and be more general
+</li></ul></li>
+<li class="li ul-li list-dash-li compact-li" data-line="339"><span data-line="339"></span>We need to think about the relationship between <span data-line="339"></span><span class="math-inline">$Length$</span><span data-line="339"></span> and <span data-line="339"></span><span class="math-inline">$LengthTr&#39;$</span><span data-line="339"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="340"><span data-line="340"></span>In general, we expect <span data-line="340"></span><span class="math-inline">$LengthTr&#39;(l,acc)$</span><span data-line="340"></span> to have the same value as <span data-line="340"></span><span class="math-inline">$LengthTr$</span><span data-line="340"></span> except that it starts from <span data-line="340"></span><span class="math-inline">$acc$</span><span data-line="340"></span>, not <span data-line="340"></span><span class="math-inline">$0$</span><span data-line="340"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="341"><span data-line="341"></span>And our lemma is a special case for <span data-line="341"></span><span class="math-inline">$acc = 0$</span><span data-line="341"></span>
+</li></ul>
+<!-- inline-dafny FPVerification/B17 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="344" data-line-first="345" style="display:block"><code data-line="345">  <span style="color:blue">lemma</span> LengthSame&#39;&lt;T&gt;(l: List, acc: <span style="color:teal">nat</span>)
+    <span style="color:purple">ensures</span> acc + Length(l) == LengthTr&#39;(l, acc)
+  {
+    <span style="color:blue">match</span> l
+    <span style="color:blue">case</span> Nil =&gt;
+    <span style="color:blue">case</span> Cons(_, tail) =&gt;
+      LengthSame&#39;(tail, acc + <span class="constant" style="color:purple">1</span>);
+  }</code></pre></section>
+<section id="sec-generalization----5" class="section section1" data-section-depth="1" data-line="356"><h2 id="heading-sec-generalization----5" class="h1" data-heading-depth="1" style="display:block">Generalization &#8211; 5</h2>
+<ul class="ul list-dash compact" data-line="358">
+<li class="li ul-li list-dash-li compact-li" data-line="358"><span data-line="358"></span>It is <span data-line="358"></span><strong class="strong-star2">crucial</strong><span data-line="358"></span> to understand this example
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="359"><span data-line="359"></span>For <span data-line="359"></span><code class="code code1">LengthTr</code><span data-line="359"></span>, it is easy, because the code hinted at the need for generalization
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="360"><span data-line="360"></span>That<span data-line="360"></span>&#39;<span data-line="360"></span>s not always the case
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="361"><span data-line="361"></span>You might face this problem when proving something by induction
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="362"><span data-line="362"></span>If something seems like it is obvious and yet the induction hypothesis doesn<span data-line="362"></span>&#39;<span data-line="362"></span>t seem to help you out, step back, you might need to prove something more general
+</li></ul>
+</section>
+<section id="sec-mathematical-functions" class="section section1" data-section-depth="1" data-line="364"><h2 id="heading-sec-mathematical-functions" class="h1" data-heading-depth="1" style="display:block">Mathematical functions</h2>
+<ul class="ul list-dash compact" data-line="366">
+<li class="li ul-li list-dash-li compact-li" data-line="366"><span data-line="366"></span>Conclusion: the logic side of Dafny allows us to reason about functional programs
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="367"><span data-line="367"></span>It goes both ways: the programming side can help us define mathematical functions
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="368"><span data-line="368"></span>So far, when doing mathematics, we have just posited the existence of functions and attached properties to them
+</li></ul>
+<!-- inline-dafny DefiningFunctions/A1 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="371" data-line-first="372" style="display:block"><code data-line="372">  <span style="color:blue">ghost</span> <span style="color:blue">function</span> Increment(n: <span style="color:teal">int</span>): <span style="color:teal">int</span>
+
+  <span style="color:blue">lemma</span> EssenceOfIncrement(n: <span style="color:teal">int</span>)
+    <span style="color:purple">ensures</span> Increment(n) == n + <span class="constant" style="color:purple">1</span></code></pre></section>
+<section id="sec-defining-mathematical-functions" class="section section1" data-section-depth="1" data-line="378"><h2 id="heading-sec-defining-mathematical-functions" class="h1" data-heading-depth="1" style="display:block">Defining mathematical functions</h2>
+<ul class="ul list-dash compact" data-line="380">
+<li class="li ul-li list-dash-li compact-li" data-line="380"><span data-line="380"></span>Instead we can give <span data-line="380"></span><code class="code code1">Increment</code><span data-line="380"></span> a definition as a functional program
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="381"><span data-line="381"></span>A non-ghost function can be used in place of a ghost one
+</li></ul>
+<!-- inline-dafny DefiningFunctions/A2 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="384" data-line-first="385" style="display:block"><code data-line="385">  <span style="color:blue">ghost</span> <span style="color:blue">function</span> Increment(n: <span style="color:teal">int</span>): <span style="color:teal">int</span> {
+    n + <span class="constant" style="color:purple">1</span>
+  }</code></pre></section>
+<section id="sec-more-consistent" class="section section1" data-section-depth="1" data-line="390"><h2 id="heading-sec-more-consistent" class="h1" data-heading-depth="1" style="display:block">More consistent</h2>
+<ul class="ul list-dash compact" data-line="392">
+<li class="li ul-li list-dash-li compact-li" data-line="392"><span data-line="392"></span>A significant advantage of defining a function rather than positing its existence is that you are less likely to make a mistake
+by positing the existence of a function that doesn<span data-line="393"></span>&#39;<span data-line="393"></span>t actually exists
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="394"><span data-line="394"></span>But you have to prove that your function terminates
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="395"><span data-line="395"></span>To that end, you can declare a decreases clause followed by an expression that tells Dafny what should be decreasing at every iteration
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="396"><span data-line="396"></span>Otherwise, a (programming) function may not be a valid logical function 
+</li></ul>
+</section>
+<section id="sec-termination----easy-case" class="section section1" data-section-depth="1" data-line="398"><h2 id="heading-sec-termination----easy-case" class="h1" data-heading-depth="1" style="display:block">Termination &#8211; easy case</h2>
+<ul class="ul list-dash loose" data-line="400">
+<li class="li ul-li list-dash-li loose-li" data-line="400">
+<p data-line="400"><span data-line="400"></span>In most cases, the underlying order is obvious and Dafny can infer it
+</p><!-- inline-dafny DefiningFunctions/A8 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="403" data-line-first="404" style="display:block"><code data-line="404">  <span style="color:blue">function</span> Sum(n: <span style="color:teal">int</span>): <span style="color:teal">int</span>
+    <span style="color:purple">decreases</span> n <span style="color:darkgreen">// this line can be omitted, because Dafny will infer it</span>
+  {
+    <span style="color:blue">if</span> n &lt;= <span class="constant" style="color:purple">0</span> <span style="color:blue">then</span> <span class="constant" style="color:purple">0</span> <span style="color:blue">else</span> Sum(n - <span class="constant" style="color:purple">1</span>)
+  }</code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="411">
+<p data-line="411"><span data-line="411"></span>If Dafny infers the <span data-line="411"></span><code class="code code1">decreases</code><span data-line="411"></span> clause, hover text in the IDE will tell you what it is
+</p></li></ul>
+</section>
+<section id="sec-termination----harder-case" class="section section1" data-section-depth="1" data-line="413"><h2 id="heading-sec-termination----harder-case" class="h1" data-heading-depth="1" style="display:block">Termination &#8211; harder case</h2>
+<ul class="ul list-dash loose" data-line="415">
+<li class="li ul-li list-dash-li loose-li" data-line="415">
+<p data-line="415"><span data-line="415"></span>If not, you can supply a hint using a <span data-line="415"></span><code class="code code1">decreases</code><span data-line="415"></span> clause 
+</p><!-- inline-dafny DefiningFunctions/A9 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="418" data-line-first="419" style="display:block"><code data-line="419">  <span style="color:blue">function</span> SumUpTo(counter: <span style="color:teal">int</span>, upTo: <span style="color:teal">int</span>): <span style="color:teal">int</span>
+    <span style="color:purple">decreases</span> upTo - counter <span style="color:darkgreen">// here, the decreases clause is needed; Dafny will not infer it</span>
+  {
+    <span style="color:blue">if</span> upTo &lt;= counter <span style="color:blue">then</span>
+      counter
+    <span style="color:blue">else</span>
+      counter + SumUpTo(counter + <span class="constant" style="color:purple">1</span>, upTo)
+  }</code></pre></li></ul>
+</section>
+<section id="sec-ghost" class="section section1" data-section-depth="1" data-line="429"><h2 id="heading-sec-ghost" class="h1" data-heading-depth="1" style="display:block">Ghost</h2>
+<ul class="ul list-dash loose" data-line="431">
+<li class="li ul-li list-dash-li loose-li" data-line="431">
+<p data-line="431"><span data-line="431"></span>But then, why do we need <span data-line="431"></span><code class="code code1">ghost</code><span data-line="431"></span> at all?
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="432">
+<p data-line="432"><span data-line="432"></span>First, the <span data-line="432"></span><code class="code code1">ghost</code><span data-line="432"></span> keyword guarantees that your function will not end up being used by the code
+</p>
+<ul class="ul list-dash compact" data-line="433">
+<li class="li ul-li list-dash-li compact-li" data-line="433"><span data-line="433"></span>If a function is really just meant to be used as part of the verification, declaring it <span data-line="433"></span><code class="code code1">ghost</code><span data-line="433"></span> ensures it will not end up in your executable
+</li></ul></li>
+<li class="li ul-li list-dash-li loose-li" data-line="434">
+<p data-line="434"><span data-line="434"></span>Second, while all terminating functions that can be defined using functional programming exist, there exist functions that cannot be defined algorithmically
+</p>
+<ul class="ul list-dash compact" data-line="435">
+<li class="li ul-li list-dash-li compact-li" data-line="435"><span data-line="435"></span>And yet, they are useful for practical program verification<span data-line="435"></span>&#8230;<span data-line="435"></span> 
+</li></ul>
+<!-- inline-dafny DefiningFunctions/A3 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="438" data-line-first="439" style="display:block"><code data-line="439">  <span style="color:blue">predicate</span> P&lt;T&gt;(m: T, n: T)
+
+  <span style="color:blue">ghost</span> <span style="color:blue">predicate</span> Prop&lt;T(!<span style="color:blue">new</span>)&gt;(m: T) {
+    <span style="color:blue">exists</span> n: T :: P(m, n)
+  }</code></pre></li></ul>
+</section></div></div><span data-line=""></span></div>
+</body>
+<script type="text/javascript">
+  Reveal.initialize({
+          history: true,
+          transition: "none",
+          width: 1600,
+            height: 900,
+          center: false,
+          controls: false,
+             progress: false,
+          slideNumber: true
+          });
+  Reveal.configure({
+          history: true,
+          transition: "none",
+          width: 1600,
+            height: 900,
+          center: false,
+          controls: false,
+             progress: false,
+          slideNumber: true
+     });
+</script>
+<script>
+    // initialize printing
+    revealConfig.initPrint();
+    // initialize background embedded images
+    revealConfig.getEmbeddedImages();
+    </script>
+</html>

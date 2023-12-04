@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta name="generator" content="Madoko, version 1.2.3" />
+  <meta name="viewport" content="initial-scale=1.0" />
+  <meta name="author" content="Jean-Baptiste Tristan \&amp, K. Rustan M. Leino" />
+  <title>Imperative Programming</title>
+  <style type="text/css"  class="link">
+  /*# sourceURL=madoko.css */
+  
+  .madoko .toc>.tocblock .tocblock .tocblock {
+    margin-left: 2.25em;
+  }
+  .madoko .toc>.tocblock .tocblock {
+    margin-left: 1.5em;
+  }
+  .madoko .toc-contents>.tocblock>.tocitem {
+    font-weight: bold;
+  }
+  .madoko .toc {
+    margin-top: 1em;
+  }
+  .madoko p.para-continue {
+    margin-bottom: 0pt;
+  }
+  .madoko .para-block+p {
+    margin-top: 0pt;
+  }
+  .madoko ul.para-block, .madoko ol.para-block {
+    margin-top: 0pt;
+    margin-bottom: 0pt;
+  }
+  .madoko ul.para-end, .madoko ol.para-end {
+    margin-bottom: 1em;
+  }
+  .madoko dl {
+    margin-left: 0em;
+  }
+  .madoko blockquote {
+    font-style: italic;
+  }
+  .madoko a.localref {
+    text-decoration: none;
+  }
+  .madoko a.localref:hover {
+    text-decoration: underline;
+  }
+  .madoko .footnotes {
+    font-size: smaller;
+    margin-top: 2em;
+  }
+  .madoko .footnotes hr {
+    width: 50%;
+    text-align: left;
+  }
+  .madoko .footnote {
+    margin-left: 1em;
+  }
+  .madoko .footnote-before {
+    margin-left: -1em;
+    width: 1em;
+    display: inline-block;
+  }
+  .madoko .align-center, .madoko .align-center>p {
+    text-align: center !important;
+  }
+  .madoko .align-center pre {
+    text-align: left;
+  }
+  .madoko .align-center>* {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .madoko .align-left, .madoko .align-left>p {
+    text-align: left !important;
+  }
+  .madoko .align-left>* {
+    margin-left: 0pt !important;
+    margin-right: auto !important;
+  }
+  .madoko .align-right, .madoko .align-right>p {
+    text-align: right !important;
+  }
+  .madoko .align-right>* {
+    margin-left: auto !important;
+    margin-right: 0pt !important;
+  }
+  .madoko .align-center>table,
+  .madoko .align-left>table,
+  .madoko .align-right>table {
+    text-align: left !important;
+  }
+  .madoko .equation-before {
+    float: right;
+  }
+  .madoko .bibitem {
+    font-size: smaller;
+  }
+  .madoko .bibsearch {
+    font-size: x-small;
+    text-decoration:none;
+    color: black;
+    font-family: "Segoe UI Symbol", Symbola, serif;
+  }
+  .madoko .block, .madoko .figure, .madoko .bibitem, .madoko .equation, .madoko div.math {
+    margin-top: 1ex;
+    margin-bottom: 1ex;
+  }
+  .madoko .figure {
+    padding: 0.5em;
+    margin-left: 0pt;
+    margin-right: 0pt;
+  }
+  .madoko .hidden {
+    display: none;
+  }
+  .madoko .invisible {
+    visibility: hidden;
+  }
+  .madoko.preview .invisible {
+    visibility: visible;
+    opacity: 0.5;
+  }
+  .madoko code.code, .madoko span.code {
+    white-space: pre-wrap;
+  }
+  .madoko hr, hr.madoko {
+    border: none;
+    border-bottom: black solid 1px;
+    margin-bottom: 0.5ex;
+  }
+  .madoko .framed>*:first-child {
+    margin-top: 0pt;
+  }
+  .madoko .framed>*:last-child {
+    margin-bottom: 0pt;
+  }
+  .madoko ul.list-style-type-dash {
+      list-style-type: none !important;
+  }
+  .madoko ul.list-style-type-dash > li:before {
+      content: "\2013";
+      position: absolute;
+      margin-left: -1em;
+  }
+  .madoko table.madoko {
+    border-collapse: collapse;
+  }
+  .madoko td, .madoko th {
+    padding: 0ex 0.5ex;
+    margin: 0pt;
+    vertical-align: top;
+  }
+  .madoko .cell-border-left {
+    border-left: 1px solid black;
+  }
+  .madoko .cell-border-right {
+    border-right: 1px solid black;
+  }
+  .madoko thead>tr:first-child>.cell-line,
+  .madoko tbody:first-child>tr:first-child>.cell-line {
+    border-top: 1px solid black;
+    border-bottom: none;
+  }
+  .madoko .cell-line, .madoko .cell-double-line {
+    border-bottom: 1px solid black;
+    border-top: none;
+  }
+  .madoko .cell-double-line {
+    border-top: 1px solid black;
+    padding-top: 1.5px !important;
+  }
+  .madoko .input-mathpre .MathJax_Display {
+    text-align: left !important;
+  }
+  .madoko div.input-mathpre {
+    text-align: left;
+    margin-top: 1.5ex;
+    margin-bottom: 1ex;
+  }
+  .madoko .math-rendering {
+    text-align: left;
+    white-space: pre;
+    color: gray;
+  }
+  .madoko .mathdisplay {
+    text-align: center;
+  }
+  .madoko span.math-rendering {
+    display:inline-block;
+    width:8em;
+    overflow-x:auto;
+    font-size:70%;
+  }
+  .madoko span.math-rendering::-webkit-scrollbar {
+    width:4px;
+  }
+  .madoko .pretty table {
+    border-collapse: collapse;
+  }
+  .madoko .pretty td {
+    padding: 0em;
+  }
+  .madoko .pretty td.empty {
+    min-width: 1.5ex;
+  }
+  .madoko .pretty td.expander {
+    width: 100em;
+  }
+  body.madoko, .madoko .serif {
+    font-family: Cambria,"Times New Roman","Liberation Serif","Times",serif;
+  }
+  .madoko .sans-serif {
+    font-family: "Calibri", "Optima", sans-serif;
+  }
+  .madoko .symbol {
+    font-family: "Segoe UI Symbol", Symbola, serif;
+  }
+  body.madoko {
+    -webkit-text-size-adjust: 100%;       
+    text-rendering: optimizeLegibility;
+  }
+  body.madoko {
+    max-width: 88ex; 
+    margin: 1em auto;
+    padding: 0em 2em;
+  }
+  body.preview.madoko {
+    padding: 0em 1em;
+  }
+  .madoko p {
+    text-align: justify;
+  }
+  .madoko h1, .madoko h2, .madoko h3, .madoko h4 {
+    margin-top: 1.22em;
+    margin-bottom: 1ex;
+  }
+  .madoko h1+p, .madoko h2+p, .madoko h3+p, .madoko h4+p, .madoko h5+p  {
+    margin-top: 1ex;
+  }
+  .madoko h5, .madoko h6 {
+    margin-top: 1ex;
+    font-size: 1em;
+  }
+  .madoko h5 {
+    margin-bottom: 0.5ex;
+  }
+  .madoko h5 + p {
+    margin-top: 0.5ex;
+  }
+  .madoko h6 {
+    margin-bottom: 0pt;
+  }
+  .madoko h6 + p {
+    margin-top: 0pt;
+  }
+  .madoko pre, .madoko code, .madoko kbd, .madoko samp, .madoko tt,
+  .madoko .monospace, .madoko .token-indent, .madoko .reveal pre, .madoko .reveal code, .madoko .email {
+    font-family: Consolas,"Andale Mono WT","Andale Mono",Lucida Console,Monaco,monospace,monospace;
+    font-size: 0.85em;
+  }
+  .madoko pre code, .madoko .token-indent {
+    font-size: 0.95em;
+  }
+  .madoko pre code {
+    font-family: inherit !important;
+  }
+  .madoko ol.linenums li {
+    background-color: white;
+    list-style-type: decimal;
+  }
+  .madoko .remote {
+    background-color: #F0FFF0;
+  }
+  .madoko .remote + * {
+    margin-top: 0pt;
+  }
+  @media print {
+    body.madoko {
+      font-size: 10pt;
+    }
+    @page {
+      margin: 1in 1.5in;
+    }
+  }
+  @media only screen and (max-device-width:1024px) {
+    body.madoko {
+      padding: 0em 0.5em;
+    }
+    .madoko li {
+      text-align: left;
+    }
+  }
+  
+    </style>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/reveal.js/2.6.2/css/reveal.min.css"  class="link">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/reveal.js/2.6.2/css/theme/solarized.css"  class="link">
+  <script src="https://cdn.jsdelivr.net/reveal.js/2.6.2/lib/js/head.min.js"  class="script preview"></script>
+  <script src="https://cdn.jsdelivr.net/reveal.js/2.6.2/js/reveal.js"  class="script preview"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$']]},
+       TeX: { 
+         Macros: { mathid: ['\\mathit{#1\\hspace{0.1ex}}',1],
+                   mathkw: ['\\mathsf{#1}',1],
+                   mdmathindent: ['\\hspace{#1ex}',1],
+                   mathpre: ['#1',1],
+                 },
+  
+       }
+    });
+    MathJax.Hub.Register.StartupHook('TeX AMSmath Ready',function () { 
+      MathJax.InputJax.TeX.Definitions.environment['mdmathpre'] = ['AMSarray',null,null,null,'l','0em','0em'];
+    });
+  </script>
+  <script type="text/javascript" class="preview"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/reveal.js/2.6.2/css/theme/solarized.css" id="theme">    
+      <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/reveal.js/2.6.2/lib/js/html5shiv.js"></script>
+      <![endif]-->
+      <style>
+      body.madoko {
+        margin: 0pt;
+        padding: 0pt;
+        max-width: 100%;      
+      }
+      .madoko .reveal h1 {
+          font-size: 3.7em;
+      }
+      .madoko .reveal h2 {
+          font-size: 2.1em;
+      }
+      .reveal .authorblock .author {
+          font-size: 120%;
+          margin-bottom: 1ex;
+      }        
+      .reveal table {
+          margin-left: auto;
+          margin-right: auto;
+      }
+      .reveal pre table {
+        margin-left: 0pt;
+      }
+      .madoko .reveal pre.pretty {
+        padding-top: 0pt;
+        padding-bottom: 0pt;
+      }
+      .reveal li p {
+          text-align: left;
+      }
+      .reveal h2 {
+          margin-bottom: 0.7em;
+      }
+      .reveal section ul,
+      .reveal section ol {
+          margin-top: 0.35em;
+          margin-bottom: 0.35em;
+      }
+      .reveal section img.math-display {
+          padding: 1em;
+          box-shadow: none;
+          border: none;
+      }
+      .reveal section img.math-inline {
+          margin: 0pt;
+          padding: 0pt;
+          background-color: none;
+          box-shadow: none;
+          border: none;
+      }
+      .reveal section img {
+          box-shadow: none;
+          border: none;
+      }
+      .madoko .reveal pre {
+          border: 1px solid black;
+          word-wrap: normal;
+          background-color: white;
+          font-size: 0.7em;
+          padding: 0.7em;
+          line-height: 100%;
+          width: 100%;
+      }      
+      .reveal pre code, .reveal code {
+          padding: 0pt;
+      }
+      .reveal nav.toc {
+          line-height: 1em;
+          font-size: 60%;
+          overflow-y: auto;
+      }    
+      .reveal .tocitem {
+          text-align: left;
+      }
+      .reveal .toc>.tocblock .tocblock {
+          margin-left: 0.5em;
+      }   
+      .reveal .toc>.tocblock .tocblock .tocblock {
+          margin-left: 1em;
+      }
+      .reveal .bibliography {
+        height: 18em;
+        overflow-y: auto;
+        font-size: 0.8em;
+        line-height: 1.25;
+      }
+      .reveal section[data-smaller=""],
+      .reveal section[data-smaller="true"] {
+        font-size: 80%;
+        width: 110%;
+      }
+      .reveal .slides>section[data-smaller=""],
+      .reveal .slides>section[data-smaller="true"] {
+        left: -55%;
+      }
+      .reveal .details {
+        display: none;
+      }
+      .reveal[data-details=""] .details,
+      .reveal[data-details="true"] .details {
+        display: initial;
+      }
+      /* Display in the preview window */
+      html, body.madoko.preview, body.madoko.preview-full, .body.madoko {
+        height  : 100% !important;
+        width   : auto!important;
+        padding : 0pt !important;
+        margin  : 0pt !important;
+      }
+      body.madoko.preview, body.madoko.preview-full, .preview .body.madoko {
+        overflow: hidden !important;
+      }
+      body.preview .reveal .slides .fragment {
+        visibility: visible;
+        opacity: 0.5;
+      }
+      body.preview .reveal .slides .fragment.visible {
+        opacity: 1.0;
+      }
+      .preview .reveal div.notes,
+      .preview .reveal aside.notes {
+        display  : block;
+        position : absolute;
+        width    : 30%;
+        left     : 70%;
+        top      : -15%;
+        font-size: 50%;
+        border   : 1px solid black;
+        border-radius   : 10px;
+        background-color: white;
+      }
+      /* 'static' display in the preview window, unused for now */
+      body.preview.static div.reveal, 
+      body.preview.static div.ticreveal .slides, 
+      body.preview.static div.reveal section {
+        display: block !important;
+        position: relative !important;
+        width: auto !important;      
+      }
+      body.preview.static div.reveal section {
+        border: solid 1px black;
+        padding: 1em !important;
+        margin-top: 1em;
+        min-height: 15em;
+        top: 0pt;
+      }
+      body.madoko.preview.static section {
+        font-size: 75%;
+      }
+      body.madoko.preview.static {
+        padding: 0em 1em !important;
+      }
+      body.madoko.preview.static .reveal pre {
+        width: 95%;
+      }    
+      body.preview .reveal[data-details="false"] .details {
+        display: initial;
+        color: gray;
+      }
+      body.preview .reveal[data-long="false"] section[data-long] {
+        border-left: 2px black solid;
+      }
+      </style>
+      <script>    
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      window.revealConfig = {
+          controls: true,
+          progress: true,
+          history: true,
+          center: /^\s*(true|1)\s*$/i.test("true"),
+          slideNumber: /^\s*(true|1)\s*$/i.test("true"),
+          dependencies: [
+            { src: 'https://cdn.jsdelivr.net/reveal.js/2.6.2/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+            { src: 'https://cdn.jsdelivr.net/reveal.js/2.6.2/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+            { src: 'https://cdn.jsdelivr.net/reveal.js/2.6.2/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+          ],
+      };
+      function revealAddFragments() {
+        [].forEach.call(document.querySelectorAll( ".fragmented" ), function(elem0) {
+          var elem = (/^H\d$/.test(elem0.nodeName) ? elem0.parentNode : elem0);
+          [].forEach.call(elem.children, function(item) {
+            if (item==elem0) return;
+            if (item && !/\bfragment(ed)?\b/.test(item.className) && item.nodeType===1) {
+              item.className = item.className + " fragment";
+            }
+          });
+        });
+      }
+      function revealQuotedList(listType) {
+        //compatibility with Rmarkdown slides
+        [].forEach.call( document.querySelectorAll("blockquote>" + listType), function(ul) {
+          if (!/\bfragmented\b/.test(ul.className)) {
+            ul.className = ul.className + " fragmented";
+          }        
+          var quote = ul.parentNode;
+          if (quote.childElementCount===1) {
+            quote.parentNode.replaceChild(ul,quote);
+          }
+        });
+      }
+      function revealBuildToFragmented() {
+        [].forEach.call(document.querySelectorAll( ".build" ), function(elem) {
+          if (elem && !/\bfragmented\b/.test(elem.className) && elem.nodeType===1) {
+            elem.className = elem.className + " fragmented";
+          }
+        });
+      }
+      function revealDivNotesToAside() {
+        [].forEach.call(document.querySelectorAll("div.notes"), function(elem) {
+          var aside = document.createElement("ASIDE");
+          if (elem.id) aside.id = elem.id;
+          aside.className = elem.className;
+          [].forEach.call(elem.attributes, function(attr) {
+            aside.setAttribute( attr.name, attr.value );
+          });
+          aside.innerHTML = elem.innerHTML;
+          elem.parentNode.replaceChild(aside,elem);
+        });
+      }
+      function revealDataQuery() {
+        var reveal = document.querySelector(".reveal");
+        if (!reveal) return;
+        window.location.search.replace(/\bdata-(\w+)(?:=(\w+))?\b/g, function(matched,key,value) {
+          reveal.setAttribute("data-" + key, (value ? value : ""));
+          return matched;
+        });
+      }
+      function revealRemoveLong() {
+        // remove parts for 'long' presentation
+        if (/\bpreview(?![\w\-])/.test(document.body.className)) return;
+        var reveal = document.querySelector(".reveal");
+        if (!reveal) return;
+        var value = reveal.hasAttribute("data-long") ? reveal.getAttribute("data-long") : null;
+        if (value==null || value=="false" || value=="0") {
+          [].forEach.call( document.querySelectorAll("section[data-long]"), function(elem) {
+            elem.parentNode.removeChild(elem);
+          });
+        }
+      }
+      revealConfig.onLoad = function() {
+        revealConfig.getEmbeddedImages();
+        revealDataQuery();
+        revealRemoveLong();
+        revealQuotedList("ul");
+        revealQuotedList("ol");
+        revealBuildToFragmented();
+        revealDivNotesToAside();
+        revealAddFragments();
+      };
+      document.addEventListener("load",revealConfig.onLoad);    
+      document.addEventListener("DOMContentLoaded", function() {
+        if (typeof Reveal !== "undefined" && !Reveal.isReady()) {
+          revealConfig.onLoad();
+          Reveal.initialize(revealConfig);
+        }
+      });    
+      // add support for printing:
+      // use  ?print-pdf to get a pdf-printable version (in Chrome)
+      // use  ?print-paper to get a paper-printable version.
+      revealConfig.initPrint = function() {
+        var cssLink = null;
+        var bodyClass = null;
+        var cap = window.location.search.match(/\bprint-(\w+)\b/);
+        if (cap) {
+          bodyClass = cap[0];
+          cssLink = "https://cdn.jsdelivr.net/reveal.js/2.6.2/css/print/" + cap[1] + ".css";
+        }
+        if (cssLink) {
+          var link  = document.createElement( "link" );
+          link.rel  = "stylesheet";
+          link.type = "text/css";
+          link.href = cssLink;
+          var head = document.getElementsByTagName( 'head' )[0];
+          if (head) head.appendChild( link );
+        }
+        if (bodyClass) {
+          document.body.className = document.body.className + " " + bodyClass;
+        }
+      };
+      revealConfig.getEmbeddedImages = function() {
+        var images = {};
+        [].forEach.call( document.querySelectorAll("img[data-linkid]"), function(img) {
+          var linkid = img.getAttribute("data-linkid");
+          if (linkid) images["/" + linkid] = img.src;
+          var path = img.getAttribute("data-path");
+          if (path) images["/" + path] = img.src;
+        });     
+        [].forEach.call( document.querySelectorAll("section"), function(slide) {
+          var attrName = "data-background";
+          var image = slide.getAttribute(attrName);
+          if (!image) {
+            attrName = "data-background-image";
+            image = slide.getAttribute(attrName);
+          }
+          if (!image) return;
+          var cap = /^\s*!?\[([^\]]+)\]\s*$/.exec(image);
+          var href = images["/" + (cap ? cap[1] : image)];
+          if (!href) return;
+          if (attrName==="data-background" && /^data:/.test(href)) href = "url(" + href + ")";
+          slide.setAttribute(attrName, href);
+        });
+      };    
+      </script>
+  </head>
+<body class="madoko">
+
+<div class="body madoko" style="line-adjust:0">
+<div class="reveal" data-long="false" data-details="false" data-line="36" style="line-adjust:0">
+<div class="slides" data-line="36" style="line-adjust:0">
+
+<section class="titleblock align-center para-block" data-line="37" style="text-align:center;line-adjust:0">
+<div class="titleheader align-center" data-line="37" style="text-align:center;line-adjust:0">
+<h1 class="title para-block" data-line="37" style="font-weight:bold;margin-bottom:0.5ex;font-size:3em;line-adjust:0"><span data-line="37"></span>Imperative Programming</h1></div>
+<div class="authors align-center" data-line="42" style="text-align:center;width:80%;line-adjust:0"><table class="authorrow columns block" data-line="42" style="margin-top:2ex;width:100%;line-adjust:0">
+<tbody><tr><td class="author column" data-line="42" style="text-align:center;font-size:x-large;line-adjust:0">
+<div class="authorname" data-line="42" style="font-size:1.4em;line-adjust:0"><span data-line="42"></span>Jean-Baptiste Tristan & K. Rustan M. Leino</div></td></tr></tbody></table></div></section><!-- This file was automatically generated from ImperativeProgramming.mdk -->
+
+
+
+<section id="sec-methods" class="section section1" data-section-depth="1" data-line="43"><h2 id="heading-sec-methods" class="h1" data-heading-depth="1" style="display:block">Methods</h2><!-- inline-dafny ImperativeProgramming/M1 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="46" data-line-first="47" style="display:block"><code data-line="47">  <span style="color:blue">method</span> MethodName&lt;T&gt;(x: T, y: <span style="color:teal">string</span>) {
+    <span style="color:blue">print</span> x;
+    <span style="color:blue">print</span> y;
+  }</code></pre>
+<ul class="ul list-dash compact" data-line="53">
+<li class="li ul-li list-dash-li compact-li" data-line="53"><span data-line="53"></span>Methods can have side effects
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="54"><span data-line="54"></span>The body of a method is a sequence of statements
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="55"><span data-line="55"></span>Unlike an expression, a statement does not produce a value
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="56"><span data-line="56"></span>A method can have type parameters
+</li></ul>
+</section>
+<section id="sec-statement--method-call" class="section section1" data-section-depth="1" data-line="58"><h2 id="heading-sec-statement--method-call" class="h1" data-heading-depth="1" style="display:block">Statement: method call</h2><!-- inline-dafny ImperativeProgramming/M1' -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="61" data-line-first="62" style="display:block"><code data-line="62">  <span style="color:blue">method</span> Call() {
+
+    MethodName(<span style="color:maroon">&quot;</span><span style="color:maroon">Hello, </span><span style="color:maroon">&quot;</span>, <span style="color:maroon">&quot;</span><span style="color:maroon">World</span><span style="color:gray">\n</span><span style="color:maroon">&quot;</span>);
+
+  }</code></pre>
+<ul class="ul list-dash compact" data-line="69">
+<li class="li ul-li list-dash-li compact-li" data-line="69"><span data-line="69"></span>A method call is a statement
+</li></ul>
+</section>
+<section id="sec-statement--variable-declaration" class="section section1" data-section-depth="1" data-line="71"><h2 id="heading-sec-statement--variable-declaration" class="h1" data-heading-depth="1" style="display:block">Statement: variable declaration</h2><!-- inline-dafny ImperativeProgramming/M3 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="74" data-line-first="75" style="display:block"><code data-line="75">  <span style="color:blue">method</span> VariableDeclaration() {
+
+    <span style="color:blue">var</span> x: <span style="color:teal">int</span> := integerExpression;
+
+  }</code></pre>
+<ul class="ul list-dash compact" data-line="82">
+<li class="li ul-li list-dash-li compact-li" data-line="82"><span data-line="82"></span>The Right-Hand Side (RHS) of <span data-line="82"></span><code class="code code1">:=</code><span data-line="82"></span> is a <span data-line="82"></span><em class="em-low1">RHS expression</em><span data-line="82"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="83"><span data-line="83"></span>A RHS expression produces a value and may have side effects
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="84"><span data-line="84"></span>An expression is a (side-effect free) RHS expression
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="85"><span data-line="85"></span>The type of a local variable can often be inferred, in which case it can be omitted
+</li></ul>
+</section>
+<section id="sec-statement--assignment" class="section section1" data-section-depth="1" data-line="87"><h2 id="heading-sec-statement--assignment" class="h1" data-heading-depth="1" style="display:block">Statement: assignment</h2><!-- inline-dafny ImperativeProgramming/M4 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="90" data-line-first="91" style="display:block"><code data-line="91">  <span style="color:blue">method</span> Assignment() {
+
+    <span style="color:blue">var</span> x := integerExpression;
+    x := x + <span class="constant" style="color:purple">1</span>;
+
+  }</code></pre>
+<ul class="ul list-dash compact" data-line="99">
+<li class="li ul-li list-dash-li compact-li" data-line="99"><span data-line="99"></span>The Left-Hand Side (LHS) of <span data-line="99"></span><code class="code code1">:=</code><span data-line="99"></span> is an <span data-line="99"></span><em class="em-low1"><span class="math-inline">$\ell$</span>-value</em><span data-line="99"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="100"><span data-line="100"></span>An <span data-line="100"></span><span class="math-inline">$\ell$</span><span data-line="100"></span>-value is an expression that denotes a variable or location
+</li></ul>
+</section>
+<section id="sec-example-variable-declarations-and-assignments" class="section section1" data-section-depth="1" data-line="102"><h2 id="heading-sec-example-variable-declarations-and-assignments" class="h1" data-heading-depth="1" style="display:block">Example variable declarations and assignments</h2><!-- inline-dafny ImperativeProgramming/VarDeclExamples -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="105" data-line-first="106" style="display:block"><code data-line="106">  <span style="color:blue">method</span> Assignment() {
+
+    <span style="color:blue">var</span> w: <span style="color:teal">int</span> := integerExpression;
+
+    <span style="color:blue">var</span> x: <span style="color:teal">int</span>;
+    x := integerExpression;
+
+    <span style="color:blue">var</span> y := integerExpression;
+
+    <span style="color:blue">var</span> z;
+    z := integerExpression;
+
+  }</code></pre></section>
+<section id="sec-method-out-parameters" class="section section1" data-section-depth="1" data-line="121"><h2 id="heading-sec-method-out-parameters" class="h1" data-heading-depth="1" style="display:block">Method out-parameters</h2><!-- inline-dafny ImperativeProgramming/MParameters --> 
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="124" data-line-first="125" style="display:block"><code data-line="125">  <span style="color:blue">method</span> MultipleInsAndOuts(a: <span style="color:teal">int</span>, b: <span style="color:teal">int</span>) <span style="color:blue">returns</span> (x: <span style="color:teal">int</span>, y: <span style="color:teal">int</span>) {
+
+    x := a + b;
+    y := x + <span class="constant" style="color:purple">1</span>;
+
+  }</code></pre>
+<ul class="ul list-dash compact" data-line="133">
+<li class="li ul-li list-dash-li compact-li" data-line="133"><span data-line="133"></span>A method can have both in-parameters and out-parameters
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="134"><span data-line="134"></span>Out-parameters are named, just like in-parameters
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="135"><span data-line="135"></span>In the method body, out-parameters can be used as local variables
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="136"><span data-line="136"></span>The values of the out-parameters on exit from the method body are returned to the caller
+</li></ul>
+</section>
+<section id="sec-statement--return" class="section section1" data-section-depth="1" data-line="138"><h2 id="heading-sec-statement--return" class="h1" data-heading-depth="1" style="display:block">Statement: return</h2><!-- inline-dafny ImperativeProgramming/Return --> 
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="141" data-line-first="142" style="display:block"><code data-line="142">  <span style="color:blue">method</span> MultipleInsAndOuts(a: <span style="color:teal">int</span>, b: <span style="color:teal">int</span>) <span style="color:blue">returns</span> (x: <span style="color:teal">int</span>, y: <span style="color:teal">int</span>) {
+
+    x := a + b;
+    y := x + <span class="constant" style="color:purple">1</span>;
+    <span style="color:blue">return</span>;
+    y := <span class="constant" style="color:purple">500</span>; <span style="color:darkgreen">// this statement is never reached</span>
+
+  }</code></pre>
+<ul class="ul list-dash compact" data-line="152">
+<li class="li ul-li list-dash-li compact-li" data-line="152"><span data-line="152"></span>A method exits upon reaching the method body<span data-line="152"></span>&#39;<span data-line="152"></span>s <span data-line="152"></span><code class="code code1">}</code><span data-line="152"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="153"><span data-line="153"></span>A <span data-line="153"></span><code class="code code1">return</code><span data-line="153"></span> statement abruptly exits the body of a method
+
+<ul class="ul list-dash compact" data-line="154">
+<li class="li ul-li list-dash-li compact-li" data-line="154"><span data-line="154"></span>A <span data-line="154"></span><code class="code code1">return</code><span data-line="154"></span> is like a control-flow jump to the method body<span data-line="154"></span>&#39;<span data-line="154"></span>s <span data-line="154"></span><code class="code code1">}</code><span data-line="154"></span>
+</li></ul></li></ul>
+</section>
+<section id="sec-statement--return-with-arguments" class="section section1" data-section-depth="1" data-line="156"><h2 id="heading-sec-statement--return-with-arguments" class="h1" data-heading-depth="1" style="display:block">Statement: return with arguments</h2><!-- inline-dafny ImperativeProgramming/M2 --> 
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="159" data-line-first="160" style="display:block"><code data-line="160">  <span style="color:blue">method</span> Return() <span style="color:blue">returns</span> (o: <span style="color:teal">int</span>) {
+
+    <span style="color:blue">return</span> integerExpression;
+
+  }
+
+  <span style="color:blue">method</span> ReturnArgumentsMeaning() <span style="color:blue">returns</span> (o: <span style="color:teal">int</span>) {
+
+    o := integerExpression;
+    <span style="color:blue">return</span>;
+
+  }</code></pre>
+<ul class="ul list-dash compact" data-line="174">
+<li class="li ul-li list-dash-li compact-li" data-line="174"><span data-line="174"></span>Instead of first assigning to the out-parameters and then exiting, the <span data-line="174"></span><code class="code code1">return</code><span data-line="174"></span> statement can be used with arguments, which are assigned to the out-parameters
+</li></ul>
+</section>
+<section id="sec-statement--method-call-with-out-parameter" class="section section1" data-section-depth="1" data-line="176"><h2 id="heading-sec-statement--method-call-with-out-parameter" class="h1" data-heading-depth="1" style="display:block">Statement: method call with out-parameter</h2><!-- inline-dafny ImperativeProgramming/M1'' -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="179" data-line-first="180" style="display:block"><code data-line="180">  <span style="color:blue">method</span> Calls() {
+
+    <span style="color:blue">var</span> s: <span style="color:teal">int</span> := Return();
+    <span style="color:blue">var</span> x, y := MultipleInsAndOuts(<span class="constant" style="color:purple">20</span>, <span class="constant" style="color:purple">30</span>);
+
+  }</code></pre>
+<ul class="ul list-dash compact" data-line="188">
+<li class="li ul-li list-dash-li compact-li" data-line="188"><span data-line="188"></span>A method call with out-parameters is an RHS expression
+</li></ul>
+</section>
+<section id="sec-statement--conditional" class="section section1" data-section-depth="1" data-line="190"><h2 id="heading-sec-statement--conditional" class="h1" data-heading-depth="1" style="display:block">Statement: conditional</h2><!-- inline-dafny ImperativeProgramming/M6 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="193" data-line-first="194" style="display:block"><code data-line="194">  <span style="color:blue">method</span> If() {
+
+    <span style="color:blue">if</span> booleanExpression {
+      <span style="color:darkgreen">// ...</span>
+    }
+
+  }</code></pre></section>
+<section id="sec-statement--alternative-conditional" class="section section1" data-section-depth="1" data-line="203"><h2 id="heading-sec-statement--alternative-conditional" class="h1" data-heading-depth="1" style="display:block">Statement: alternative conditional</h2><!-- inline-dafny ImperativeProgramming/M7 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="206" data-line-first="207" style="display:block"><code data-line="207">  <span style="color:blue">method</span> IfElse() {
+
+    <span style="color:blue">if</span> booleanExpression {
+      <span style="color:darkgreen">// ...</span>
+    } <span style="color:blue">else</span> {
+      <span style="color:darkgreen">// ...</span>
+    }
+
+  }</code></pre></section>
+<section id="sec-statement--cascading-if" class="section section1" data-section-depth="1" data-line="218"><h2 id="heading-sec-statement--cascading-if" class="h1" data-heading-depth="1" style="display:block">Statement: cascading if</h2><!-- inline-dafny ImperativeProgramming/M7' -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="221" data-line-first="222" style="display:block"><code data-line="222">  <span style="color:blue">method</span> CascadingIf() {
+
+    <span style="color:blue">if</span> booleanExpressionA {
+      <span style="color:darkgreen">// ...</span>
+    } <span style="color:blue">else</span> <span style="color:blue">if</span> booleanExpressionB {
+      <span style="color:darkgreen">// ...</span>
+    } <span style="color:blue">else</span> {
+      <span style="color:darkgreen">// ...</span>
+    }
+
+  }</code></pre></section>
+<section id="sec-statement--while-loops" class="section section1" data-section-depth="1" data-line="235"><h2 id="heading-sec-statement--while-loops" class="h1" data-heading-depth="1" style="display:block">Statement: while loops</h2><!-- inline-dafny ImperativeProgramming/M8 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="238" data-line-first="239" style="display:block"><code data-line="239">  <span style="color:blue">method</span> WhileLoop() {
+
+    <span style="color:blue">while</span> booleanExpression {
+      <span style="color:darkgreen">// ...</span>
+    }
+
+  }</code></pre>
+<ul class="ul list-dash compact" data-line="248">
+<li class="li ul-li list-dash-li compact-li" data-line="248"><span data-line="248"></span>The control flow of loops can be modified with <span data-line="248"></span><code class="code code1">break</code><span data-line="248"></span> and <span data-line="248"></span><code class="code code1">continue</code><span data-line="248"></span> statements
+</li></ul>
+</section>
+<section id="sec-statement--for-loops" class="section section1" data-section-depth="1" data-line="250"><h2 id="heading-sec-statement--for-loops" class="h1" data-heading-depth="1" style="display:block">Statement: for loops</h2><!-- inline-dafny ImperativeProgramming/M9 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="253" data-line-first="254" style="display:block"><code data-line="254">  <span style="color:blue">method</span> ForLoop() {
+
+    <span style="color:blue">for</span> x := loExpression <span style="color:blue">to</span> hiExpression {
+      <span style="color:darkgreen">// ...</span>
+    }
+
+    <span style="color:blue">for</span> x := hiExpression <span style="color:blue">downto</span> loExpression {
+      <span style="color:darkgreen">// ...</span>
+    }
+
+  }</code></pre>
+<ul class="ul list-dash compact" data-line="267">
+<li class="li ul-li list-dash-li compact-li" data-line="267"><span data-line="267"></span>The bounds <span data-line="267"></span><code class="code code1">loExpression</code><span data-line="267"></span> and <span data-line="267"></span><code class="code code1">hiExpression</code><span data-line="267"></span> of each loop are evaluated once, on entry to the loop
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="268"><span data-line="268"></span>Each loop above requires <span data-line="268"></span><code class="code code1">loExpression &lt;= hiExpression</code><span data-line="268"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="269"><span data-line="269"></span>The bounds in each loop are a half-open interval
+
+<ul class="ul list-dash compact" data-line="270">
+<li class="li ul-li list-dash-li compact-li" data-line="270"><span data-line="270"></span>In each loop body, the value of <span data-line="270"></span><code class="code code1">x</code><span data-line="270"></span> satisfies <span data-line="270"></span><code class="code code1">loExpression &lt;= x &lt; hiExpression</code><span data-line="270"></span>
+</li></ul></li></ul>
+</section>
+<section id="sec-statement--match" class="section section1" data-section-depth="1" data-line="272"><h2 id="heading-sec-statement--match" class="h1" data-heading-depth="1" style="display:block">Statement: match</h2><!-- inline-dafny ImperativeProgramming/M10 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="275" data-line-first="276" style="display:block"><code data-line="276">  <span style="color:blue">method</span> Match() {
+
+    <span style="color:blue">match</span> datatypeValue {
+      <span style="color:blue">case</span> Case1 =&gt; <span style="color:darkgreen">// ...</span>
+      <span style="color:blue">case</span> Case2 =&gt; <span style="color:darkgreen">// ...</span>
+    }
+
+  }</code></pre>
+<ul class="ul list-dash compact" data-line="286">
+<li class="li ul-li list-dash-li compact-li" data-line="286"><span data-line="286"></span>Any local variables declared in a <span data-line="286"></span><code class="code code1">case</code><span data-line="286"></span> are in scope in just that <span data-line="286"></span><code class="code code1">case</code><span data-line="286"></span>
+
+<ul class="ul list-dash compact" data-line="287">
+<li class="li ul-li list-dash-li compact-li" data-line="287"><span data-line="287"></span>No additional <span data-line="287"></span><code class="code code1">{</code><span data-line="287"></span> <span data-line="287"></span><code class="code code1">}</code><span data-line="287"></span> needed
+</li></ul></li>
+<li class="li ul-li list-dash-li compact-li" data-line="288"><span data-line="288"></span>The case conditions must cover all possibilities
+
+<ul class="ul list-dash compact" data-line="289">
+<li class="li ul-li list-dash-li compact-li" data-line="289"><span data-line="289"></span>It is an error if a program reaches a <span data-line="289"></span><code class="code code1">match</code><span data-line="289"></span> where no <span data-line="289"></span><code class="code code1">case</code><span data-line="289"></span> applies
+</li></ul></li></ul>
+</section>
+<section id="sec-failure-compatible-types" class="section section1" data-section-depth="1" data-line="291"><h2 id="heading-sec-failure-compatible-types" class="h1" data-heading-depth="1" style="display:block">Failure-compatible types</h2><!-- inline-dafny ImperativeProgramming/M11 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="294" data-line-first="295" style="display:block"><code data-line="295">  <span style="color:blue">datatype</span> Status&lt;T&gt; =
+    | Success(value: T)
+    | Failure(error: <span style="color:teal">string</span>)
+  {
+
+    <span style="color:blue">predicate</span> IsFailure() { <span style="color:blue">this</span>.Failure? }
+
+    <span style="color:blue">function</span> PropagateFailure(): Status&lt;T&gt; { <span style="color:blue">this</span> }
+
+    <span style="color:blue">function</span> Extract(): T { <span style="color:blue">this</span>.value }
+
+  }</code></pre>
+<ul class="ul list-dash compact" data-line="309">
+<li class="li ul-li list-dash-li compact-li" data-line="309"><span data-line="309"></span>A <span data-line="309"></span><em class="em-low1">failure-compatible type</em><span data-line="309"></span> is a type with the members <span data-line="309"></span><code class="code code1">IsFailure</code><span data-line="309"></span>, <span data-line="309"></span><code class="code code1">PropagateFailure</code><span data-line="309"></span>, and <span data-line="309"></span><code class="code code1">Extract</code><span data-line="309"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="310"><span data-line="310"></span>Failure-compatible types are related to <span data-line="310"></span><em class="em-low1">monads</em><span data-line="310"></span> in functional programming
+</li></ul>
+</section>
+<section id="sec-statement--failure-propagating-assignment" class="section section1" data-section-depth="1" data-line="312"><h2 id="heading-sec-statement--failure-propagating-assignment" class="h1" data-heading-depth="1" style="display:block">Statement: failure-propagating assignment</h2><!-- inline-dafny ImperativeProgramming/M12 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="315" data-line-first="316" style="display:block"><code data-line="316">  <span style="color:blue">method</span> Callee(i: <span style="color:teal">int</span>) <span style="color:blue">returns</span> (r: Status&lt;<span style="color:teal">int</span>&gt;)
+  {
+    <span style="color:blue">if</span> i &lt; <span class="constant" style="color:purple">0</span> {
+      <span style="color:blue">return</span> Failure(<span style="color:maroon">&quot;</span><span style="color:maroon">negative</span><span style="color:maroon">&quot;</span>);
+    }
+    <span style="color:blue">return</span> Success(i);
+  }
+
+  <span style="color:blue">method</span> Caller(i: <span style="color:teal">int</span>) <span style="color:blue">returns</span> (r: Status&lt;<span style="color:teal">int</span>&gt;)
+  {
+    <span style="color:blue">var</span> x: <span style="color:teal">int</span> :- Callee(i);
+    <span style="color:blue">return</span> Success(x + <span class="constant" style="color:purple">5</span>);
+  }
+
+  <span style="color:blue">method</span> CallerMeaning(i: <span style="color:teal">int</span>) <span style="color:blue">returns</span> (r: Status&lt;<span style="color:teal">int</span>&gt;)
+  {
+    <span style="color:blue">var</span> tmp: Status&lt;<span style="color:teal">int</span>&gt; := Callee(i);
+    <span style="color:blue">if</span> tmp.IsFailure() {
+      <span style="color:blue">return</span> tmp.PropagateFailure();
+    }
+    <span style="color:blue">var</span> x: <span style="color:teal">int</span> := tmp.Extract();
+
+    <span style="color:blue">return</span> Success(x + <span class="constant" style="color:purple">5</span>);
+  }</code></pre>
+<ul class="ul list-dash compact" data-line="342">
+<li class="li ul-li list-dash-li compact-li" data-line="342"><span data-line="342"></span>The assignment operator <span data-line="342"></span><code class="code code1">:-</code><span data-line="342"></span> is commonly known as the <span data-line="342"></span>&#8220;elephant operator&#8221;<span data-line="342"></span>
+</li></ul>
+</section>
+<section id="sec-arrays" class="section section1" data-section-depth="1" data-line="344"><h2 id="heading-sec-arrays" class="h1" data-heading-depth="1" style="display:block">Arrays</h2>
+<ul class="ul list-dash compact" data-line="346">
+<li class="li ul-li list-dash-li compact-li" data-line="346"><span data-line="346"></span>Dafny has arrays
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="347"><span data-line="347"></span>Unlike collections we have seen so far, arrays are mutable
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="348"><span data-line="348"></span>An expression cannot modify an array, but a statement can
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="349"><span data-line="349"></span>Consequently, a function cannot modify an array, but a method can
+</li></ul>
+</section>
+<section id="sec-array-rhs-expression--creation" class="section section1" data-section-depth="1" data-line="351"><h2 id="heading-sec-array-rhs-expression--creation" class="h1" data-heading-depth="1" style="display:block">Array rhs expression: creation</h2><!-- inline-dafny Arrays/A2 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="354" data-line-first="355" style="display:block"><code data-line="355">  <span style="color:blue">method</span> Allocate&lt;T&gt;(size: <span style="color:teal">int</span>) <span style="color:blue">returns</span> (arr: <span style="color:teal">array</span>&lt;T&gt;) {
+    arr := <span style="color:blue">new</span> T[size];
+  }</code></pre>
+<ul class="ul list-dash compact" data-line="360">
+<li class="li ul-li list-dash-li compact-li" data-line="360"><span data-line="360"></span><code class="code code1">new</code><span data-line="360"></span> is a RHS expression
+</li></ul>
+</section>
+<section id="sec-references" class="section section1" data-section-depth="1" data-line="362"><h2 id="heading-sec-references" class="h1" data-heading-depth="1" style="display:block">References</h2><!-- inline-dafny Arrays/A4 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="365" data-line-first="366" style="display:block"><code data-line="366">  <span style="color:blue">method</span> Aliasing() {
+
+    <span style="color:blue">var</span> arr := <span style="color:blue">new</span> <span style="color:teal">int</span>[<span class="constant" style="color:purple">100</span>];
+    <span style="color:blue">var</span> brr := arr;
+
+  }</code></pre>
+<ul class="ul list-dash compact" data-line="374">
+<li class="li ul-li list-dash-li compact-li" data-line="374"><span data-line="374"></span>We commonly speak of <span data-line="374"></span><code class="code code1">arr</code><span data-line="374"></span> as an array, but technically:
+
+<ul class="ul list-dash compact" data-line="375">
+<li class="li ul-li list-dash-li compact-li" data-line="375"><span data-line="375"></span><code class="code code1">arr</code><span data-line="375"></span> is a <span data-line="375"></span><em class="em-low1">reference</em><span data-line="375"></span> to an array
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="376"><span data-line="376"></span><code class="code code1">arr</code><span data-line="376"></span> points to the array
+</li></ul></li>
+<li class="li ul-li list-dash-li compact-li" data-line="377"><span data-line="377"></span>So is <span data-line="377"></span><code class="code code1">brr</code><span data-line="377"></span>, and it refers to the same array as <span data-line="377"></span><code class="code code1">arr</code><span data-line="377"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="378"><span data-line="378"></span>This is known as <span data-line="378"></span><em class="em-low1">aliasing</em><span data-line="378"></span>
+</li></ul>
+</section>
+<section id="sec-allocatedness" class="section section1" data-section-depth="1" data-line="380"><h2 id="heading-sec-allocatedness" class="h1" data-heading-depth="1" style="display:block">Allocatedness</h2><!-- inline-dafny Arrays/A5 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="383" data-line-first="384" style="display:block"><code data-line="384">  <span style="color:blue">predicate</span> Null&lt;T&gt;() { <span style="color:blue">null</span> <span style="color:blue">is</span> <span style="color:teal">array?</span>&lt;T&gt; }
+
+  <span style="color:blue">predicate</span> IsNull&lt;T&gt;(arr: <span style="color:teal">array?</span>) { (arr == <span style="color:blue">null</span>) <span style="color:blue">is</span> <span style="color:teal">bool</span> }</code></pre>
+<ul class="ul list-dash compact" data-line="389">
+<li class="li ul-li list-dash-li compact-li" data-line="389"><span data-line="389"></span>There are two flavors of the array type
+
+<ul class="ul list-dash compact" data-line="390">
+<li class="li ul-li list-dash-li compact-li" data-line="390"><span data-line="390"></span><code class="code code1">array&lt;T&gt;</code><span data-line="390"></span> is the type of <span data-line="390"></span><code class="code code1">T</code><span data-line="390"></span>-array references
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="391"><span data-line="391"></span><code class="code code1">array?&lt;T&gt;</code><span data-line="391"></span> additionally contains the value <span data-line="391"></span><code class="code code1">null</code><span data-line="391"></span>
+</li></ul></li></ul>
+</section>
+<section id="sec-array-functional-expressions" class="section section1" data-section-depth="1" data-line="393"><h2 id="heading-sec-array-functional-expressions" class="h1" data-heading-depth="1" style="display:block">Array functional expressions</h2><!-- inline-dafny Arrays/A1 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="396" data-line-first="397" style="display:block"><code data-line="397">  <span style="color:blue">predicate</span> Indexing&lt;T&gt;(arr: <span style="color:teal">array</span>&lt;T&gt;, index: <span style="color:teal">int</span>) { arr[index] <span style="color:blue">is</span> T }
+
+  <span style="color:blue">predicate</span> Length&lt;T&gt;(arr: <span style="color:teal">array</span>&lt;T&gt;) { arr.Length <span style="color:blue">is</span> <span style="color:teal">int</span> }
+  
+  <span style="color:blue">predicate</span> ToSequence&lt;T&gt;(arr: <span style="color:teal">array</span>&lt;T&gt;) { arr[..] <span style="color:blue">is</span> <span style="color:teal">seq</span>&lt;T&gt; }</code></pre></section>
+<section id="sec-array-ell-value--update" class="section section1" data-section-depth="1" data-line="404"><h2 id="heading-sec-array-ell-value--update" class="h1" data-heading-depth="1" style="display:block">Array <span class="math-inline">$\ell$</span>-value: update</h2><!-- inline-dafny Arrays/A3 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="407" data-line-first="408" style="display:block"><code data-line="408">  <span style="color:blue">method</span> Update&lt;T&gt;(arr: <span style="color:teal">array</span>&lt;T&gt;, index: <span style="color:teal">int</span>, value: T) {
+    arr[index] := value;
+  }</code></pre></section></div></div><span data-line=""></span></div>
+</body>
+<script type="text/javascript">
+  Reveal.initialize({
+          history: true,
+          transition: "none",
+          width: 1600,
+            height: 900,
+          center: false,
+          controls: false,
+             progress: false,
+          slideNumber: true
+          });
+  Reveal.configure({
+          history: true,
+          transition: "none",
+          width: 1600,
+            height: 900,
+          center: false,
+          controls: false,
+             progress: false,
+          slideNumber: true
+     });
+</script>
+<script>
+    // initialize printing
+    revealConfig.initPrint();
+    // initialize background embedded images
+    revealConfig.getEmbeddedImages();
+    </script>
+</html>

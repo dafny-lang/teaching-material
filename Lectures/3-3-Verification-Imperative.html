@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta name="generator" content="Madoko, version 1.2.3" />
+  <meta name="viewport" content="initial-scale=1.0" />
+  <meta name="author" content="Jean-Baptiste Tristan \&amp, K. Rustan M. Leino" />
+  <title>Verification of Imperative Programs</title>
+  <style type="text/css"  class="link">
+  /*# sourceURL=madoko.css */
+  
+  .madoko .toc>.tocblock .tocblock .tocblock {
+    margin-left: 2.25em;
+  }
+  .madoko .toc>.tocblock .tocblock {
+    margin-left: 1.5em;
+  }
+  .madoko .toc-contents>.tocblock>.tocitem {
+    font-weight: bold;
+  }
+  .madoko .toc {
+    margin-top: 1em;
+  }
+  .madoko p.para-continue {
+    margin-bottom: 0pt;
+  }
+  .madoko .para-block+p {
+    margin-top: 0pt;
+  }
+  .madoko ul.para-block, .madoko ol.para-block {
+    margin-top: 0pt;
+    margin-bottom: 0pt;
+  }
+  .madoko ul.para-end, .madoko ol.para-end {
+    margin-bottom: 1em;
+  }
+  .madoko dl {
+    margin-left: 0em;
+  }
+  .madoko blockquote {
+    font-style: italic;
+  }
+  .madoko a.localref {
+    text-decoration: none;
+  }
+  .madoko a.localref:hover {
+    text-decoration: underline;
+  }
+  .madoko .footnotes {
+    font-size: smaller;
+    margin-top: 2em;
+  }
+  .madoko .footnotes hr {
+    width: 50%;
+    text-align: left;
+  }
+  .madoko .footnote {
+    margin-left: 1em;
+  }
+  .madoko .footnote-before {
+    margin-left: -1em;
+    width: 1em;
+    display: inline-block;
+  }
+  .madoko .align-center, .madoko .align-center>p {
+    text-align: center !important;
+  }
+  .madoko .align-center pre {
+    text-align: left;
+  }
+  .madoko .align-center>* {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .madoko .align-left, .madoko .align-left>p {
+    text-align: left !important;
+  }
+  .madoko .align-left>* {
+    margin-left: 0pt !important;
+    margin-right: auto !important;
+  }
+  .madoko .align-right, .madoko .align-right>p {
+    text-align: right !important;
+  }
+  .madoko .align-right>* {
+    margin-left: auto !important;
+    margin-right: 0pt !important;
+  }
+  .madoko .align-center>table,
+  .madoko .align-left>table,
+  .madoko .align-right>table {
+    text-align: left !important;
+  }
+  .madoko .equation-before {
+    float: right;
+  }
+  .madoko .bibitem {
+    font-size: smaller;
+  }
+  .madoko .bibsearch {
+    font-size: x-small;
+    text-decoration:none;
+    color: black;
+    font-family: "Segoe UI Symbol", Symbola, serif;
+  }
+  .madoko .block, .madoko .figure, .madoko .bibitem, .madoko .equation, .madoko div.math {
+    margin-top: 1ex;
+    margin-bottom: 1ex;
+  }
+  .madoko .figure {
+    padding: 0.5em;
+    margin-left: 0pt;
+    margin-right: 0pt;
+  }
+  .madoko .hidden {
+    display: none;
+  }
+  .madoko .invisible {
+    visibility: hidden;
+  }
+  .madoko.preview .invisible {
+    visibility: visible;
+    opacity: 0.5;
+  }
+  .madoko code.code, .madoko span.code {
+    white-space: pre-wrap;
+  }
+  .madoko hr, hr.madoko {
+    border: none;
+    border-bottom: black solid 1px;
+    margin-bottom: 0.5ex;
+  }
+  .madoko .framed>*:first-child {
+    margin-top: 0pt;
+  }
+  .madoko .framed>*:last-child {
+    margin-bottom: 0pt;
+  }
+  .madoko ul.list-style-type-dash {
+      list-style-type: none !important;
+  }
+  .madoko ul.list-style-type-dash > li:before {
+      content: "\2013";
+      position: absolute;
+      margin-left: -1em;
+  }
+  .madoko table.madoko {
+    border-collapse: collapse;
+  }
+  .madoko td, .madoko th {
+    padding: 0ex 0.5ex;
+    margin: 0pt;
+    vertical-align: top;
+  }
+  .madoko .cell-border-left {
+    border-left: 1px solid black;
+  }
+  .madoko .cell-border-right {
+    border-right: 1px solid black;
+  }
+  .madoko thead>tr:first-child>.cell-line,
+  .madoko tbody:first-child>tr:first-child>.cell-line {
+    border-top: 1px solid black;
+    border-bottom: none;
+  }
+  .madoko .cell-line, .madoko .cell-double-line {
+    border-bottom: 1px solid black;
+    border-top: none;
+  }
+  .madoko .cell-double-line {
+    border-top: 1px solid black;
+    padding-top: 1.5px !important;
+  }
+  .madoko .input-mathpre .MathJax_Display {
+    text-align: left !important;
+  }
+  .madoko div.input-mathpre {
+    text-align: left;
+    margin-top: 1.5ex;
+    margin-bottom: 1ex;
+  }
+  .madoko .math-rendering {
+    text-align: left;
+    white-space: pre;
+    color: gray;
+  }
+  .madoko .mathdisplay {
+    text-align: center;
+  }
+  .madoko span.math-rendering {
+    display:inline-block;
+    width:8em;
+    overflow-x:auto;
+    font-size:70%;
+  }
+  .madoko span.math-rendering::-webkit-scrollbar {
+    width:4px;
+  }
+  .madoko .pretty table {
+    border-collapse: collapse;
+  }
+  .madoko .pretty td {
+    padding: 0em;
+  }
+  .madoko .pretty td.empty {
+    min-width: 1.5ex;
+  }
+  .madoko .pretty td.expander {
+    width: 100em;
+  }
+  body.madoko, .madoko .serif {
+    font-family: Cambria,"Times New Roman","Liberation Serif","Times",serif;
+  }
+  .madoko .sans-serif {
+    font-family: "Calibri", "Optima", sans-serif;
+  }
+  .madoko .symbol {
+    font-family: "Segoe UI Symbol", Symbola, serif;
+  }
+  body.madoko {
+    -webkit-text-size-adjust: 100%;       
+    text-rendering: optimizeLegibility;
+  }
+  body.madoko {
+    max-width: 88ex; 
+    margin: 1em auto;
+    padding: 0em 2em;
+  }
+  body.preview.madoko {
+    padding: 0em 1em;
+  }
+  .madoko p {
+    text-align: justify;
+  }
+  .madoko h1, .madoko h2, .madoko h3, .madoko h4 {
+    margin-top: 1.22em;
+    margin-bottom: 1ex;
+  }
+  .madoko h1+p, .madoko h2+p, .madoko h3+p, .madoko h4+p, .madoko h5+p  {
+    margin-top: 1ex;
+  }
+  .madoko h5, .madoko h6 {
+    margin-top: 1ex;
+    font-size: 1em;
+  }
+  .madoko h5 {
+    margin-bottom: 0.5ex;
+  }
+  .madoko h5 + p {
+    margin-top: 0.5ex;
+  }
+  .madoko h6 {
+    margin-bottom: 0pt;
+  }
+  .madoko h6 + p {
+    margin-top: 0pt;
+  }
+  .madoko pre, .madoko code, .madoko kbd, .madoko samp, .madoko tt,
+  .madoko .monospace, .madoko .token-indent, .madoko .reveal pre, .madoko .reveal code, .madoko .email {
+    font-family: Consolas,"Andale Mono WT","Andale Mono",Lucida Console,Monaco,monospace,monospace;
+    font-size: 0.85em;
+  }
+  .madoko pre code, .madoko .token-indent {
+    font-size: 0.95em;
+  }
+  .madoko pre code {
+    font-family: inherit !important;
+  }
+  .madoko ol.linenums li {
+    background-color: white;
+    list-style-type: decimal;
+  }
+  .madoko .remote {
+    background-color: #F0FFF0;
+  }
+  .madoko .remote + * {
+    margin-top: 0pt;
+  }
+  @media print {
+    body.madoko {
+      font-size: 10pt;
+    }
+    @page {
+      margin: 1in 1.5in;
+    }
+  }
+  @media only screen and (max-device-width:1024px) {
+    body.madoko {
+      padding: 0em 0.5em;
+    }
+    .madoko li {
+      text-align: left;
+    }
+  }
+  
+    </style>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/reveal.js/2.6.2/css/reveal.min.css"  class="link">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/reveal.js/2.6.2/css/theme/solarized.css"  class="link">
+  <script src="https://cdn.jsdelivr.net/reveal.js/2.6.2/lib/js/head.min.js"  class="script preview"></script>
+  <script src="https://cdn.jsdelivr.net/reveal.js/2.6.2/js/reveal.js"  class="script preview"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$']]},
+       TeX: { 
+         Macros: { mathid: ['\\mathit{#1\\hspace{0.1ex}}',1],
+                   mathkw: ['\\mathsf{#1}',1],
+                   mdmathindent: ['\\hspace{#1ex}',1],
+                   mathpre: ['#1',1],
+                 },
+  
+       }
+    });
+    MathJax.Hub.Register.StartupHook('TeX AMSmath Ready',function () { 
+      MathJax.InputJax.TeX.Definitions.environment['mdmathpre'] = ['AMSarray',null,null,null,'l','0em','0em'];
+    });
+  </script>
+  <script type="text/javascript" class="preview"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/reveal.js/2.6.2/css/theme/solarized.css" id="theme">    
+      <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/reveal.js/2.6.2/lib/js/html5shiv.js"></script>
+      <![endif]-->
+      <style>
+      body.madoko {
+        margin: 0pt;
+        padding: 0pt;
+        max-width: 100%;      
+      }
+      .madoko .reveal h1 {
+          font-size: 3.7em;
+      }
+      .madoko .reveal h2 {
+          font-size: 2.1em;
+      }
+      .reveal .authorblock .author {
+          font-size: 120%;
+          margin-bottom: 1ex;
+      }        
+      .reveal table {
+          margin-left: auto;
+          margin-right: auto;
+      }
+      .reveal pre table {
+        margin-left: 0pt;
+      }
+      .madoko .reveal pre.pretty {
+        padding-top: 0pt;
+        padding-bottom: 0pt;
+      }
+      .reveal li p {
+          text-align: left;
+      }
+      .reveal h2 {
+          margin-bottom: 0.7em;
+      }
+      .reveal section ul,
+      .reveal section ol {
+          margin-top: 0.35em;
+          margin-bottom: 0.35em;
+      }
+      .reveal section img.math-display {
+          padding: 1em;
+          box-shadow: none;
+          border: none;
+      }
+      .reveal section img.math-inline {
+          margin: 0pt;
+          padding: 0pt;
+          background-color: none;
+          box-shadow: none;
+          border: none;
+      }
+      .reveal section img {
+          box-shadow: none;
+          border: none;
+      }
+      .madoko .reveal pre {
+          border: 1px solid black;
+          word-wrap: normal;
+          background-color: white;
+          font-size: 0.7em;
+          padding: 0.7em;
+          line-height: 100%;
+          width: 100%;
+      }      
+      .reveal pre code, .reveal code {
+          padding: 0pt;
+      }
+      .reveal nav.toc {
+          line-height: 1em;
+          font-size: 60%;
+          overflow-y: auto;
+      }    
+      .reveal .tocitem {
+          text-align: left;
+      }
+      .reveal .toc>.tocblock .tocblock {
+          margin-left: 0.5em;
+      }   
+      .reveal .toc>.tocblock .tocblock .tocblock {
+          margin-left: 1em;
+      }
+      .reveal .bibliography {
+        height: 18em;
+        overflow-y: auto;
+        font-size: 0.8em;
+        line-height: 1.25;
+      }
+      .reveal section[data-smaller=""],
+      .reveal section[data-smaller="true"] {
+        font-size: 80%;
+        width: 110%;
+      }
+      .reveal .slides>section[data-smaller=""],
+      .reveal .slides>section[data-smaller="true"] {
+        left: -55%;
+      }
+      .reveal .details {
+        display: none;
+      }
+      .reveal[data-details=""] .details,
+      .reveal[data-details="true"] .details {
+        display: initial;
+      }
+      /* Display in the preview window */
+      html, body.madoko.preview, body.madoko.preview-full, .body.madoko {
+        height  : 100% !important;
+        width   : auto!important;
+        padding : 0pt !important;
+        margin  : 0pt !important;
+      }
+      body.madoko.preview, body.madoko.preview-full, .preview .body.madoko {
+        overflow: hidden !important;
+      }
+      body.preview .reveal .slides .fragment {
+        visibility: visible;
+        opacity: 0.5;
+      }
+      body.preview .reveal .slides .fragment.visible {
+        opacity: 1.0;
+      }
+      .preview .reveal div.notes,
+      .preview .reveal aside.notes {
+        display  : block;
+        position : absolute;
+        width    : 30%;
+        left     : 70%;
+        top      : -15%;
+        font-size: 50%;
+        border   : 1px solid black;
+        border-radius   : 10px;
+        background-color: white;
+      }
+      /* 'static' display in the preview window, unused for now */
+      body.preview.static div.reveal, 
+      body.preview.static div.ticreveal .slides, 
+      body.preview.static div.reveal section {
+        display: block !important;
+        position: relative !important;
+        width: auto !important;      
+      }
+      body.preview.static div.reveal section {
+        border: solid 1px black;
+        padding: 1em !important;
+        margin-top: 1em;
+        min-height: 15em;
+        top: 0pt;
+      }
+      body.madoko.preview.static section {
+        font-size: 75%;
+      }
+      body.madoko.preview.static {
+        padding: 0em 1em !important;
+      }
+      body.madoko.preview.static .reveal pre {
+        width: 95%;
+      }    
+      body.preview .reveal[data-details="false"] .details {
+        display: initial;
+        color: gray;
+      }
+      body.preview .reveal[data-long="false"] section[data-long] {
+        border-left: 2px black solid;
+      }
+      </style>
+      <script>    
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      window.revealConfig = {
+          controls: true,
+          progress: true,
+          history: true,
+          center: /^\s*(true|1)\s*$/i.test("true"),
+          slideNumber: /^\s*(true|1)\s*$/i.test("true"),
+          dependencies: [
+            { src: 'https://cdn.jsdelivr.net/reveal.js/2.6.2/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+            { src: 'https://cdn.jsdelivr.net/reveal.js/2.6.2/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+            { src: 'https://cdn.jsdelivr.net/reveal.js/2.6.2/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+          ],
+      };
+      function revealAddFragments() {
+        [].forEach.call(document.querySelectorAll( ".fragmented" ), function(elem0) {
+          var elem = (/^H\d$/.test(elem0.nodeName) ? elem0.parentNode : elem0);
+          [].forEach.call(elem.children, function(item) {
+            if (item==elem0) return;
+            if (item && !/\bfragment(ed)?\b/.test(item.className) && item.nodeType===1) {
+              item.className = item.className + " fragment";
+            }
+          });
+        });
+      }
+      function revealQuotedList(listType) {
+        //compatibility with Rmarkdown slides
+        [].forEach.call( document.querySelectorAll("blockquote>" + listType), function(ul) {
+          if (!/\bfragmented\b/.test(ul.className)) {
+            ul.className = ul.className + " fragmented";
+          }        
+          var quote = ul.parentNode;
+          if (quote.childElementCount===1) {
+            quote.parentNode.replaceChild(ul,quote);
+          }
+        });
+      }
+      function revealBuildToFragmented() {
+        [].forEach.call(document.querySelectorAll( ".build" ), function(elem) {
+          if (elem && !/\bfragmented\b/.test(elem.className) && elem.nodeType===1) {
+            elem.className = elem.className + " fragmented";
+          }
+        });
+      }
+      function revealDivNotesToAside() {
+        [].forEach.call(document.querySelectorAll("div.notes"), function(elem) {
+          var aside = document.createElement("ASIDE");
+          if (elem.id) aside.id = elem.id;
+          aside.className = elem.className;
+          [].forEach.call(elem.attributes, function(attr) {
+            aside.setAttribute( attr.name, attr.value );
+          });
+          aside.innerHTML = elem.innerHTML;
+          elem.parentNode.replaceChild(aside,elem);
+        });
+      }
+      function revealDataQuery() {
+        var reveal = document.querySelector(".reveal");
+        if (!reveal) return;
+        window.location.search.replace(/\bdata-(\w+)(?:=(\w+))?\b/g, function(matched,key,value) {
+          reveal.setAttribute("data-" + key, (value ? value : ""));
+          return matched;
+        });
+      }
+      function revealRemoveLong() {
+        // remove parts for 'long' presentation
+        if (/\bpreview(?![\w\-])/.test(document.body.className)) return;
+        var reveal = document.querySelector(".reveal");
+        if (!reveal) return;
+        var value = reveal.hasAttribute("data-long") ? reveal.getAttribute("data-long") : null;
+        if (value==null || value=="false" || value=="0") {
+          [].forEach.call( document.querySelectorAll("section[data-long]"), function(elem) {
+            elem.parentNode.removeChild(elem);
+          });
+        }
+      }
+      revealConfig.onLoad = function() {
+        revealConfig.getEmbeddedImages();
+        revealDataQuery();
+        revealRemoveLong();
+        revealQuotedList("ul");
+        revealQuotedList("ol");
+        revealBuildToFragmented();
+        revealDivNotesToAside();
+        revealAddFragments();
+      };
+      document.addEventListener("load",revealConfig.onLoad);    
+      document.addEventListener("DOMContentLoaded", function() {
+        if (typeof Reveal !== "undefined" && !Reveal.isReady()) {
+          revealConfig.onLoad();
+          Reveal.initialize(revealConfig);
+        }
+      });    
+      // add support for printing:
+      // use  ?print-pdf to get a pdf-printable version (in Chrome)
+      // use  ?print-paper to get a paper-printable version.
+      revealConfig.initPrint = function() {
+        var cssLink = null;
+        var bodyClass = null;
+        var cap = window.location.search.match(/\bprint-(\w+)\b/);
+        if (cap) {
+          bodyClass = cap[0];
+          cssLink = "https://cdn.jsdelivr.net/reveal.js/2.6.2/css/print/" + cap[1] + ".css";
+        }
+        if (cssLink) {
+          var link  = document.createElement( "link" );
+          link.rel  = "stylesheet";
+          link.type = "text/css";
+          link.href = cssLink;
+          var head = document.getElementsByTagName( 'head' )[0];
+          if (head) head.appendChild( link );
+        }
+        if (bodyClass) {
+          document.body.className = document.body.className + " " + bodyClass;
+        }
+      };
+      revealConfig.getEmbeddedImages = function() {
+        var images = {};
+        [].forEach.call( document.querySelectorAll("img[data-linkid]"), function(img) {
+          var linkid = img.getAttribute("data-linkid");
+          if (linkid) images["/" + linkid] = img.src;
+          var path = img.getAttribute("data-path");
+          if (path) images["/" + path] = img.src;
+        });     
+        [].forEach.call( document.querySelectorAll("section"), function(slide) {
+          var attrName = "data-background";
+          var image = slide.getAttribute(attrName);
+          if (!image) {
+            attrName = "data-background-image";
+            image = slide.getAttribute(attrName);
+          }
+          if (!image) return;
+          var cap = /^\s*!?\[([^\]]+)\]\s*$/.exec(image);
+          var href = images["/" + (cap ? cap[1] : image)];
+          if (!href) return;
+          if (attrName==="data-background" && /^data:/.test(href)) href = "url(" + href + ")";
+          slide.setAttribute(attrName, href);
+        });
+      };    
+      </script>
+  </head>
+<body class="madoko">
+
+<div class="body madoko" style="line-adjust:0">
+<div class="reveal" data-long="false" data-details="false" data-line="36" style="line-adjust:0">
+<div class="slides" data-line="36" style="line-adjust:0">
+
+<section class="titleblock align-center para-block" data-line="37" style="text-align:center;line-adjust:0">
+<div class="titleheader align-center" data-line="37" style="text-align:center;line-adjust:0">
+<h1 class="title para-block" data-line="37" style="font-weight:bold;margin-bottom:0.5ex;font-size:3em;line-adjust:0"><span data-line="37"></span>Verification of Imperative Programs</h1></div>
+<div class="authors align-center" data-line="42" style="text-align:center;width:80%;line-adjust:0"><table class="authorrow columns block" data-line="42" style="margin-top:2ex;width:100%;line-adjust:0">
+<tbody><tr><td class="author column" data-line="42" style="text-align:center;font-size:x-large;line-adjust:0">
+<div class="authorname" data-line="42" style="font-size:1.4em;line-adjust:0"><span data-line="42"></span>Jean-Baptiste Tristan & K. Rustan M. Leino</div></td></tr></tbody></table></div></section><!-- This file was automatically generated from Imperative.mdk -->
+
+
+
+<section id="sec-methods" class="section section1" data-section-depth="1" data-line="43"><h2 id="heading-sec-methods" class="h1" data-heading-depth="1" style="display:block">Methods</h2>
+<ul class="ul list-dash loose" data-line="45">
+<li class="li ul-li list-dash-li loose-li" data-line="45">
+<p data-line="45"><span data-line="45"></span>At first glance, Dafny<span data-line="45"></span>&#39;<span data-line="45"></span>s methods are like functions in C or Python or like methods in Java
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="46">
+<p data-line="46"><span data-line="46"></span>The body of a method is a sequence of statements
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="47">
+<p data-line="47"><span data-line="47"></span>Methods can use mutable local variables and have side effects
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="48">
+<p data-line="48"><span data-line="48"></span>Usually, a method is used in the context of object-oriented programming
+</p>
+<ul class="ul list-dash compact" data-line="49">
+<li class="li ul-li list-dash-li compact-li" data-line="49"><span data-line="49"></span>In Dafny, a method need not be defined for an object
+</li></ul>
+<!-- inline-dafny Imperative/A1 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="52" data-line-first="53" style="display:block"><code data-line="53">  <span style="color:blue">method</span> Example(x: <span style="color:teal">nat</span>, y: <span style="color:teal">nat</span>) <span style="color:blue">returns</span> (z: <span style="color:teal">nat</span>) {
+    <span style="color:blue">var</span> t: <span style="color:teal">nat</span> := <span class="constant" style="color:purple">0</span>;
+    z := <span class="constant" style="color:purple">0</span>;
+    <span style="color:blue">for</span> i := <span class="constant" style="color:purple">0</span> <span style="color:blue">to</span> x {
+      z := z + y;
+    }
+    z := t;
+  }</code></pre></li></ul>
+</section>
+<section id="sec-verifying-methods" class="section section1" data-section-depth="1" data-line="63"><h2 id="heading-sec-verifying-methods" class="h1" data-heading-depth="1" style="display:block">Verifying methods</h2>
+<ul class="ul list-dash loose" data-line="65">
+<li class="li ul-li list-dash-li loose-li" data-line="65">
+<p data-line="65"><span data-line="65"></span>Recall that method calls are RHS expressions
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="66">
+<p data-line="66"><span data-line="66"></span>They cannot be mentioned in logical formulas
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="67">
+<p data-line="67"><span data-line="67"></span>Method verification is done using pre- and postconditions 
+</p>
+<ul class="ul list-dash compact" data-line="68">
+<li class="li ul-li list-dash-li compact-li" data-line="68"><span data-line="68"></span>You can state a property thanks to the explicit out-parameters
+</li></ul>
+<!-- inline-dafny Imperative/A1' -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="71" data-line-first="72" style="display:block"><code data-line="72">  <span style="color:blue">method</span> Example(x: <span style="color:teal">int</span>, y: <span style="color:teal">int</span>) <span style="color:blue">returns</span> (z: <span style="color:teal">int</span>)
+    <span style="color:purple">requires</span> x &gt; <span class="constant" style="color:purple">0</span>
+    <span style="color:purple">requires</span> y &gt; <span class="constant" style="color:purple">0</span>
+    <span style="color:purple">ensures</span> z == x + y
+    <span style="color:purple">ensures</span> z &gt; <span class="constant" style="color:purple">0</span>
+  {
+    z := x + y;
+  }</code></pre></li></ul>
+</section>
+<section id="sec-methods-and-termination" class="section section1" data-section-depth="1" data-line="82"><h2 id="heading-sec-methods-and-termination" class="h1" data-heading-depth="1" style="display:block">Methods and termination</h2>
+<ul class="ul list-dash loose" data-line="84">
+<li class="li ul-li list-dash-li loose-li" data-line="84">
+<p data-line="84"><span data-line="84"></span>Methods are allowed to diverge
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="85">
+<p data-line="85"><span data-line="85"></span>In such a case, the postcondition holds only if the method does terminate
+</p><!-- inline-dafny Imperative/A2 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="88" data-line-first="89" style="display:block"><code data-line="89">  <span style="color:blue">method</span> Bad(x: <span style="color:teal">nat</span>)
+    <span style="color:purple">ensures</span> <span style="color:blue">false</span>
+    <span style="color:purple">decreases</span> *
+  {
+    Bad(x + <span class="constant" style="color:purple">1</span>);
+  }</code></pre></li></ul>
+</section>
+<section id="sec-methods-and-termination----danger" class="section section1" data-section-depth="1" data-line="97"><h2 id="heading-sec-methods-and-termination----danger" class="h1" data-heading-depth="1" style="display:block">Methods and termination &#8211; danger</h2>
+<ul class="ul list-dash loose" data-line="99">
+<li class="li ul-li list-dash-li loose-li" data-line="99">
+<p data-line="99"><span data-line="99"></span>Be wary of methods that are using <span data-line="99"></span>&#8220;<span data-line="99"></span><code class="code code1">decreases *</code><span data-line="99"></span>&#8221;<span data-line="99"></span> for no reason
+</p><!-- inline-dafny Imperative/A3 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="102" data-line-first="103" style="display:block"><code data-line="103">  <span style="color:blue">method</span> CorrectIsh()
+    <span style="color:purple">ensures</span> <span class="constant" style="color:purple">0</span> == <span class="constant" style="color:purple">1</span>
+    <span style="color:purple">decreases</span> *
+  {
+    Bad(<span class="constant" style="color:purple">0</span>);
+  }</code></pre></li></ul>
+</section>
+<section id="sec-when-verification-fails" class="section section1" data-section-depth="1" data-line="111"><h2 id="heading-sec-when-verification-fails" class="h1" data-heading-depth="1" style="display:block">When verification fails</h2>
+<ul class="ul list-dash compact" data-line="113">
+<li class="li ul-li list-dash-li compact-li" data-line="113"><span data-line="113"></span>In some cases, Dafny verifies everything on its own
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="114"><span data-line="114"></span>But that won<span data-line="114"></span>&#39;<span data-line="114"></span>t always be the case
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="115"><span data-line="115"></span>How can we help Dafny verify the postconditions of a method?
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="116"><span data-line="116"></span>Of course, we<span data-line="116"></span>&#39;<span data-line="116"></span>re going to write proofs, but how? 
+</li></ul>
+</section>
+<section id="sec-floyd-logic----1" class="section section1" data-section-depth="1" data-line="119"><h2 id="heading-sec-floyd-logic----1" class="h1" data-heading-depth="1" style="display:block">Floyd logic &#8211; 1</h2>
+<ul class="ul list-dash loose" data-line="121">
+<li class="li ul-li list-dash-li loose-li" data-line="121">
+<p data-line="121"><span data-line="121"></span>The body of a method is a sequence of statements
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="122">
+<p data-line="122"><span data-line="122"></span>A method has a state comprised of its variables
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="123">
+<p data-line="123"><span data-line="123"></span>Each statement can transform the state
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="124">
+<p data-line="124"><span data-line="124"></span>If Dafny cannot verify the postcondition
+</p>
+<ul class="ul list-dash compact" data-line="125">
+<li class="li ul-li list-dash-li compact-li" data-line="125"><span data-line="125"></span>Since proof tactics are statements as well, they can be freely woven into the body of the method
+</li></ul></li>
+<li class="li ul-li list-dash-li loose-li" data-line="126">
+<p data-line="126"><span data-line="126"></span>A statement may affect the values of expressions mentioned in preconditions and earlier assertions
+</p><!-- inline-dafny Imperative/A4 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="129" data-line-first="130" style="display:block"><code data-line="130">  <span style="color:blue">method</span> MixedCodeAndProof(x: <span style="color:teal">nat</span>) <span style="color:blue">returns</span> (y: <span style="color:teal">nat</span>)
+    <span style="color:purple">requires</span> x &gt; <span class="constant" style="color:purple">1</span>
+    <span style="color:purple">ensures</span> y &gt; x
+  {
+    y := x + <span class="constant" style="color:purple">2</span>;
+    <span style="color:blue">assert</span> y == x + <span class="constant" style="color:purple">2</span>;
+    y := <span class="constant" style="color:purple">2</span> * y;
+    <span style="color:blue">assert</span> y == <span class="constant" style="color:purple">2</span> * x + <span class="constant" style="color:purple">4</span>;
+    y := y - <span class="constant" style="color:purple">5</span>;
+    <span style="color:blue">assert</span> y == <span class="constant" style="color:purple">2</span> * x - <span class="constant" style="color:purple">1</span>;
+  }</code></pre></li></ul>
+</section>
+<section id="sec-floyd-logic----2" class="section section1" data-section-depth="1" data-line="143"><h2 id="heading-sec-floyd-logic----2" class="h1" data-heading-depth="1" style="display:block">Floyd logic &#8211; 2</h2>
+<ul class="ul list-dash loose" data-line="145">
+<li class="li ul-li list-dash-li loose-li" data-line="145">
+<p data-line="145"><span data-line="145"></span>Proof statements can be involved and you can use <span data-line="145"></span><code class="code code1">forall</code><span data-line="145"></span>, etc.
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="146">
+<p data-line="146"><span data-line="146"></span>Tip: if you<span data-line="146"></span>&#39;<span data-line="146"></span>re going to write a complicated proof, encapsulate it in an <span data-line="146"></span><code class="code code1">assert by</code><span data-line="146"></span>
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="147">
+<p data-line="147"><span data-line="147"></span>That way, it is easy to spot code and proof
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="148">
+<p data-line="148"><span data-line="148"></span>The IDE also tries to help you distinguish between proof and code by italicizing ghost code
+</p><!-- inline-dafny Imperative/A5 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="151" data-line-first="152" style="display:block"><code data-line="152">  <span style="color:blue">method</span> MixedCodeAndProof(x: <span style="color:teal">nat</span>) <span style="color:blue">returns</span> (y: <span style="color:teal">nat</span>, <span style="color:blue">ghost</span> g: <span style="color:teal">int</span>)
+    <span class="code-escaped"><em class="em-low1"><code class="code code1">requires</code> x &gt; 1</em></span>
+    <span class="code-escaped"><em class="em-low1"><code class="code code1">ensures</code> y &gt; x</em></span>
+  {
+    y := x + <span class="constant" style="color:purple">2</span>;
+    y := <span class="constant" style="color:purple">2</span> * y;
+    <span class="code-escaped"><em class="em-low1">g := y + 10;</em></span>
+    y := y - <span class="constant" style="color:purple">5</span>;
+    <span class="code-escaped"><em class="em-low1"><code class="code code1">assert</code> y &gt; x <code class="code code1">by</code> {</em></span>
+      <span class="code-escaped"><em class="em-low1"><code class="code code1">assert</code> y == 2 * x - 1;</em></span>
+      <span class="code-escaped"><em class="em-low1"><code class="code code1">assert</code> 2 * x - x &gt; 1;</em></span>
+    <span class="code-escaped"><em class="em-low1">}</em></span>
+  }</code></pre></li></ul>
+</section>
+<section id="sec-hoare-triples" class="section section1" data-section-depth="1" data-line="167"><h2 id="heading-sec-hoare-triples" class="h1" data-heading-depth="1" style="display:block">Hoare triples</h2>
+<ul class="ul list-dash compact" data-line="169">
+<li class="li ul-li list-dash-li compact-li" data-line="169"><span data-line="169"></span>Which assertion should help?
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="170"><span data-line="170"></span>First and foremost, you should rely on your intuition
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="171"><span data-line="171"></span>Move forward from hypothesis
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="172"><span data-line="172"></span>Move backward from goal
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="173"><span data-line="173"></span>Ask yourself: <span data-line="173"></span>&#8220;<span data-line="173"></span>if <span data-line="173"></span><code class="code code1">x</code><span data-line="173"></span> was even and I multiplied it with an even, is it still even? Why?<span data-line="173"></span>&#8221;<span data-line="173"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="174"><span data-line="174"></span>Of course, there are more formal rules that describe how statements affect propositions
+
+<ul class="ul list-dash compact" data-line="175">
+<li class="li ul-li list-dash-li compact-li" data-line="175"><span data-line="175"></span>They are called <span data-line="175"></span><em class="em-star1">Hoare triples</em><span data-line="175"></span>
+</li></ul></li></ul>
+</section>
+<section id="sec-call" class="section section1" data-section-depth="1" data-line="177"><h2 id="heading-sec-call" class="h1" data-heading-depth="1" style="display:block">Call</h2><!-- inline-dafny Imperative/HT0 -->  
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="180" data-line-first="181" style="display:block"><code data-line="181">  <span style="color:blue">method</span> M()
+    <span style="color:purple">requires</span> Q()
+    <span style="color:purple">ensures</span> R()
+
+  <span style="color:blue">method</span> Call()
+    <span style="color:purple">requires</span> P()
+    <span style="color:purple">requires</span> P() ==&gt; Q()
+    <span style="color:purple">requires</span> R() ==&gt; S()
+    <span style="color:purple">ensures</span> S()
+  {
+    M();
+  }</code></pre></section>
+<section id="sec-sequencing" class="section section1" data-section-depth="1" data-line="195"><h2 id="heading-sec-sequencing" class="h1" data-heading-depth="1" style="display:block">Sequencing</h2><!-- inline-dafny Imperative/HT1 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="198" data-line-first="199" style="display:block"><code data-line="199">  <span style="color:blue">method</span> S1()
+    <span style="color:purple">requires</span> P()
+    <span style="color:purple">ensures</span> Q()
+
+  <span style="color:blue">method</span> S2()
+    <span style="color:purple">requires</span> Q()
+    <span style="color:purple">ensures</span> R()
+
+  <span style="color:blue">method</span> Sequencing()
+    <span style="color:purple">requires</span> P()
+    <span style="color:purple">ensures</span> R()
+  {
+    S1();
+    S2();
+  }</code></pre></section>
+<section id="sec-variable-update" class="section section1" data-section-depth="1" data-line="216"><h2 id="heading-sec-variable-update" class="h1" data-heading-depth="1" style="display:block">Variable update</h2><!-- inline-dafny Imperative/HT2 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="219" data-line-first="220" style="display:block"><code data-line="220">  <span style="color:blue">method</span> M() <span style="color:blue">returns</span> (o: T)
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> t: T :: P(t)
+
+  <span style="color:blue">method</span> Update() <span style="color:blue">returns</span> (o: T)
+    <span style="color:purple">ensures</span> P(o)
+  {
+    o := M();
+  }</code></pre></section>
+<section id="sec-loops" class="section section1" data-section-depth="1" data-line="230"><h2 id="heading-sec-loops" class="h1" data-heading-depth="1" style="display:block">Loops</h2>
+<ul class="ul list-dash loose" data-line="232">
+<li class="li ul-li list-dash-li loose-li" data-line="232">
+<p data-line="232"><span data-line="232"></span>Loops, like recursion, need invariants
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="233">
+<p data-line="233"><span data-line="233"></span>The difficulty is that you need to generalize enough
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="234">
+<p data-line="234"><span data-line="234"></span>If your control is complex (<span data-line="234"></span><code class="code code1">if</code><span data-line="234"></span>, <span data-line="234"></span><code class="code code1">continue</code><span data-line="234"></span>, nested loops), your invariants will be complex as well
+</p><!-- inline-dafny Imperative/A6 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="237" data-line-first="238" style="display:block"><code data-line="238">  <span style="color:blue">method</span> Times(x: <span style="color:teal">nat</span>, y: <span style="color:teal">nat</span>) <span style="color:blue">returns</span> (z: <span style="color:teal">nat</span>)
+    <span style="color:purple">ensures</span> x * y == z
+  {
+    z := <span class="constant" style="color:purple">0</span>;
+    <span style="color:blue">for</span> i := <span class="constant" style="color:purple">0</span> <span style="color:blue">to</span> x
+      <span style="color:purple">invariant</span> i * y == z
+    {
+      z := z + y;
+    }
+  }</code></pre></li></ul>
+</section>
+<section id="sec-case-study----1" class="section section1" data-section-depth="1" data-line="250"><h2 id="heading-sec-case-study----1" class="h1" data-heading-depth="1" style="display:block">Case study &#8211; 1</h2>
+<ul class="ul list-dash loose" data-line="252">
+<li class="li ul-li list-dash-li loose-li" data-line="252">
+<p data-line="252"><span data-line="252"></span>In this example, verification fails
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="253">
+<p data-line="253"><span data-line="253"></span>Let<span data-line="253"></span>&#39;<span data-line="253"></span>s help Dafny
+</p><!-- inline-dafny FailImperative/A7 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="256" data-line-first="257" style="display:block"><code data-line="257">  methodM(a: <span style="color:teal">nat</span>) <span style="color:blue">returns</span> (b: <span style="color:teal">nat</span>)
+    <span style="color:purple">ensures</span> Even(b)
+  {
+    b := <span class="constant" style="color:purple">2</span> * a;
+    b := b * b;
+  }</code></pre></li></ul>
+</section>
+<section id="sec-case-study----2" class="section section1" data-section-depth="1" data-line="265"><h2 id="heading-sec-case-study----2" class="h1" data-heading-depth="1" style="display:block">Case study &#8211; 2</h2>
+<ul class="ul list-dash loose" data-line="267">
+<li class="li ul-li list-dash-li loose-li" data-line="267">
+<p data-line="267"><span data-line="267"></span>We can prove it by <span data-line="267"></span>&#8220;<span data-line="267"></span>undoing<span data-line="267"></span>&#8221;<span data-line="267"></span> the update to <span data-line="267"></span><code class="code code1">b</code><span data-line="267"></span>
+</p><!-- inline-dafny Imperative/A8 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="270" data-line-first="271" style="display:block"><code data-line="271">  <span style="color:blue">method</span> M(a: <span style="color:teal">nat</span>) <span style="color:blue">returns</span> (b: <span style="color:teal">nat</span>)
+    <span style="color:purple">ensures</span> Even(b)
+  {
+    b := <span class="constant" style="color:purple">2</span> * a;
+    <span style="color:blue">assert</span> Even(b);
+    b := b * b;
+    <span style="color:blue">assert</span> Even(b) <span style="color:blue">by</span> {
+      <span style="color:blue">assert</span> <span style="color:blue">exists</span> c: <span style="color:teal">nat</span> :: b == <span class="constant" style="color:purple">2</span> * c <span style="color:blue">by</span> {
+        <span style="color:blue">assert</span> b == (<span class="constant" style="color:purple">2</span> * a) * (<span class="constant" style="color:purple">2</span> * a);
+        <span style="color:blue">assert</span> b == <span class="constant" style="color:purple">2</span> * (<span class="constant" style="color:purple">2</span> * a * a);
+      }
+    }
+  }</code></pre></li></ul>
+</section>
+<section id="sec-case-study----3" class="section section1" data-section-depth="1" data-line="286"><h2 id="heading-sec-case-study----3" class="h1" data-heading-depth="1" style="display:block">Case study &#8211; 3</h2>
+<ul class="ul list-dash loose" data-line="288">
+<li class="li ul-li list-dash-li loose-li" data-line="288">
+<p data-line="288"><span data-line="288"></span>We can prove it by introducing a fresh variable that retains the original value of <span data-line="288"></span><code class="code code1">b</code><span data-line="288"></span>
+</p><!-- inline-dafny Imperative/A9 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="291" data-line-first="292" style="display:block"><code data-line="292">  <span style="color:blue">method</span> M(a: <span style="color:teal">nat</span>) <span style="color:blue">returns</span> (b: <span style="color:teal">nat</span>)
+    <span style="color:purple">ensures</span> Even(b)
+  {
+    <span style="color:blue">var</span> b0: <span style="color:teal">nat</span> := <span class="constant" style="color:purple">2</span> * a;
+    <span style="color:blue">assert</span> Even(b0);
+    b := b0 * b0;
+    <span style="color:blue">assert</span> Even(b) <span style="color:blue">by</span> {
+      <span style="color:blue">assert</span> <span style="color:blue">exists</span> c: <span style="color:teal">nat</span> :: b == <span class="constant" style="color:purple">2</span> * c <span style="color:blue">by</span> {
+        <span style="color:blue">var</span> c: <span style="color:teal">nat</span> :| b0 == <span class="constant" style="color:purple">2</span> * c;
+        <span style="color:blue">assert</span> b == (<span class="constant" style="color:purple">2</span> * c) * (<span class="constant" style="color:purple">2</span> * c);
+        <span style="color:blue">assert</span> b == <span class="constant" style="color:purple">2</span> * (<span class="constant" style="color:purple">2</span> * c * c);
+      }
+    }
+  }</code></pre></li></ul>
+</section>
+<section id="sec-weaving-proof-and-code" class="section section1" data-section-depth="1" data-line="308"><h2 id="heading-sec-weaving-proof-and-code" class="h1" data-heading-depth="1" style="display:block">Weaving proof and code</h2>
+<ul class="ul list-dash compact" data-line="310">
+<li class="li ul-li list-dash-li compact-li" data-line="310"><span data-line="310"></span>That<span data-line="310"></span>&#39;<span data-line="310"></span>s annoying: we just made our code worse for verification purposes
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="311"><span data-line="311"></span>The only purpose of <span data-line="311"></span><code class="code code1">b0</code><span data-line="311"></span> is to help with the proof
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="312"><span data-line="312"></span>It should not be in the final code
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="313"><span data-line="313"></span>We can declare it to be a <span data-line="313"></span><em class="em-star1">ghost</em><span data-line="313"></span> variable
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="314"><span data-line="314"></span>Dafny knows that ghost variables are for proof only
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="315"><span data-line="315"></span>It will check that you don<span data-line="315"></span>&#39;<span data-line="315"></span>t use ghost variables in genuine computation
+</li></ul>
+</section>
+<section id="sec-case-study----4" class="section section1" data-section-depth="1" data-line="318"><h2 id="heading-sec-case-study----4" class="h1" data-heading-depth="1" style="display:block">Case study &#8211; 4</h2>
+<ul class="ul list-dash loose" data-line="320">
+<li class="li ul-li list-dash-li loose-li" data-line="320">
+<p data-line="320"><span data-line="320"></span>Solution with ghost variables, better than the two previous ones
+</p><!-- inline-dafny Imperative/A10 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="323" data-line-first="324" style="display:block"><code data-line="324">  <span style="color:blue">method</span> M(a: <span style="color:teal">nat</span>) <span style="color:blue">returns</span> (b: <span style="color:teal">nat</span>)
+    <span style="color:purple">ensures</span> Even(b)
+  {
+    b := <span class="constant" style="color:purple">2</span> * a;
+    <span style="color:blue">ghost</span> <span style="color:blue">var</span> b0: <span style="color:teal">nat</span> := b;
+    <span style="color:blue">assert</span> Even(b0);
+    b := b * b;
+    <span style="color:blue">assert</span> Even(b) <span style="color:blue">by</span> {
+      <span style="color:blue">assert</span> <span style="color:blue">exists</span> c: <span style="color:teal">nat</span> :: b == <span class="constant" style="color:purple">2</span> * c <span style="color:blue">by</span> {
+        <span style="color:blue">var</span> c: <span style="color:teal">nat</span> :| b0 == <span class="constant" style="color:purple">2</span> * c;
+        <span style="color:blue">assert</span> b == (<span class="constant" style="color:purple">2</span> * c) * (<span class="constant" style="color:purple">2</span> * c);
+        <span style="color:blue">assert</span> b == <span class="constant" style="color:purple">2</span> * (<span class="constant" style="color:purple">2</span> * c * c);
+      }
+    }
+  }</code></pre></li></ul>
+</section>
+<section id="sec-case-study----5" class="section section1" data-section-depth="1" data-line="341"><h2 id="heading-sec-case-study----5" class="h1" data-heading-depth="1" style="display:block">Case study &#8211; 5</h2>
+<ul class="ul list-dash compact" data-line="343">
+<li class="li ul-li list-dash-li compact-li" data-line="343"><span data-line="343"></span>This would not even make sense with the first two approaches
+</li></ul>
+<!-- inline-dafny Imperative/A11 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="346" data-line-first="347" style="display:block"><code data-line="347">  <span style="color:blue">method</span> M(a: <span style="color:teal">nat</span>, p: <span style="color:teal">nat</span>) <span style="color:blue">returns</span> (b: <span style="color:teal">nat</span>)
+    <span style="color:purple">ensures</span> Even(b)
+  {
+    b := <span class="constant" style="color:purple">2</span> * a;
+    <span style="color:blue">assert</span> Even(b);
+    <span style="color:blue">for</span> i := <span class="constant" style="color:purple">0</span> <span style="color:blue">to</span> p
+      <span style="color:purple">invariant</span> Even(b)
+    {
+      <span style="color:blue">ghost</span> <span style="color:blue">var</span> b0: <span style="color:teal">nat</span> := b;
+      b := b * b;
+      <span style="color:blue">assert</span> Even(b) <span style="color:blue">by</span> {
+        <span style="color:blue">assert</span> <span style="color:blue">exists</span> c: <span style="color:teal">nat</span> :: b == <span class="constant" style="color:purple">2</span> * c <span style="color:blue">by</span> {
+          <span style="color:blue">var</span> c: <span style="color:teal">nat</span> :| b0 == <span class="constant" style="color:purple">2</span> * c;
+          <span style="color:blue">assert</span> b == (<span class="constant" style="color:purple">2</span> * c) * (<span class="constant" style="color:purple">2</span> * c);
+          <span style="color:blue">assert</span> b == <span class="constant" style="color:purple">2</span> * (<span class="constant" style="color:purple">2</span> * c * c);
+        }
+      }
+    }
+  }</code></pre></section>
+<section id="sec-functional-code-as-specification----1" class="section section1" data-section-depth="1" data-line="368"><h2 id="heading-sec-functional-code-as-specification----1" class="h1" data-heading-depth="1" style="display:block">Functional code as specification &#8211; 1</h2>
+<ul class="ul list-dash compact" data-line="370">
+<li class="li ul-li list-dash-li compact-li" data-line="370"><span data-line="370"></span>As we saw, some properties cannot be expressed as postconditions
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="371"><span data-line="371"></span>Plus, reasoning about imperative code can be more tedious
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="372"><span data-line="372"></span><strong class="strong-star2">Methodology: define your computation both in imperative and functional style</strong><span data-line="372"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="373"><span data-line="373"></span>Prove their equivalence
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="374"><span data-line="374"></span>Prove any advanced properties on the functional version
+</li></ul>
+</section>
+<section id="sec-functional-code-as-specification----2" class="section section1" data-section-depth="1" data-line="376"><h2 id="heading-sec-functional-code-as-specification----2" class="h1" data-heading-depth="1" style="display:block">Functional code as specification &#8211; 2</h2>
+<ul class="ul list-dash loose" data-line="378">
+<li class="li ul-li list-dash-li loose-li" data-line="378">
+<p data-line="378"><span data-line="378"></span>Consider this example:
+</p><!-- inline-dafny FailImperative/A12 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="381" data-line-first="382" style="display:block"><code data-line="382">  methodTimes(x: <span style="color:teal">nat</span>, y: <span style="color:teal">nat</span>) <span style="color:blue">returns</span> (z: <span style="color:teal">nat</span>)
+    <span style="color:purple">ensures</span> z == Timesf(x, y)
+  {
+    z := <span class="constant" style="color:purple">0</span>;
+    <span style="color:blue">for</span> i := <span class="constant" style="color:purple">0</span> <span style="color:blue">to</span> x {
+      z := z + y;
+    }
+  }</code></pre></li></ul>
+</section>
+<section id="sec-functional-code-as-specification----3" class="section section1" data-section-depth="1" data-line="392"><h2 id="heading-sec-functional-code-as-specification----3" class="h1" data-heading-depth="1" style="display:block">Functional code as specification &#8211; 3</h2>
+<ul class="ul list-dash loose" data-line="394">
+<li class="li ul-li list-dash-li loose-li" data-line="394">
+<p data-line="394"><span data-line="394"></span>Step 1: write a functional spec
+</p><!-- inline-dafny Imperative/A13 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="397" data-line-first="398" style="display:block"><code data-line="398">  <span style="color:blue">function</span> Timesf(x: <span style="color:teal">nat</span>, y: <span style="color:teal">nat</span>): <span style="color:teal">nat</span> {
+    <span style="color:blue">if</span> x == <span class="constant" style="color:purple">0</span> <span style="color:blue">then</span> <span class="constant" style="color:purple">0</span> <span style="color:blue">else</span> y + Timesf(x - <span class="constant" style="color:purple">1</span>, y)
+  }</code></pre></li></ul>
+</section>
+<section id="sec-functional-code-as-specification----4" class="section section1" data-section-depth="1" data-line="403"><h2 id="heading-sec-functional-code-as-specification----4" class="h1" data-heading-depth="1" style="display:block">Functional code as specification &#8211; 4</h2>
+<ul class="ul list-dash loose" data-line="405">
+<li class="li ul-li list-dash-li loose-li" data-line="405">
+<p data-line="405"><span data-line="405"></span>Step 2: implement and prove equivalence
+</p><!-- inline-dafny Imperative/A14 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="408" data-line-first="409" style="display:block"><code data-line="409">  <span style="color:blue">method</span> Times(x: <span style="color:teal">nat</span>, y: <span style="color:teal">nat</span>) <span style="color:blue">returns</span> (z: <span style="color:teal">nat</span>)
+    <span style="color:purple">ensures</span> z == Timesf(x, y)
+  {
+    z := <span class="constant" style="color:purple">0</span>;
+    <span style="color:blue">for</span> i := <span class="constant" style="color:purple">0</span> <span style="color:blue">to</span> x
+      <span style="color:purple">invariant</span> z == Timesf(i, y)
+    {
+      z := z + y;
+    }
+  }</code></pre></li></ul>
+</section>
+<section id="sec-functional-code-as-specification----5" class="section section1" data-section-depth="1" data-line="421"><h2 id="heading-sec-functional-code-as-specification----5" class="h1" data-heading-depth="1" style="display:block">Functional code as specification &#8211; 5</h2>
+<ul class="ul list-dash loose" data-line="423">
+<li class="li ul-li list-dash-li loose-li" data-line="423">
+<p data-line="423"><span data-line="423"></span>Step 3: prove properties on the spec
+</p><!-- inline-dafny Imperative/A15 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="426" data-line-first="427" style="display:block"><code data-line="427">  <span style="color:blue">lemma</span> TimesfCommutative(x: <span style="color:teal">nat</span>, y: <span style="color:teal">nat</span>)
+    <span style="color:purple">ensures</span> Timesf(x, y) == Timesf(y, x)
+  {
+    <span style="color:blue">if</span> x == <span class="constant" style="color:purple">0</span> {
+    } <span style="color:blue">else</span> {
+      TimesfCommutative(x - <span class="constant" style="color:purple">1</span>, y);
+    }
+  }</code></pre></li></ul>
+</section>
+<section id="sec-functional-code-as-specification----6" class="section section1" data-section-depth="1" data-line="437"><h2 id="heading-sec-functional-code-as-specification----6" class="h1" data-heading-depth="1" style="display:block">Functional code as specification &#8211; 6</h2>
+<ul class="ul list-dash compact" data-line="439">
+<li class="li ul-li list-dash-li compact-li" data-line="439"><span data-line="439"></span>Connecting the functional spec to the imperative code can be hard
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="440"><span data-line="440"></span>Strategy:
+
+<ul class="ul list-dash compact" data-line="441">
+<li class="li ul-li list-dash-li compact-li" data-line="441"><span data-line="441"></span>Implement simple functional spec
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="442"><span data-line="442"></span>Implement tail-recursive functional spec
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="443"><span data-line="443"></span>Prove equivalence of simple and tail-recursive
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="444"><span data-line="444"></span>Prove equivalence of tail-recursive and imperative
+</li></ul></li></ul>
+</section>
+<section id="sec-function-by-method" class="section section1" data-section-depth="1" data-line="446"><h2 id="heading-sec-function-by-method" class="h1" data-heading-depth="1" style="display:block">Function by method</h2>
+<ul class="ul list-dash loose" data-line="448">
+<li class="li ul-li list-dash-li loose-li" data-line="448">
+<p data-line="448"><span data-line="448"></span>A method cannot be called from within a functional expression
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="449">
+<p data-line="449"><span data-line="449"></span>A priori, it means that functional code can never call imperative code 
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="450">
+<p data-line="450"><span data-line="450"></span>You can work around that by proving that a method correctly implements a function 
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="451">
+<p data-line="451"><span data-line="451"></span>This is done using the <span data-line="451"></span><code class="code code1">function by method</code><span data-line="451"></span> declaration
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="452">
+<p data-line="452"><span data-line="452"></span>Note that the function body must satisfy the <span data-line="452"></span><code class="code code1">ensures</code><span data-line="452"></span> clause (if any)
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="453">
+<p data-line="453"><span data-line="453"></span>The method body must return exactly the same value as the function body
+</p><!-- inline-dafny Imperative/A16 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="456" data-line-first="457" style="display:block"><code data-line="457">  <span style="color:blue">function</span> Timesf(x: <span style="color:teal">nat</span>, y: <span style="color:teal">nat</span>): <span style="color:teal">nat</span>
+  {
+    <span style="color:blue">if</span> x == <span class="constant" style="color:purple">0</span> <span style="color:blue">then</span> <span class="constant" style="color:purple">0</span> <span style="color:blue">else</span> y + Timesf(x - <span class="constant" style="color:purple">1</span>, y)
+  } <span style="color:blue">by</span> <span style="color:blue">method</span> {
+    <span style="color:blue">var</span> z := <span class="constant" style="color:purple">0</span>;
+    <span style="color:blue">for</span> i := <span class="constant" style="color:purple">0</span> <span style="color:blue">to</span> x
+      <span style="color:purple">invariant</span> z == Timesf(i, y)
+    {
+      z := z + y;
+    }
+    <span style="color:blue">return</span> z;
+  }</code></pre></li></ul>
+</section>
+<section id="sec-arrays----introduction" class="section section1" data-section-depth="1" data-line="471"><h2 id="heading-sec-arrays----introduction" class="h1" data-heading-depth="1" style="display:block">Arrays &#8211; introduction</h2>
+<ul class="ul list-dash loose" data-line="473">
+<li class="li ul-li list-dash-li loose-li" data-line="473">
+<p data-line="473"><span data-line="473"></span>Arrays in Dafny are references
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="474">
+<p data-line="474"><span data-line="474"></span>Like usual arrays, they support lookup and in-place update
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="475">
+<p data-line="475"><span data-line="475"></span>An array<span data-line="475"></span>&#39;<span data-line="475"></span>s length is obtained with the <span data-line="475"></span><code class="code code1">.Length</code><span data-line="475"></span> field
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="476">
+<p data-line="476"><span data-line="476"></span>An array is created with Java-like syntax 
+</p><!-- inline-dafny Imperative/BA10 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="479" data-line-first="480" style="display:block"><code data-line="480">  <span style="color:blue">method</span> M(a: <span style="color:teal">array</span>&lt;<span style="color:teal">int</span>&gt;)
+    <span style="color:purple">requires</span> a.Length &gt; <span class="constant" style="color:purple">10</span>
+    <span style="color:purple">modifies</span> a
+  {
+    <span style="color:blue">var</span> x: <span style="color:teal">int</span> := a[<span class="constant" style="color:purple">3</span>];
+    a[<span class="constant" style="color:purple">5</span>] := <span class="constant" style="color:purple">6</span>;
+    <span style="color:blue">var</span> b: <span style="color:teal">array</span>&lt;<span style="color:teal">int</span>&gt; := <span style="color:blue">new</span> <span style="color:teal">int</span>[<span class="constant" style="color:purple">5</span>];
+  }</code></pre></li></ul>
+</section>
+<section id="sec-programming-with-references" class="section section1" data-section-depth="1" data-line="490"><h2 id="heading-sec-programming-with-references" class="h1" data-heading-depth="1" style="display:block">Programming with references</h2>
+<ul class="ul list-dash loose" data-line="492">
+<li class="li ul-li list-dash-li loose-li" data-line="492">
+<p data-line="492"><span data-line="492"></span>So far, the state of our imperative code has been limited to mutable local variables
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="493">
+<p data-line="493"><span data-line="493"></span>Now, we are going to consider references to mutable memory
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="494">
+<p data-line="494"><span data-line="494"></span>Such memory is allocated on the heap
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="495">
+<p data-line="495"><span data-line="495"></span>Such memory is accessed via references (<span data-line="495"></span>&#8220;pointers&#8221;<span data-line="495"></span>)
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="496">
+<p data-line="496"><span data-line="496"></span>Arrays are references
+</p><!-- inline-dafny Imperative/BPre -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="499" data-line-first="500" style="display:block"><code data-line="500">  <span style="color:blue">type</span> Ref&lt;T&gt; = a: <span style="color:teal">array</span>&lt;T&gt; | a.Length == <span class="constant" style="color:purple">1</span> <span style="color:purple">witness</span> *</code></pre></li></ul>
+</section>
+<section id="sec-reasoning-with-references" class="section section1" data-section-depth="1" data-line="503"><h2 id="heading-sec-reasoning-with-references" class="h1" data-heading-depth="1" style="display:block">Reasoning with references</h2>
+<ul class="ul list-dash compact" data-line="505">
+<li class="li ul-li list-dash-li compact-li" data-line="505"><span data-line="505"></span>The addition of references to mutable data leads to a significant increase in verification difficulty
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="506"><span data-line="506"></span>Also, they have a profound influence on the design of Dafny
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="507"><span data-line="507"></span>In essence, what makes references difficult to reason about is <span data-line="507"></span><em class="em-star1">aliasing</em><span data-line="507"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="508"><span data-line="508"></span>It just means that you could have different references to the same object
+
+<ul class="ul list-dash compact" data-line="509">
+<li class="li ul-li list-dash-li compact-li" data-line="509"><span data-line="509"></span>(Actually, aliasing is no more difficult than aliasing array indices: <span data-line="509"></span><code class="code code1">a[i]</code><span data-line="509"></span> and <span data-line="509"></span><code class="code code1">a[j]</code><span data-line="509"></span> refer to
+the same array element if the integers <span data-line="510"></span><code class="code code1">i</code><span data-line="510"></span> and <span data-line="510"></span><code class="code code1">j</code><span data-line="510"></span> are equal. Easy peasy! What is difficult
+is <span data-line="511"></span><em class="em-low1">abstract aliasing</em><span data-line="511"></span>, where the data structures pointed to by two different references overlap.
+But let<span data-line="512"></span>&#39;<span data-line="512"></span>s start simple.)
+</li></ul></li>
+<li class="li ul-li list-dash-li compact-li" data-line="513"><span data-line="513"></span>The state of a Dafny program corresponds to the memory state
+</li></ul>
+</section>
+<section id="sec-reading-from-the-state" class="section section1" data-section-depth="1" data-line="515"><h2 id="heading-sec-reading-from-the-state" class="h1" data-heading-depth="1" style="display:block">Reading from the state</h2>
+<ul class="ul list-dash loose" data-line="517">
+<li class="li ul-li list-dash-li loose-li" data-line="517">
+<p data-line="517"><span data-line="517"></span>A function cannot modify the state
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="518">
+<p data-line="518"><span data-line="518"></span>However, a function can read from the state
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="519">
+<p data-line="519"><span data-line="519"></span>But reading must be explicitly mentioned in the function<span data-line="519"></span>&#39;<span data-line="519"></span>s specification!
+</p>
+<ul class="ul list-dash compact" data-line="520">
+<li class="li ul-li list-dash-li compact-li" data-line="520"><span data-line="520"></span>That is, a function can read the state only if its specification allows it to
+</li></ul></li>
+<li class="li ul-li list-dash-li loose-li" data-line="521">
+<p data-line="521"><span data-line="521"></span>A <span data-line="521"></span><em class="em-star1">read frame</em><span data-line="521"></span> is declared with a <span data-line="521"></span><code class="code code1">reads</code><span data-line="521"></span> clause
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="522">
+<p data-line="522"><span data-line="522"></span>It specifies the set of objects the function is allowed to read from
+</p><!-- inline-dafny Imperative/BA1 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="525" data-line-first="526" style="display:block"><code data-line="526">  <span style="color:blue">function</span> Read(s: <span style="color:teal">seq</span>&lt;Ref&lt;<span style="color:teal">nat</span>&gt;&gt;, idx: <span style="color:teal">nat</span>): <span style="color:teal">nat</span>
+    <span style="color:purple">requires</span> idx &lt; |s|
+    <span style="color:purple">reads</span> s[idx]
+  {
+    s[idx][<span class="constant" style="color:purple">0</span>]
+  }</code></pre></li></ul>
+</section>
+<section id="sec-summary-of-function-types" class="section section1" data-section-depth="1" data-line="534"><h2 id="heading-sec-summary-of-function-types" class="h1" data-heading-depth="1" style="display:block">Summary of function types</h2>
+<ul class="ul list-dash compact" data-line="536">
+<li class="li ul-li list-dash-li compact-li" data-line="536"><span data-line="536"></span>A pure total function: <span data-line="536"></span><code class="code code1">A -&gt; B</code><span data-line="536"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="537"><span data-line="537"></span>A pure partial function: <span data-line="537"></span><code class="code code1">A --&gt; B</code><span data-line="537"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="538"><span data-line="538"></span>An impure function: <span data-line="538"></span><code class="code code1">A ~&gt; B</code><span data-line="538"></span>
+
+<ul class="ul list-dash compact" data-line="539">
+<li class="li ul-li list-dash-li compact-li" data-line="539"><span data-line="539"></span>Note, an impure function can <span data-line="539"></span><em class="em-low1">read</em><span data-line="539"></span> the state, but no function can ever <span data-line="539"></span><em class="em-low1">modify</em><span data-line="539"></span> the state
+</li></ul></li></ul>
+</section>
+<section id="sec-reading-the-state" class="section section1" data-section-depth="1" data-line="541"><h2 id="heading-sec-reading-the-state" class="h1" data-heading-depth="1" style="display:block">Reading the state</h2>
+<ul class="ul list-dash loose" data-line="543">
+<li class="li ul-li list-dash-li loose-li" data-line="543">
+<p data-line="543"><span data-line="543"></span>A method can read from the state
+</p><!-- inline-dafny Imperative/BA2 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="546" data-line-first="547" style="display:block"><code data-line="547">  <span style="color:blue">method</span> M(s: Ref&lt;<span style="color:teal">nat</span>&gt;)
+  {
+    <span style="color:blue">print</span> s[<span class="constant" style="color:purple">0</span>];
+  }</code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="553">
+<p data-line="553"><span data-line="553"></span>Note that, unlike function specifications, method specifications don<span data-line="553"></span>&#39;<span data-line="553"></span>t say anything about reading
+</p></li></ul>
+</section>
+<section id="sec-modifying-the-state" class="section section1" data-section-depth="1" data-line="555"><h2 id="heading-sec-modifying-the-state" class="h1" data-heading-depth="1" style="display:block">Modifying the state</h2>
+<ul class="ul list-dash loose" data-line="557">
+<li class="li ul-li list-dash-li loose-li" data-line="557">
+<p data-line="557"><span data-line="557"></span>A method can modify the state
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="558">
+<p data-line="558"><span data-line="558"></span>But writing must be explicitly mentioned in the method<span data-line="558"></span>&#39;<span data-line="558"></span>s specification!
+</p>
+<ul class="ul list-dash compact" data-line="559">
+<li class="li ul-li list-dash-li compact-li" data-line="559"><span data-line="559"></span>That is, a method can write the state only if its specification allows it to
+</li></ul></li>
+<li class="li ul-li list-dash-li loose-li" data-line="560">
+<p data-line="560"><span data-line="560"></span>A <span data-line="560"></span><em class="em-star1">write frame</em><span data-line="560"></span> is declared a <span data-line="560"></span><code class="code code1">modifies</code><span data-line="560"></span> clause
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="561">
+<p data-line="561"><span data-line="561"></span>It specifies the set of objects the method is allowed to write to
+</p><!-- inline-dafny Imperative/BA3 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="564" data-line-first="565" style="display:block"><code data-line="565">  <span style="color:blue">method</span> Write(s: <span style="color:teal">seq</span>&lt;Ref&lt;<span style="color:teal">nat</span>&gt;&gt;, idx: <span style="color:teal">nat</span>, v: <span style="color:teal">nat</span>)
+    <span style="color:purple">requires</span> idx &lt; |s|
+    <span style="color:purple">modifies</span> s[idx]
+  {
+    s[idx][<span class="constant" style="color:purple">0</span>] := v;
+  }</code></pre></li></ul>
+</section>
+<section id="sec-referring-to-old-state" class="section section1" data-section-depth="1" data-line="573"><h2 id="heading-sec-referring-to-old-state" class="h1" data-heading-depth="1" style="display:block">Referring to old state</h2>
+<ul class="ul list-dash compact" data-line="575">
+<li class="li ul-li list-dash-li compact-li" data-line="575"><span data-line="575"></span>Since methods can modify the state, we often need to state properties that relate the state before and after the method was executed
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="576"><span data-line="576"></span>Within the body of a statement we can do this with ghost variables
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="577"><span data-line="577"></span>For references, mutations are not confined to methods
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="578"><span data-line="578"></span>We need some way of referring to an old state in the spec
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="579"><span data-line="579"></span>This is done using the expression <span data-line="579"></span><code class="code code1">old</code><span data-line="579"></span>
+</li></ul>
+<!-- inline-dafny Imperative/BA4 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="582" data-line-first="583" style="display:block"><code data-line="583">  <span style="color:blue">method</span> Add(c: Ref&lt;<span style="color:teal">nat</span>&gt;)
+    <span style="color:purple">modifies</span> c
+    <span style="color:purple">ensures</span> c[<span class="constant" style="color:purple">0</span>] % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> &lt;==&gt; <span style="color:blue">old</span>(c[<span class="constant" style="color:purple">0</span>]) % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span>
+  {
+    c[<span class="constant" style="color:purple">0</span>] := c[<span class="constant" style="color:purple">0</span>] + <span class="constant" style="color:purple">2</span>;
+  }</code></pre></section>
+<section id="sec-aliasing----1" class="section section1" data-section-depth="1" data-line="591"><h2 id="heading-sec-aliasing----1" class="h1" data-heading-depth="1" style="display:block">Aliasing &#8211; 1</h2>
+<ul class="ul list-dash loose" data-line="593">
+<li class="li ul-li list-dash-li loose-li" data-line="593">
+<p data-line="593"><span data-line="593"></span>The principal reason why reasoning about methods and stateful code is difficult is aliasing
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="594">
+<p data-line="594"><span data-line="594"></span>Aliasing happens when there are more than one reference to an object
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="595">
+<p data-line="595"><span data-line="595"></span>Often, we expect a property to hold because we implicitly assume that there is no aliasing
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="596">
+<p data-line="596"><span data-line="596"></span>For example, the following is incorrect:
+</p><!-- inline-dafny FailImperative/BA5 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="599" data-line-first="600" style="display:block"><code data-line="600">  <span style="color:blue">method</span> InitIncorrect(c1: Ref&lt;<span style="color:teal">nat</span>&gt;, c2: Ref&lt;<span style="color:teal">nat</span>&gt;)
+    <span style="color:purple">modifies</span> c2
+    <span style="color:purple">ensures</span> <span style="color:blue">old</span>(c1[<span class="constant" style="color:purple">0</span>]) == c1[<span class="constant" style="color:purple">0</span>]
+  {
+    c2[<span class="constant" style="color:purple">0</span>] := <span class="constant" style="color:purple">2</span>;
+  }</code></pre></li></ul>
+</section>
+<section id="sec-aliasing----2" class="section section1" data-section-depth="1" data-line="608"><h2 id="heading-sec-aliasing----2" class="h1" data-heading-depth="1" style="display:block">Aliasing &#8211; 2</h2>
+<ul class="ul list-dash compact" data-line="610">
+<li class="li ul-li list-dash-li compact-li" data-line="610"><span data-line="610"></span>The reason is that <span data-line="610"></span><code class="code code1">c1</code><span data-line="610"></span> and <span data-line="610"></span><code class="code code1">c2</code><span data-line="610"></span> could be references to the same object
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="611"><span data-line="611"></span>Therefore, we need to require them to be different
+</li></ul>
+<!-- inline-dafny Imperative/BA6 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="614" data-line-first="615" style="display:block"><code data-line="615">  <span style="color:blue">method</span> Init(c1: Ref&lt;<span style="color:teal">nat</span>&gt;, c2: Ref&lt;<span style="color:teal">nat</span>&gt;)
+    <span style="color:purple">requires</span> c1 != c2
+    <span style="color:purple">modifies</span> c2
+    <span style="color:purple">ensures</span> <span style="color:blue">old</span>(c1[<span class="constant" style="color:purple">0</span>]) == c1[<span class="constant" style="color:purple">0</span>]
+  {
+    c2[<span class="constant" style="color:purple">0</span>] := <span class="constant" style="color:purple">2</span>;
+  }</code></pre></section>
+<section id="sec-frames----1" class="section section1" data-section-depth="1" data-line="624"><h2 id="heading-sec-frames----1" class="h1" data-heading-depth="1" style="display:block">Frames &#8211; 1</h2>
+<ul class="ul list-dash compact" data-line="626">
+<li class="li ul-li list-dash-li compact-li" data-line="626"><span data-line="626"></span>Why do we need frames?
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="627"><span data-line="627"></span>It has to do with aliasing
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="628"><span data-line="628"></span>It allows to keep track of which part of the memory we can potentially read or modify
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="629"><span data-line="629"></span>It may not look like much, but otherwise:
+
+<ul class="ul list-dash compact" data-line="630">
+<li class="li ul-li list-dash-li compact-li" data-line="630"><span data-line="630"></span>You would have to prove trivial things about parts unrelated parts of the state
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="631"><span data-line="631"></span>For every new object, you would have to update all previous proofs
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="632"><span data-line="632"></span>The amount of specification about objects not changing grows a lot
+</li></ul></li>
+<li class="li ul-li list-dash-li compact-li" data-line="633"><span data-line="633"></span>This is known as the <span data-line="633"></span>&#8220;frame problem&#8221;<span data-line="633"></span>
+</li></ul>
+</section>
+<section id="sec-frames----2" class="section section1" data-section-depth="1" data-line="635"><h2 id="heading-sec-frames----2" class="h1" data-heading-depth="1" style="display:block">Frames &#8211; 2</h2>
+<ul class="ul list-dash loose" data-line="637">
+<li class="li ul-li list-dash-li loose-li" data-line="637">
+<p data-line="637"><span data-line="637"></span>Thanks to the frames, Dafny can verify this code without help
+</p><!-- inline-dafny FailImperative/BA7 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="640" data-line-first="641" style="display:block"><code data-line="641">  <span style="color:blue">method</span> TestIncorrect(s: <span style="color:teal">seq</span>&lt;Ref&lt;<span style="color:teal">nat</span>&gt;&gt;) <span style="color:blue">returns</span> (x: <span style="color:teal">nat</span>, y: <span style="color:teal">nat</span>)
+    <span style="color:purple">requires</span> |s| &gt; <span class="constant" style="color:purple">10</span>
+    <span style="color:purple">modifies</span> s
+    <span style="color:purple">ensures</span> x == y
+  {
+    x := Read(s, <span class="constant" style="color:purple">5</span>);  <span style="color:darkgreen">// read from the object referenced by s[5]</span>
+    Write(s, <span class="constant" style="color:purple">2</span>, <span class="constant" style="color:purple">56</span>);  <span style="color:darkgreen">// write to the object referenced by s[2]</span>
+    y := Read(s, <span class="constant" style="color:purple">5</span>);  <span style="color:darkgreen">// read from the object referenced by s[5] again</span>
+  }</code></pre></li></ul>
+</section>
+<section id="sec-aliasing----3" class="section section1" data-section-depth="1" data-line="652"><h2 id="heading-sec-aliasing----3" class="h1" data-heading-depth="1" style="display:block">Aliasing &#8211; 3</h2>
+<ul class="ul list-dash loose" data-line="654">
+<li class="li ul-li list-dash-li loose-li" data-line="654">
+<p data-line="654"><span data-line="654"></span>Or not!
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="655">
+<p data-line="655"><span data-line="655"></span>How do you know that <span data-line="655"></span><code class="code code1">s[2]</code><span data-line="655"></span> and <span data-line="655"></span><code class="code code1">s[5]</code><span data-line="655"></span> are not pointers to the same object?
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="656">
+<p data-line="656"><span data-line="656"></span>You don<span data-line="656"></span>&#39;<span data-line="656"></span>t, and the postcondition is true only if we know that they do not alias
+</p><!-- inline-dafny Imperative/BA8 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="659" data-line-first="660" style="display:block"><code data-line="660">  <span style="color:blue">method</span> Test(s: <span style="color:teal">seq</span>&lt;Ref&lt;<span style="color:teal">nat</span>&gt;&gt;) <span style="color:blue">returns</span> (x: <span style="color:teal">nat</span>, y: <span style="color:teal">nat</span>)
+    <span style="color:purple">requires</span> |s| &gt; <span class="constant" style="color:purple">10</span>
+    <span style="color:purple">requires</span> <span style="color:blue">forall</span> i, j :: <span class="constant" style="color:purple">0</span> &lt;= i &lt; j &lt; |s| ==&gt; s[i] != s[j]
+    <span style="color:purple">modifies</span> s
+    <span style="color:purple">ensures</span> x == y
+  {
+    x := Read(s, <span class="constant" style="color:purple">5</span>);
+    Write(s, <span class="constant" style="color:purple">2</span>, <span class="constant" style="color:purple">56</span>);
+    y := Read(s, <span class="constant" style="color:purple">5</span>);
+  }</code></pre></li></ul>
+</section>
+<section id="sec-labels" class="section section1" data-section-depth="1" data-line="672"><h2 id="heading-sec-labels" class="h1" data-heading-depth="1" style="display:block">Labels</h2>
+<ul class="ul list-dash loose" data-line="674">
+<li class="li ul-li list-dash-li loose-li" data-line="674">
+<p data-line="674"><span data-line="674"></span>By default, the <span data-line="674"></span><code class="code code1">old</code><span data-line="674"></span> expression refers to the state before the method stated its execution 
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="675">
+<p data-line="675"><span data-line="675"></span>Sometimes, you need to refer to more specific states
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="676">
+<p data-line="676"><span data-line="676"></span>You can refer to specific point in the execution by naming then with labels
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="677">
+<p data-line="677"><span data-line="677"></span>And use the label for the <span data-line="677"></span><code class="code code1">old</code><span data-line="677"></span> expression
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="678">
+<p data-line="678"><span data-line="678"></span>State history correspond to statements
+</p><!-- inline-dafny Imperative/BA9 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="681" data-line-first="682" style="display:block"><code data-line="682">  <span style="color:blue">method</span> M(c: Ref&lt;<span style="color:teal">nat</span>&gt;)
+    <span style="color:purple">modifies</span> c
+    <span style="color:purple">ensures</span> c[<span class="constant" style="color:purple">0</span>] % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">1</span>
+  {
+    c[<span class="constant" style="color:purple">0</span>] := <span class="constant" style="color:purple">2</span> * c[<span class="constant" style="color:purple">0</span>];
+    <span style="color:blue">label</span> L:
+    c[<span class="constant" style="color:purple">0</span>] := c[<span class="constant" style="color:purple">0</span>] + <span class="constant" style="color:purple">1</span>;
+    <span style="color:blue">assert</span> <span style="color:blue">old</span>@L(c[<span class="constant" style="color:purple">0</span>]) % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span>;
+    <span style="color:blue">assert</span> c[<span class="constant" style="color:purple">0</span>] % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">1</span>;
+  }</code></pre></li></ul>
+</section>
+<section id="sec-arrays----ranges" class="section section1" data-section-depth="1" data-line="694"><h2 id="heading-sec-arrays----ranges" class="h1" data-heading-depth="1" style="display:block">Arrays &#8211; ranges</h2>
+<ul class="ul list-dash compact" data-line="696">
+<li class="li ul-li list-dash-li compact-li" data-line="696"><span data-line="696"></span>Arrays support range indexing
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="697"><span data-line="697"></span>However, the outcome is a sequence
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="698"><span data-line="698"></span>This is useful to be used in specifications
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="699"><span data-line="699"></span>Since arrays are references, you can refer to their past state
+</li></ul>
+<!-- inline-dafny Imperative/BA11 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="702" data-line-first="703" style="display:block"><code data-line="703">  <span style="color:blue">lemma</span> ArrayUnchanged&lt;T&gt;(a: <span style="color:teal">array</span>)
+    <span style="color:purple">ensures</span> a[..] == <span style="color:blue">old</span>(a[..])</code></pre></section>
+<section id="sec-fresh" class="section section1" data-section-depth="1" data-line="707"><h2 id="heading-sec-fresh" class="h1" data-heading-depth="1" style="display:block">Fresh</h2>
+<ul class="ul list-dash loose" data-line="709">
+<li class="li ul-li list-dash-li loose-li" data-line="709">
+<p data-line="709"><span data-line="709"></span>If a method returns a new array, the caller cannot declare it in its frame
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="710">
+<p data-line="710"><span data-line="710"></span>If the array is guaranteed to be fresh, then the caller is allowed to modify it anyway
+</p><!-- inline-dafny Imperative/BA13 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="713" data-line-first="714" style="display:block"><code data-line="714">  <span style="color:blue">method</span> Needfresh(a: <span style="color:teal">array</span>&lt;<span style="color:teal">int</span>&gt;)
+    <span style="color:purple">requires</span> a.Length &gt; <span class="constant" style="color:purple">10</span>
+  {
+    <span style="color:blue">var</span> b: <span style="color:teal">array</span>&lt;<span style="color:teal">int</span>&gt; := Copy(a);
+    b[<span class="constant" style="color:purple">5</span>] := <span class="constant" style="color:purple">8</span>;
+  }</code></pre></li></ul>
+</section>
+<section id="sec-arrays----example" class="section section1" data-section-depth="1" data-line="722"><h2 id="heading-sec-arrays----example" class="h1" data-heading-depth="1" style="display:block">Arrays &#8211; example</h2>
+<ul class="ul list-dash compact" data-line="724">
+<li class="li ul-li list-dash-li compact-li" data-line="724"><span data-line="724"></span>An example: copying an array
+</li></ul>
+<!-- inline-dafny Imperative/BA12 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="727" data-line-first="728" style="display:block"><code data-line="728">  <span style="color:blue">method</span> Copy(a: <span style="color:teal">array</span>&lt;<span style="color:teal">int</span>&gt;) <span style="color:blue">returns</span> (b: <span style="color:teal">array</span>&lt;<span style="color:teal">int</span>&gt;)
+    <span style="color:purple">ensures</span> a.Length == b.Length
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> i: <span style="color:teal">nat</span> :: i &lt; a.Length ==&gt; a[i] == b[i]
+    <span style="color:purple">ensures</span> <span style="color:blue">fresh</span>(b)
+  {
+    b := <span style="color:blue">new</span> <span style="color:teal">int</span>[a.Length];
+    <span style="color:blue">for</span> i := <span class="constant" style="color:purple">0</span> <span style="color:blue">to</span> a.Length
+      <span style="color:purple">invariant</span> i &lt;= a.Length
+      <span style="color:purple">invariant</span> <span style="color:blue">forall</span> j: <span style="color:teal">nat</span> :: j &lt; i ==&gt; a[j] == b[j]
+    {
+      b[i] := a[i];
+    }
+  }</code></pre></section>
+<section id="sec-unchanged" class="section section1" data-section-depth="1" data-line="743"><h2 id="heading-sec-unchanged" class="h1" data-heading-depth="1" style="display:block">Unchanged</h2>
+<ul class="ul list-dash compact" data-line="745">
+<li class="li ul-li list-dash-li compact-li" data-line="745"><span data-line="745"></span>A shorthand to state than no fields of an object have been modified
+</li></ul>
+<!-- inline-dafny Imperative/BA13_1 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="748" data-line-first="749" style="display:block"><code data-line="749">  <span style="color:blue">class</span> O {
+    <span style="color:blue">var</span> x: <span style="color:teal">int</span>
+    <span style="color:blue">var</span> y: <span style="color:teal">int</span>
+  }
+
+  <span style="color:blue">method</span> Unchanged(o: O)
+    <span style="color:purple">ensures</span> <span style="color:blue">unchanged</span>(o) &lt;==&gt; o.x == <span style="color:blue">old</span>(o.x) &amp;&amp; o.y == <span style="color:blue">old</span>(o.y)
+  {
+  }</code></pre></section>
+<section id="sec-allocated" class="section section1" data-section-depth="1" data-line="760"><h2 id="heading-sec-allocated" class="h1" data-heading-depth="1" style="display:block">Allocated</h2>
+<ul class="ul list-dash compact" data-line="762">
+<li class="li ul-li list-dash-li compact-li" data-line="762"><span data-line="762"></span>A shorthand to ensure that an object you are referring to as been allocated
+</li></ul>
+<!-- inline-dafny Imperative/BA13_2 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="765" data-line-first="766" style="display:block"><code data-line="766">  <span style="color:blue">class</span> O {}
+
+  <span style="color:blue">method</span> Allocated(o: O)
+    <span style="color:purple">ensures</span> !<span style="color:blue">old</span>(<span style="color:blue">allocated</span>(o)) &lt;==&gt; <span style="color:blue">fresh</span>(o)
+  {
+  }</code></pre></section>
+<section id="sec-two-state-predicates" class="section section1" data-section-depth="1" data-line="774"><h2 id="heading-sec-two-state-predicates" class="h1" data-heading-depth="1" style="display:block">Two-state predicates</h2>
+<ul class="ul list-dash loose" data-line="776">
+<li class="li ul-li list-dash-li loose-li" data-line="776">
+<p data-line="776"><span data-line="776"></span>Method postconditions are <span data-line="776"></span>&#8220;two-state propositions&#8221;<span data-line="776"></span>
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="777">
+<p data-line="777"><span data-line="777"></span>By using the <span data-line="777"></span><code class="code code1">old</code><span data-line="777"></span> expression, they can refer to the state before and after the method
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="778">
+<p data-line="778"><span data-line="778"></span>It can be convenient to define such propositions as predicates
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="779">
+<p data-line="779"><span data-line="779"></span>This can be done by prefixing a predicate definition by <span data-line="779"></span><code class="code code1">twostate</code><span data-line="779"></span>
+</p><!-- inline-dafny Imperative/BA14 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="782" data-line-first="783" style="display:block"><code data-line="783">  <span style="color:blue">twostate</span> <span style="color:blue">predicate</span> NoChange&lt;T&gt;(a: <span style="color:teal">array</span>)
+    <span style="color:purple">reads</span> a
+  {
+    a[..] == <span style="color:blue">old</span>(a[..])
+  }</code></pre></li></ul>
+</section></div></div><span data-line=""></span></div>
+</body>
+<script type="text/javascript">
+  Reveal.initialize({
+          history: true,
+          transition: "none",
+          width: 1600,
+            height: 900,
+          center: false,
+          controls: false,
+             progress: false,
+          slideNumber: true
+          });
+  Reveal.configure({
+          history: true,
+          transition: "none",
+          width: 1600,
+            height: 900,
+          center: false,
+          controls: false,
+             progress: false,
+          slideNumber: true
+     });
+</script>
+<script>
+    // initialize printing
+    revealConfig.initPrint();
+    // initialize background embedded images
+    revealConfig.getEmbeddedImages();
+    </script>
+</html>

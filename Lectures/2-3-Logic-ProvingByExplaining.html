@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta name="generator" content="Madoko, version 1.2.3" />
+  <meta name="viewport" content="initial-scale=1.0" />
+  <meta name="author" content="Jean-Baptiste Tristan \&amp, K. Rustan M. Leino" />
+  <title>Intuitive Proofs</title>
+  <style type="text/css"  class="link">
+  /*# sourceURL=madoko.css */
+  
+  .madoko .toc>.tocblock .tocblock .tocblock {
+    margin-left: 2.25em;
+  }
+  .madoko .toc>.tocblock .tocblock {
+    margin-left: 1.5em;
+  }
+  .madoko .toc-contents>.tocblock>.tocitem {
+    font-weight: bold;
+  }
+  .madoko .toc {
+    margin-top: 1em;
+  }
+  .madoko p.para-continue {
+    margin-bottom: 0pt;
+  }
+  .madoko .para-block+p {
+    margin-top: 0pt;
+  }
+  .madoko ul.para-block, .madoko ol.para-block {
+    margin-top: 0pt;
+    margin-bottom: 0pt;
+  }
+  .madoko ul.para-end, .madoko ol.para-end {
+    margin-bottom: 1em;
+  }
+  .madoko dl {
+    margin-left: 0em;
+  }
+  .madoko blockquote {
+    font-style: italic;
+  }
+  .madoko a.localref {
+    text-decoration: none;
+  }
+  .madoko a.localref:hover {
+    text-decoration: underline;
+  }
+  .madoko .footnotes {
+    font-size: smaller;
+    margin-top: 2em;
+  }
+  .madoko .footnotes hr {
+    width: 50%;
+    text-align: left;
+  }
+  .madoko .footnote {
+    margin-left: 1em;
+  }
+  .madoko .footnote-before {
+    margin-left: -1em;
+    width: 1em;
+    display: inline-block;
+  }
+  .madoko .align-center, .madoko .align-center>p {
+    text-align: center !important;
+  }
+  .madoko .align-center pre {
+    text-align: left;
+  }
+  .madoko .align-center>* {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .madoko .align-left, .madoko .align-left>p {
+    text-align: left !important;
+  }
+  .madoko .align-left>* {
+    margin-left: 0pt !important;
+    margin-right: auto !important;
+  }
+  .madoko .align-right, .madoko .align-right>p {
+    text-align: right !important;
+  }
+  .madoko .align-right>* {
+    margin-left: auto !important;
+    margin-right: 0pt !important;
+  }
+  .madoko .align-center>table,
+  .madoko .align-left>table,
+  .madoko .align-right>table {
+    text-align: left !important;
+  }
+  .madoko .equation-before {
+    float: right;
+  }
+  .madoko .bibitem {
+    font-size: smaller;
+  }
+  .madoko .bibsearch {
+    font-size: x-small;
+    text-decoration:none;
+    color: black;
+    font-family: "Segoe UI Symbol", Symbola, serif;
+  }
+  .madoko .block, .madoko .figure, .madoko .bibitem, .madoko .equation, .madoko div.math {
+    margin-top: 1ex;
+    margin-bottom: 1ex;
+  }
+  .madoko .figure {
+    padding: 0.5em;
+    margin-left: 0pt;
+    margin-right: 0pt;
+  }
+  .madoko .hidden {
+    display: none;
+  }
+  .madoko .invisible {
+    visibility: hidden;
+  }
+  .madoko.preview .invisible {
+    visibility: visible;
+    opacity: 0.5;
+  }
+  .madoko code.code, .madoko span.code {
+    white-space: pre-wrap;
+  }
+  .madoko hr, hr.madoko {
+    border: none;
+    border-bottom: black solid 1px;
+    margin-bottom: 0.5ex;
+  }
+  .madoko .framed>*:first-child {
+    margin-top: 0pt;
+  }
+  .madoko .framed>*:last-child {
+    margin-bottom: 0pt;
+  }
+  .madoko ul.list-style-type-dash {
+      list-style-type: none !important;
+  }
+  .madoko ul.list-style-type-dash > li:before {
+      content: "\2013";
+      position: absolute;
+      margin-left: -1em;
+  }
+  .madoko table.madoko {
+    border-collapse: collapse;
+  }
+  .madoko td, .madoko th {
+    padding: 0ex 0.5ex;
+    margin: 0pt;
+    vertical-align: top;
+  }
+  .madoko .cell-border-left {
+    border-left: 1px solid black;
+  }
+  .madoko .cell-border-right {
+    border-right: 1px solid black;
+  }
+  .madoko thead>tr:first-child>.cell-line,
+  .madoko tbody:first-child>tr:first-child>.cell-line {
+    border-top: 1px solid black;
+    border-bottom: none;
+  }
+  .madoko .cell-line, .madoko .cell-double-line {
+    border-bottom: 1px solid black;
+    border-top: none;
+  }
+  .madoko .cell-double-line {
+    border-top: 1px solid black;
+    padding-top: 1.5px !important;
+  }
+  .madoko .input-mathpre .MathJax_Display {
+    text-align: left !important;
+  }
+  .madoko div.input-mathpre {
+    text-align: left;
+    margin-top: 1.5ex;
+    margin-bottom: 1ex;
+  }
+  .madoko .math-rendering {
+    text-align: left;
+    white-space: pre;
+    color: gray;
+  }
+  .madoko .mathdisplay {
+    text-align: center;
+  }
+  .madoko span.math-rendering {
+    display:inline-block;
+    width:8em;
+    overflow-x:auto;
+    font-size:70%;
+  }
+  .madoko span.math-rendering::-webkit-scrollbar {
+    width:4px;
+  }
+  .madoko .pretty table {
+    border-collapse: collapse;
+  }
+  .madoko .pretty td {
+    padding: 0em;
+  }
+  .madoko .pretty td.empty {
+    min-width: 1.5ex;
+  }
+  .madoko .pretty td.expander {
+    width: 100em;
+  }
+  body.madoko, .madoko .serif {
+    font-family: Cambria,"Times New Roman","Liberation Serif","Times",serif;
+  }
+  .madoko .sans-serif {
+    font-family: "Calibri", "Optima", sans-serif;
+  }
+  .madoko .symbol {
+    font-family: "Segoe UI Symbol", Symbola, serif;
+  }
+  body.madoko {
+    -webkit-text-size-adjust: 100%;       
+    text-rendering: optimizeLegibility;
+  }
+  body.madoko {
+    max-width: 88ex; 
+    margin: 1em auto;
+    padding: 0em 2em;
+  }
+  body.preview.madoko {
+    padding: 0em 1em;
+  }
+  .madoko p {
+    text-align: justify;
+  }
+  .madoko h1, .madoko h2, .madoko h3, .madoko h4 {
+    margin-top: 1.22em;
+    margin-bottom: 1ex;
+  }
+  .madoko h1+p, .madoko h2+p, .madoko h3+p, .madoko h4+p, .madoko h5+p  {
+    margin-top: 1ex;
+  }
+  .madoko h5, .madoko h6 {
+    margin-top: 1ex;
+    font-size: 1em;
+  }
+  .madoko h5 {
+    margin-bottom: 0.5ex;
+  }
+  .madoko h5 + p {
+    margin-top: 0.5ex;
+  }
+  .madoko h6 {
+    margin-bottom: 0pt;
+  }
+  .madoko h6 + p {
+    margin-top: 0pt;
+  }
+  .madoko pre, .madoko code, .madoko kbd, .madoko samp, .madoko tt,
+  .madoko .monospace, .madoko .token-indent, .madoko .reveal pre, .madoko .reveal code, .madoko .email {
+    font-family: Consolas,"Andale Mono WT","Andale Mono",Lucida Console,Monaco,monospace,monospace;
+    font-size: 0.85em;
+  }
+  .madoko pre code, .madoko .token-indent {
+    font-size: 0.95em;
+  }
+  .madoko pre code {
+    font-family: inherit !important;
+  }
+  .madoko ol.linenums li {
+    background-color: white;
+    list-style-type: decimal;
+  }
+  .madoko .remote {
+    background-color: #F0FFF0;
+  }
+  .madoko .remote + * {
+    margin-top: 0pt;
+  }
+  @media print {
+    body.madoko {
+      font-size: 10pt;
+    }
+    @page {
+      margin: 1in 1.5in;
+    }
+  }
+  @media only screen and (max-device-width:1024px) {
+    body.madoko {
+      padding: 0em 0.5em;
+    }
+    .madoko li {
+      text-align: left;
+    }
+  }
+  
+    </style>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/reveal.js/2.6.2/css/reveal.min.css"  class="link">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/reveal.js/2.6.2/css/theme/solarized.css"  class="link">
+  <script src="https://cdn.jsdelivr.net/reveal.js/2.6.2/lib/js/head.min.js"  class="script preview"></script>
+  <script src="https://cdn.jsdelivr.net/reveal.js/2.6.2/js/reveal.js"  class="script preview"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$']]},
+       TeX: { 
+         Macros: { mathid: ['\\mathit{#1\\hspace{0.1ex}}',1],
+                   mathkw: ['\\mathsf{#1}',1],
+                   mdmathindent: ['\\hspace{#1ex}',1],
+                   mathpre: ['#1',1],
+                 },
+  
+       }
+    });
+    MathJax.Hub.Register.StartupHook('TeX AMSmath Ready',function () { 
+      MathJax.InputJax.TeX.Definitions.environment['mdmathpre'] = ['AMSarray',null,null,null,'l','0em','0em'];
+    });
+  </script>
+  <script type="text/javascript" class="preview"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/reveal.js/2.6.2/css/theme/solarized.css" id="theme">    
+      <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/reveal.js/2.6.2/lib/js/html5shiv.js"></script>
+      <![endif]-->
+      <style>
+      body.madoko {
+        margin: 0pt;
+        padding: 0pt;
+        max-width: 100%;      
+      }
+      .madoko .reveal h1 {
+          font-size: 3.7em;
+      }
+      .madoko .reveal h2 {
+          font-size: 2.1em;
+      }
+      .reveal .authorblock .author {
+          font-size: 120%;
+          margin-bottom: 1ex;
+      }        
+      .reveal table {
+          margin-left: auto;
+          margin-right: auto;
+      }
+      .reveal pre table {
+        margin-left: 0pt;
+      }
+      .madoko .reveal pre.pretty {
+        padding-top: 0pt;
+        padding-bottom: 0pt;
+      }
+      .reveal li p {
+          text-align: left;
+      }
+      .reveal h2 {
+          margin-bottom: 0.7em;
+      }
+      .reveal section ul,
+      .reveal section ol {
+          margin-top: 0.35em;
+          margin-bottom: 0.35em;
+      }
+      .reveal section img.math-display {
+          padding: 1em;
+          box-shadow: none;
+          border: none;
+      }
+      .reveal section img.math-inline {
+          margin: 0pt;
+          padding: 0pt;
+          background-color: none;
+          box-shadow: none;
+          border: none;
+      }
+      .reveal section img {
+          box-shadow: none;
+          border: none;
+      }
+      .madoko .reveal pre {
+          border: 1px solid black;
+          word-wrap: normal;
+          background-color: white;
+          font-size: 0.7em;
+          padding: 0.7em;
+          line-height: 100%;
+          width: 100%;
+      }      
+      .reveal pre code, .reveal code {
+          padding: 0pt;
+      }
+      .reveal nav.toc {
+          line-height: 1em;
+          font-size: 60%;
+          overflow-y: auto;
+      }    
+      .reveal .tocitem {
+          text-align: left;
+      }
+      .reveal .toc>.tocblock .tocblock {
+          margin-left: 0.5em;
+      }   
+      .reveal .toc>.tocblock .tocblock .tocblock {
+          margin-left: 1em;
+      }
+      .reveal .bibliography {
+        height: 18em;
+        overflow-y: auto;
+        font-size: 0.8em;
+        line-height: 1.25;
+      }
+      .reveal section[data-smaller=""],
+      .reveal section[data-smaller="true"] {
+        font-size: 80%;
+        width: 110%;
+      }
+      .reveal .slides>section[data-smaller=""],
+      .reveal .slides>section[data-smaller="true"] {
+        left: -55%;
+      }
+      .reveal .details {
+        display: none;
+      }
+      .reveal[data-details=""] .details,
+      .reveal[data-details="true"] .details {
+        display: initial;
+      }
+      /* Display in the preview window */
+      html, body.madoko.preview, body.madoko.preview-full, .body.madoko {
+        height  : 100% !important;
+        width   : auto!important;
+        padding : 0pt !important;
+        margin  : 0pt !important;
+      }
+      body.madoko.preview, body.madoko.preview-full, .preview .body.madoko {
+        overflow: hidden !important;
+      }
+      body.preview .reveal .slides .fragment {
+        visibility: visible;
+        opacity: 0.5;
+      }
+      body.preview .reveal .slides .fragment.visible {
+        opacity: 1.0;
+      }
+      .preview .reveal div.notes,
+      .preview .reveal aside.notes {
+        display  : block;
+        position : absolute;
+        width    : 30%;
+        left     : 70%;
+        top      : -15%;
+        font-size: 50%;
+        border   : 1px solid black;
+        border-radius   : 10px;
+        background-color: white;
+      }
+      /* 'static' display in the preview window, unused for now */
+      body.preview.static div.reveal, 
+      body.preview.static div.ticreveal .slides, 
+      body.preview.static div.reveal section {
+        display: block !important;
+        position: relative !important;
+        width: auto !important;      
+      }
+      body.preview.static div.reveal section {
+        border: solid 1px black;
+        padding: 1em !important;
+        margin-top: 1em;
+        min-height: 15em;
+        top: 0pt;
+      }
+      body.madoko.preview.static section {
+        font-size: 75%;
+      }
+      body.madoko.preview.static {
+        padding: 0em 1em !important;
+      }
+      body.madoko.preview.static .reveal pre {
+        width: 95%;
+      }    
+      body.preview .reveal[data-details="false"] .details {
+        display: initial;
+        color: gray;
+      }
+      body.preview .reveal[data-long="false"] section[data-long] {
+        border-left: 2px black solid;
+      }
+      </style>
+      <script>    
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      window.revealConfig = {
+          controls: true,
+          progress: true,
+          history: true,
+          center: /^\s*(true|1)\s*$/i.test("true"),
+          slideNumber: /^\s*(true|1)\s*$/i.test("true"),
+          dependencies: [
+            { src: 'https://cdn.jsdelivr.net/reveal.js/2.6.2/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+            { src: 'https://cdn.jsdelivr.net/reveal.js/2.6.2/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+            { src: 'https://cdn.jsdelivr.net/reveal.js/2.6.2/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+          ],
+      };
+      function revealAddFragments() {
+        [].forEach.call(document.querySelectorAll( ".fragmented" ), function(elem0) {
+          var elem = (/^H\d$/.test(elem0.nodeName) ? elem0.parentNode : elem0);
+          [].forEach.call(elem.children, function(item) {
+            if (item==elem0) return;
+            if (item && !/\bfragment(ed)?\b/.test(item.className) && item.nodeType===1) {
+              item.className = item.className + " fragment";
+            }
+          });
+        });
+      }
+      function revealQuotedList(listType) {
+        //compatibility with Rmarkdown slides
+        [].forEach.call( document.querySelectorAll("blockquote>" + listType), function(ul) {
+          if (!/\bfragmented\b/.test(ul.className)) {
+            ul.className = ul.className + " fragmented";
+          }        
+          var quote = ul.parentNode;
+          if (quote.childElementCount===1) {
+            quote.parentNode.replaceChild(ul,quote);
+          }
+        });
+      }
+      function revealBuildToFragmented() {
+        [].forEach.call(document.querySelectorAll( ".build" ), function(elem) {
+          if (elem && !/\bfragmented\b/.test(elem.className) && elem.nodeType===1) {
+            elem.className = elem.className + " fragmented";
+          }
+        });
+      }
+      function revealDivNotesToAside() {
+        [].forEach.call(document.querySelectorAll("div.notes"), function(elem) {
+          var aside = document.createElement("ASIDE");
+          if (elem.id) aside.id = elem.id;
+          aside.className = elem.className;
+          [].forEach.call(elem.attributes, function(attr) {
+            aside.setAttribute( attr.name, attr.value );
+          });
+          aside.innerHTML = elem.innerHTML;
+          elem.parentNode.replaceChild(aside,elem);
+        });
+      }
+      function revealDataQuery() {
+        var reveal = document.querySelector(".reveal");
+        if (!reveal) return;
+        window.location.search.replace(/\bdata-(\w+)(?:=(\w+))?\b/g, function(matched,key,value) {
+          reveal.setAttribute("data-" + key, (value ? value : ""));
+          return matched;
+        });
+      }
+      function revealRemoveLong() {
+        // remove parts for 'long' presentation
+        if (/\bpreview(?![\w\-])/.test(document.body.className)) return;
+        var reveal = document.querySelector(".reveal");
+        if (!reveal) return;
+        var value = reveal.hasAttribute("data-long") ? reveal.getAttribute("data-long") : null;
+        if (value==null || value=="false" || value=="0") {
+          [].forEach.call( document.querySelectorAll("section[data-long]"), function(elem) {
+            elem.parentNode.removeChild(elem);
+          });
+        }
+      }
+      revealConfig.onLoad = function() {
+        revealConfig.getEmbeddedImages();
+        revealDataQuery();
+        revealRemoveLong();
+        revealQuotedList("ul");
+        revealQuotedList("ol");
+        revealBuildToFragmented();
+        revealDivNotesToAside();
+        revealAddFragments();
+      };
+      document.addEventListener("load",revealConfig.onLoad);    
+      document.addEventListener("DOMContentLoaded", function() {
+        if (typeof Reveal !== "undefined" && !Reveal.isReady()) {
+          revealConfig.onLoad();
+          Reveal.initialize(revealConfig);
+        }
+      });    
+      // add support for printing:
+      // use  ?print-pdf to get a pdf-printable version (in Chrome)
+      // use  ?print-paper to get a paper-printable version.
+      revealConfig.initPrint = function() {
+        var cssLink = null;
+        var bodyClass = null;
+        var cap = window.location.search.match(/\bprint-(\w+)\b/);
+        if (cap) {
+          bodyClass = cap[0];
+          cssLink = "https://cdn.jsdelivr.net/reveal.js/2.6.2/css/print/" + cap[1] + ".css";
+        }
+        if (cssLink) {
+          var link  = document.createElement( "link" );
+          link.rel  = "stylesheet";
+          link.type = "text/css";
+          link.href = cssLink;
+          var head = document.getElementsByTagName( 'head' )[0];
+          if (head) head.appendChild( link );
+        }
+        if (bodyClass) {
+          document.body.className = document.body.className + " " + bodyClass;
+        }
+      };
+      revealConfig.getEmbeddedImages = function() {
+        var images = {};
+        [].forEach.call( document.querySelectorAll("img[data-linkid]"), function(img) {
+          var linkid = img.getAttribute("data-linkid");
+          if (linkid) images["/" + linkid] = img.src;
+          var path = img.getAttribute("data-path");
+          if (path) images["/" + path] = img.src;
+        });     
+        [].forEach.call( document.querySelectorAll("section"), function(slide) {
+          var attrName = "data-background";
+          var image = slide.getAttribute(attrName);
+          if (!image) {
+            attrName = "data-background-image";
+            image = slide.getAttribute(attrName);
+          }
+          if (!image) return;
+          var cap = /^\s*!?\[([^\]]+)\]\s*$/.exec(image);
+          var href = images["/" + (cap ? cap[1] : image)];
+          if (!href) return;
+          if (attrName==="data-background" && /^data:/.test(href)) href = "url(" + href + ")";
+          slide.setAttribute(attrName, href);
+        });
+      };    
+      </script>
+  </head>
+<body class="madoko">
+
+<div class="body madoko" style="line-adjust:0">
+<div class="reveal" data-long="false" data-details="false" data-line="36" style="line-adjust:0">
+<div class="slides" data-line="36" style="line-adjust:0">
+
+<section class="titleblock align-center para-block" data-line="37" style="text-align:center;line-adjust:0">
+<div class="titleheader align-center" data-line="37" style="text-align:center;line-adjust:0">
+<h1 class="title para-block" data-line="37" style="font-weight:bold;margin-bottom:0.5ex;font-size:3em;line-adjust:0"><span data-line="37"></span>Intuitive Proofs</h1></div>
+<div class="authors align-center" data-line="42" style="text-align:center;width:80%;line-adjust:0"><table class="authorrow columns block" data-line="42" style="margin-top:2ex;width:100%;line-adjust:0">
+<tbody><tr><td class="author column" data-line="42" style="text-align:center;font-size:x-large;line-adjust:0">
+<div class="authorname" data-line="42" style="font-size:1.4em;line-adjust:0"><span data-line="42"></span>Jean-Baptiste Tristan & K. Rustan M. Leino</div></td></tr></tbody></table></div></section><!-- This file was automatically generated from CedarProvingByExplaining.mdk -->
+
+
+
+
+<section id="sec-dafny--a-proof-assistant" class="section section1" data-section-depth="1" data-line="44"><h2 id="heading-sec-dafny--a-proof-assistant" class="h1" data-heading-depth="1" style="display:block">Dafny: a proof assistant</h2>
+<ul class="ul list-dash loose" data-line="46">
+<li class="li ul-li list-dash-li loose-li" data-line="46">
+<p data-line="46"><span data-line="46"></span>In Dafny, you can state and prove mathematical propositions
+</p><!-- inline-dafny ProvingByExplaining/Start -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="49" data-line-first="50" style="display:block"><code data-line="50">  <span style="color:blue">lemma</span> Proposition()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> m: <span style="color:teal">int</span>, n: <span style="color:teal">int</span> :: m &gt; <span class="constant" style="color:purple">0</span> &amp;&amp; n &gt; m ==&gt; m + n &gt; <span class="constant" style="color:purple">0</span></code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="54">
+<p data-line="54"><span data-line="54"></span>A proposition and its proof are packaged as a lemma
+</p>
+<ul class="ul list-dash compact" data-line="55">
+<li class="li ul-li list-dash-li compact-li" data-line="55"><span data-line="55"></span>The proposition is a Boolean expression (functional expression<span data-line="55"></span> <span data-line="55"></span>+ quantifiers)
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="56"><span data-line="56"></span>The proof script comes in curly braces following the lemma
+</li></ul></li>
+<li class="li ul-li list-dash-li loose-li" data-line="57">
+<p data-line="57"><span data-line="57"></span>If a lemma comes with a proof script, then the Dafny verifier checks that the proof is valid and establishes the proposition
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="58">
+<p data-line="58"><span data-line="58"></span>We will now introduce the languages of proofs
+</p></li></ul>
+</section>
+<section id="sec-dafny--an-auto-active-proof-assistant" class="section section1" data-section-depth="1" data-line="60"><h2 id="heading-sec-dafny--an-auto-active-proof-assistant" class="h1" data-heading-depth="1" style="display:block">Dafny: an auto-active proof assistant</h2>
+<ul class="ul list-dash loose" data-line="62">
+<li class="li ul-li list-dash-li loose-li" data-line="62">
+<p data-line="62"><span data-line="62"></span>Dafny builds on automated theorem proving
+</p>
+<ul class="ul list-dash compact" data-line="63">
+<li class="li ul-li list-dash-li compact-li" data-line="63"><span data-line="63"></span>You need not provide painfully detailed proof scripts
+</li></ul></li>
+<li class="li ul-li list-dash-li loose-li" data-line="64">
+<p data-line="64"><span data-line="64"></span>In many cases, Dafny can find a proof on its own
+</p><!-- inline-dafny ProvingByExplaining/AutoActive -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="67" data-line-first="68" style="display:block"><code data-line="68">  <span style="color:blue">lemma</span> AutoActive()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> m: <span style="color:teal">int</span>, n: <span style="color:teal">int</span> :: m + n == n + m
+  {
+  }</code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="74">
+<p data-line="74"><span data-line="74"></span>In this example, Dafny finds a complete proof on its own
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="75">
+<p data-line="75"><span data-line="75"></span>Therefore, we know that the <span data-line="75"></span><code class="code code1">ensures</code><span data-line="75"></span> clause is true
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="76">
+<p data-line="76"><span data-line="76"></span>Dafny is somewhere in between an <span data-line="76"></span><em class="em-low1">auto</em><span data-line="76"></span>&#8203;<span data-line="76"></span>mated and an inter<span data-line="76"></span><em class="em-low1">active</em><span data-line="76"></span> theorem prover
+</p>
+<ul class="ul list-dash compact" data-line="77">
+<li class="li ul-li list-dash-li compact-li" data-line="77"><span data-line="77"></span>You can interact with the prover by writing a proof script 
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="78"><span data-line="78"></span>You do not interactively build a proof tree
+</li></ul>
+</li></ul>
+</section>
+<section id="sec-writing-proofs" class="section section1" data-section-depth="1" data-line="80"><h2 id="heading-sec-writing-proofs" class="h1" data-heading-depth="1" style="display:block">Writing proofs</h2>
+<ul class="ul list-dash compact" data-line="82">
+<li class="li ul-li list-dash-li compact-li" data-line="82"><span data-line="82"></span>What is a proof anyway?
+</li></ul>
+
+<blockquote data-line="84">
+
+<p class="p noindent" data-line="84"><span data-line="84"></span>A proof plays two roles.<span data-line="84"></span><br>
+<span data-line="85"></span><br>
+<span data-line="86"></span>&#8195;<span data-line="86"></span> (i) A proof <span data-line="86"></span><em class="em-star1">convinces</em><span data-line="86"></span> the reader that the statement is correct.<span data-line="86"></span><br>
+<span data-line="87"></span>&#8195;<span data-line="87"></span> (ii) A proof <span data-line="87"></span><em class="em-star1">explains</em><span data-line="87"></span> why the statement is correct.<span data-line="87"></span><br>
+<span data-line="88"></span><br>
+<span data-line="89"></span>The first point consists of the administrative (‘bookkeeper’) activities of verifying the
+correctness of the small reasoning steps and see if they constitute a correct proof. One doesn’t
+have to look at the broad picture, but one just has to verify step by step whether every step is
+correct. The second point deals with giving the intuition of the theorem: Why is it so natural
+that this property holds? How did we come to the idea of proving it in this way?<span data-line="93"></span><br>
+<span data-line="94"></span><br>
+<span data-line="95"></span>&#8195;<span data-line="95"></span>&#8195;<span data-line="95"></span> <span data-line="95"></span>&#8212;<span data-line="95"></span> Herman Geuvers
+</p></blockquote></section>
+<section id="sec-proofs-that-explain" class="section section1" data-section-depth="1" data-line="97"><h2 id="heading-sec-proofs-that-explain" class="h1" data-heading-depth="1" style="display:block">Proofs that explain</h2>
+<ul class="ul list-dash compact" data-line="99">
+<li class="li ul-li list-dash-li compact-li" data-line="99"><span data-line="99"></span>Many of us have learned to write proofs in a course on Euclidean geometry
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="100"><span data-line="100"></span>In this context, a proof is a succession of assertions and appeal to known lemmas
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="101"><span data-line="101"></span>A proof is valid if it explains why the property holds
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="102"><span data-line="102"></span>A proof is mostly unstructured
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="103"><span data-line="103"></span>This approach relies primarily on intuition: no formal appeal to what constitutes a proof
+</li></ul>
+</section>
+<section id="sec-proving-by-explaining" class="section section1" data-section-depth="1" data-line="105"><h2 id="heading-sec-proving-by-explaining" class="h1" data-heading-depth="1" style="display:block">Proving by explaining</h2>
+<ul class="ul list-dash loose" data-line="107">
+<li class="li ul-li list-dash-li loose-li" data-line="107">
+<p data-line="107"><span data-line="107"></span>The principal way by which you write proofs in Dafny is by explaining
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="108">
+<p data-line="108"><span data-line="108"></span>You do so by asserting intuitive properties that guide Dafny
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="109">
+<p data-line="109"><span data-line="109"></span>Consider the following exercise
+</p><!-- inline-dafny ProvingByExplaining/EvenModule -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="112" data-line-first="113" style="display:block"><code data-line="113">  <span style="color:blue">ghost</span> <span style="color:blue">predicate</span> Even(n: <span style="color:teal">nat</span>)
+
+  <span style="color:blue">ghost</span> <span style="color:blue">predicate</span> Odd(n: <span style="color:teal">nat</span>)
+
+  <span style="color:blue">lemma</span> EvenP()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> n: <span style="color:teal">nat</span> :: Even(n) == <span style="color:blue">exists</span> m: <span style="color:teal">nat</span> :: n == <span class="constant" style="color:purple">2</span> * m
+
+  <span style="color:blue">lemma</span> OddP()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> n: <span style="color:teal">nat</span> :: Odd(n) == !Even(n)
+
+  <span style="color:blue">lemma</span> SuccOddIsEven()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> n: <span style="color:teal">nat</span> :: Odd(n) ==&gt; Even(n + <span class="constant" style="color:purple">1</span>)</code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="127">
+<p data-line="127"><span data-line="127"></span>This is probably obvious to you, but not to Dafny
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="128">
+<p data-line="128"><span data-line="128"></span>The reason it is not so obvious is because of the quantifiers 
+</p></li></ul>
+</section>
+<section id="sec-what-does-dafny-know" class="section section1" data-section-depth="1" data-line="130"><h2 id="heading-sec-what-does-dafny-know" class="h1" data-heading-depth="1" style="display:block">What does dafny know?</h2>
+<ul class="ul list-dash compact" data-line="132">
+<li class="li ul-li list-dash-li compact-li" data-line="132"><span data-line="132"></span>When you write a pencil-and-paper proof, you adapt to your audience
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="133"><span data-line="133"></span>For example, you may not need to remind the reader that real addition is associative because that<span data-line="133"></span>&#39;<span data-line="133"></span>s part of the folklore knowledge
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="134"><span data-line="134"></span>What is Dafny<span data-line="134"></span>&#39;<span data-line="134"></span>s folklore knowledge?
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="135"><span data-line="135"></span>This question is hard to answer
+
+<ul class="ul list-dash compact" data-line="136">
+<li class="li ul-li list-dash-li compact-li" data-line="136"><span data-line="136"></span>We will answer it partly in later lectures
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="137"><span data-line="137"></span>In practice, you form a mental model of what it can do by experience
+</li></ul></li></ul>
+</section>
+<section id="sec-proof-statements" class="section section1" data-section-depth="1" data-line="139"><h2 id="heading-sec-proof-statements" class="h1" data-heading-depth="1" style="display:block">Proof statements</h2>
+<ul class="ul list-dash compact" data-line="141">
+<li class="li ul-li list-dash-li compact-li" data-line="141"><span data-line="141"></span>A proof is a sequence of statements that guides the proof verification
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="142"><span data-line="142"></span>Each statement affects what Dafny knows
+</li></ul>
+</section>
+<section id="sec-asserting-and-calling-propositions" class="section section1" data-section-depth="1" data-line="144"><h2 id="heading-sec-asserting-and-calling-propositions" class="h1" data-heading-depth="1" style="display:block">Asserting and calling propositions</h2>
+<ul class="ul list-dash compact" data-line="146">
+<li class="li ul-li list-dash-li compact-li" data-line="146"><span data-line="146"></span>The most important proof statements are:
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="147"><span data-line="147"></span>Assertions
+
+<ul class="ul list-dash compact" data-line="148">
+<li class="li ul-li list-dash-li compact-li" data-line="148"><span data-line="148"></span>The <span data-line="148"></span><code class="code code1">assert</code><span data-line="148"></span> keyword is followed by a proposition
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="149"><span data-line="149"></span>If the proposition is verified, then it is known for the rest of the proof
+</li></ul></li>
+<li class="li ul-li list-dash-li compact-li" data-line="150"><span data-line="150"></span>Reminders
+
+<ul class="ul list-dash compact" data-line="151">
+<li class="li ul-li list-dash-li compact-li" data-line="151"><span data-line="151"></span>Call a lemma to remind Dafny about our axioms
+</li></ul></li></ul>
+<!-- inline-dafny ProvingByExplaining/SuccOddIsEven1 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="154" data-line-first="155" style="display:block"><code data-line="155">  <span style="color:blue">lemma</span> SuccOddIsEven()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> n: <span style="color:teal">nat</span> :: Odd(n) ==&gt; Even(n + <span class="constant" style="color:purple">1</span>)
+  {
+
+    EvenP();
+    OddP();
+
+    <span style="color:blue">assert</span> <span style="color:blue">forall</span> n: <span style="color:teal">nat</span> :: n % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; n == <span class="constant" style="color:purple">2</span> * (n / <span class="constant" style="color:purple">2</span>);
+    <span style="color:blue">assert</span> <span style="color:blue">forall</span> n: <span style="color:teal">nat</span> :: n == <span class="constant" style="color:purple">2</span> * (n / <span class="constant" style="color:purple">2</span>) ==&gt; Even(n);
+    <span style="color:blue">assert</span> <span style="color:blue">forall</span> n: <span style="color:teal">nat</span> :: Odd(n) ==&gt; n % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">1</span>;
+    <span style="color:blue">assert</span> <span style="color:blue">forall</span> n: <span style="color:teal">nat</span> :: n % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">1</span> ==&gt; (n + <span class="constant" style="color:purple">1</span>) % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span>;
+
+  }</code></pre></section>
+<section id="sec-fixing-arbitrary-values" class="section section1" data-section-depth="1" data-line="170"><h2 id="heading-sec-fixing-arbitrary-values" class="h1" data-heading-depth="1" style="display:block">Fixing arbitrary values</h2>
+<ul class="ul list-dash compact" data-line="172">
+<li class="li ul-li list-dash-li compact-li" data-line="172"><span data-line="172"></span>We would not write a proof like that on paper
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="173"><span data-line="173"></span>Instead, we would work around all the quantification by considering a fixed but arbitrary value of <span data-line="173"></span><code class="code code1">n</code><span data-line="173"></span> for the proof
+</li></ul>
+<!-- inline-dafny ProvingByExplaining/SuccOddIsEven2 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="176" data-line-first="177" style="display:block"><code data-line="177">  <span style="color:blue">lemma</span> SuccOddIsEven(n: <span style="color:teal">nat</span>)
+    <span style="color:purple">ensures</span> Odd(n) ==&gt; Even(n + <span class="constant" style="color:purple">1</span>)
+  {
+
+    EvenP();
+    OddP();
+
+    <span style="color:blue">assert</span> <span style="color:blue">forall</span> n: <span style="color:teal">nat</span> :: n % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; n == <span class="constant" style="color:purple">2</span> * (n / <span class="constant" style="color:purple">2</span>);
+    <span style="color:blue">assert</span> <span style="color:blue">forall</span> n: <span style="color:teal">nat</span> :: n == <span class="constant" style="color:purple">2</span> * (n / <span class="constant" style="color:purple">2</span>) ==&gt; Even(n);
+    <span style="color:blue">assert</span> Odd(n) ==&gt; n % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">1</span>;
+    <span style="color:blue">assert</span> Odd(n) ==&gt; (n + <span class="constant" style="color:purple">1</span>) % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span>;
+
+  }</code></pre></section>
+<section id="sec-fixing-assumptions" class="section section1" data-section-depth="1" data-line="192"><h2 id="heading-sec-fixing-assumptions" class="h1" data-heading-depth="1" style="display:block">Fixing assumptions</h2>
+<ul class="ul list-dash loose" data-line="194">
+<li class="li ul-li list-dash-li loose-li" data-line="194">
+<p data-line="194"><span data-line="194"></span>We would not write a proof like that on paper
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="195">
+<p data-line="195"><span data-line="195"></span>Instead, we would work around all the implications by stating what assumptions we are making in the proof
+</p><!-- inline-dafny ProvingByExplaining/SuccOddIsEven3 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="198" data-line-first="199" style="display:block"><code data-line="199">  <span style="color:blue">lemma</span> SuccOddIsEven(n: <span style="color:teal">nat</span>)
+    <span style="color:purple">requires</span> Odd(n)
+    <span style="color:purple">ensures</span> Even(n + <span class="constant" style="color:purple">1</span>)
+  {
+
+    EvenP();
+    OddP();
+    
+    <span style="color:blue">assert</span> <span style="color:blue">forall</span> n: <span style="color:teal">nat</span> :: n % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; n == <span class="constant" style="color:purple">2</span> * (n / <span class="constant" style="color:purple">2</span>);
+    <span style="color:blue">assert</span> <span style="color:blue">forall</span> n: <span style="color:teal">nat</span> :: n == <span class="constant" style="color:purple">2</span> * (n / <span class="constant" style="color:purple">2</span>) ==&gt; Even(n);
+    <span style="color:blue">assert</span> n % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">1</span>;
+    <span style="color:blue">assert</span> (n + <span class="constant" style="color:purple">1</span>) % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span>;
+  
+  }</code></pre></li></ul>
+</section>
+<section id="sec-structuring-a-proof-in-lemmas" class="section section1" data-section-depth="1" data-line="215"><h2 id="heading-sec-structuring-a-proof-in-lemmas" class="h1" data-heading-depth="1" style="display:block">Structuring a proof in lemmas</h2>
+<ul class="ul list-dash loose" data-line="217">
+<li class="li ul-li list-dash-li loose-li" data-line="217">
+<p data-line="217"><span data-line="217"></span>We would not write a proof like that on paper
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="218">
+<p data-line="218"><span data-line="218"></span>Instead, we would organize our proof by first defining a proving a lemma
+</p><!-- inline-dafny ProvingByExplaining/SuccOddIsEven4 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="221" data-line-first="222" style="display:block"><code data-line="222">  <span style="color:blue">lemma</span> DivBy2IsEven()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> n: <span style="color:teal">nat</span> :: n % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; Even(n)
+  {
+    EvenP(); OddP();
+    <span style="color:blue">assert</span> <span style="color:blue">forall</span> n: <span style="color:teal">nat</span> :: n % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; n == <span class="constant" style="color:purple">2</span> * (n / <span class="constant" style="color:purple">2</span>);
+  }
+
+  <span style="color:blue">lemma</span> SuccOddIsEven(n: <span style="color:teal">nat</span>)
+    <span style="color:purple">requires</span> Odd(n)
+    <span style="color:purple">ensures</span> Even(n + <span class="constant" style="color:purple">1</span>)
+  {
+    OddP();
+    DivBy2IsEven();
+    
+    <span style="color:blue">assert</span> n % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">1</span>;
+    <span style="color:blue">assert</span> (n + <span class="constant" style="color:purple">1</span>) % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span>;
+  }</code></pre></li></ul>
+</section>
+<section id="sec-reasoning-incrementally" class="section section1" data-section-depth="1" data-line="241"><h2 id="heading-sec-reasoning-incrementally" class="h1" data-heading-depth="1" style="display:block">Reasoning incrementally</h2>
+<ul class="ul list-dash compact" data-line="243">
+<li class="li ul-li list-dash-li compact-li" data-line="243"><span data-line="243"></span>It is hard to come up with a proof at once
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="244"><span data-line="244"></span>To make and validate incremental progress, one can assume a result 
+
+<ul class="ul list-dash compact" data-line="245">
+<li class="li ul-li list-dash-li compact-li" data-line="245"><span data-line="245"></span>This should be proved later 
+</li></ul>
+<!-- inline-dafny Mathematics/A1_0 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="248" data-line-first="249" style="display:block"><code data-line="249">  <span style="color:blue">lemma</span> Prop()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> n: <span style="color:teal">nat</span> :: Even(n) ==&gt; Even(n + <span class="constant" style="color:purple">2</span>)
+  {
+    <span style="color:blue">assume</span> <span style="color:blue">false</span>; <span style="color:darkgreen">// TODO</span>
+  }</code></pre></li></ul>
+</section>
+<section id="sec-universal-introduction" class="section section1" data-section-depth="1" data-line="256"><h2 id="heading-sec-universal-introduction" class="h1" data-heading-depth="1" style="display:block">Universal introduction</h2>
+<ul class="ul list-dash loose" data-line="258">
+<li class="li ul-li list-dash-li loose-li" data-line="258">
+<p data-line="258"><span data-line="258"></span>A <span data-line="258"></span><code class="code code1">forall</code><span data-line="258"></span> statement proves a universal property by fixing an arbitary name
+</p><!-- inline-dafny Mathematics/A1_1 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="261" data-line-first="262" style="display:block"><code data-line="262">  <span style="color:blue">lemma</span> Prop()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> n: <span style="color:teal">nat</span> :: Even(n) ==&gt; Even(n + <span class="constant" style="color:purple">2</span>)
+  {
+    <span style="color:blue">forall</span> n: <span style="color:teal">nat</span>
+      <span style="color:purple">ensures</span> Even(n) ==&gt; Even(n + <span class="constant" style="color:purple">2</span>)
+    {
+      <span style="color:blue">assume</span> <span style="color:blue">false</span>; <span style="color:darkgreen">// TODO</span>
+    }
+  }</code></pre></li></ul>
+</section>
+<section id="sec-implication-introduction" class="section section1" data-section-depth="1" data-line="273"><h2 id="heading-sec-implication-introduction" class="h1" data-heading-depth="1" style="display:block">Implication introduction</h2>
+<ul class="ul list-dash loose" data-line="275">
+<li class="li ul-li list-dash-li loose-li" data-line="275">
+<p data-line="275"><span data-line="275"></span>An <span data-line="275"></span><code class="code code1">if</code><span data-line="275"></span> statement proves a conditional property by assuming a property
+</p><!-- inline-dafny Mathematics/A1_2 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="278" data-line-first="279" style="display:block"><code data-line="279">  <span style="color:blue">lemma</span> Prop()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> n: <span style="color:teal">nat</span> :: Even(n) ==&gt; Even(n + <span class="constant" style="color:purple">2</span>)
+  {
+    <span style="color:blue">forall</span> n: <span style="color:teal">nat</span>
+      <span style="color:purple">ensures</span> Even(n) ==&gt; Even(n + <span class="constant" style="color:purple">2</span>)
+    {
+      <span style="color:blue">if</span> Even(n) {
+        <span style="color:blue">assume</span> <span style="color:blue">false</span>; <span style="color:darkgreen">// TODO</span>
+      }
+    }
+  }</code></pre></li></ul>
+</section>
+<section id="sec-skolemization" class="section section1" data-section-depth="1" data-line="292"><h2 id="heading-sec-skolemization" class="h1" data-heading-depth="1" style="display:block">Skolemization</h2>
+<ul class="ul list-dash loose" data-line="294">
+<li class="li ul-li list-dash-li loose-li" data-line="294">
+<p data-line="294"><span data-line="294"></span>A Skolemization fixes a witness for a known existential property 
+</p><!-- inline-dafny Mathematics/A1_3 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="297" data-line-first="298" style="display:block"><code data-line="298">  <span style="color:blue">lemma</span> Prop()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> n: <span style="color:teal">nat</span> :: Even(n) ==&gt; Even(n + <span class="constant" style="color:purple">2</span>)
+  {
+    <span style="color:blue">forall</span> n: <span style="color:teal">nat</span>
+      <span style="color:purple">ensures</span> Even(n) ==&gt; Even(n + <span class="constant" style="color:purple">2</span>)
+    {
+      <span style="color:blue">if</span> Even(n) {
+        <span style="color:blue">var</span> a: <span style="color:teal">nat</span> :| n == <span class="constant" style="color:purple">2</span> * a;
+        <span style="color:blue">assume</span> <span style="color:blue">false</span>; <span style="color:darkgreen">// TODO</span>
+      }
+    }
+  }</code></pre></li></ul>
+</section>
+<section id="sec-providing-a-witness" class="section section1" data-section-depth="1" data-line="312"><h2 id="heading-sec-providing-a-witness" class="h1" data-heading-depth="1" style="display:block">Providing a witness</h2>
+<ul class="ul list-dash loose" data-line="314">
+<li class="li ul-li list-dash-li loose-li" data-line="314">
+<p data-line="314"><span data-line="314"></span>A variable definition names an expression and creates a witness
+</p><!-- inline-dafny Mathematics/A1_4 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="317" data-line-first="318" style="display:block"><code data-line="318">  <span style="color:blue">lemma</span> Prop()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> n: <span style="color:teal">nat</span> :: Even(n) ==&gt; Even(n + <span class="constant" style="color:purple">2</span>)
+  {
+    <span style="color:blue">forall</span> n: <span style="color:teal">nat</span>
+      <span style="color:purple">ensures</span> Even(n) ==&gt; Even(n + <span class="constant" style="color:purple">2</span>)
+    {
+      <span style="color:blue">if</span> Even(n) {
+        <span style="color:blue">var</span> a: <span style="color:teal">nat</span> :| n == <span class="constant" style="color:purple">2</span> * a;
+        <span style="color:blue">var</span> b: <span style="color:teal">nat</span> := <span class="constant" style="color:purple">2</span> * (a + <span class="constant" style="color:purple">1</span>);
+      }
+    }
+  }</code></pre></li></ul>
+</section>
+<section id="sec-proof-methods" class="section section1" data-section-depth="1" data-line="332"><h2 id="heading-sec-proof-methods" class="h1" data-heading-depth="1" style="display:block">Proof methods</h2>
+<ul class="ul list-dash compact" data-line="334">
+<li class="li ul-li list-dash-li compact-li" data-line="334"><span data-line="334"></span>Other important proof methods include
+
+<ul class="ul list-dash compact" data-line="335">
+<li class="li ul-li list-dash-li compact-li" data-line="335"><span data-line="335"></span>Proof by contradiction
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="336"><span data-line="336"></span>Proof by case analysis 
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="337"><span data-line="337"></span>Proof by induction 
+</li></ul></li></ul>
+</section>
+<section id="sec-proof-by-contradiction" class="section section1" data-section-depth="1" data-line="339"><h2 id="heading-sec-proof-by-contradiction" class="h1" data-heading-depth="1" style="display:block">Proof by contradiction</h2>
+<ul class="ul list-dash loose" data-line="341">
+<li class="li ul-li list-dash-li loose-li" data-line="341">
+<p data-line="341"><span data-line="341"></span>Assume the contrary to your goal and prove <span data-line="341"></span><code class="code code1">false</code><span data-line="341"></span>
+</p><!-- inline-dafny Mathematics/A16 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="344" data-line-first="345" style="display:block"><code data-line="345">  <span style="color:blue">lemma</span> ProofByContradiction(n: <span style="color:teal">nat</span>)
+    <span style="color:purple">requires</span> Even(n)
+    <span style="color:purple">ensures</span> !<span style="color:blue">exists</span> m: <span style="color:teal">nat</span> :: n == <span class="constant" style="color:purple">2</span> * m + <span class="constant" style="color:purple">1</span>
+  {
+
+    <span style="color:blue">var</span> m1: <span style="color:teal">nat</span> :| n == <span class="constant" style="color:purple">2</span> * m1;
+
+    <span style="color:blue">if</span> <span style="color:blue">exists</span> m: <span style="color:teal">nat</span> :: n == <span class="constant" style="color:purple">2</span> * m + <span class="constant" style="color:purple">1</span> {
+
+      <span style="color:blue">var</span> m2: <span style="color:teal">nat</span> :| n == <span class="constant" style="color:purple">2</span> * m2 + <span class="constant" style="color:purple">1</span>;
+      <span style="color:blue">assert</span> <span style="color:blue">false</span>;
+
+    }
+
+  }</code></pre></li></ul>
+</section>
+<section id="sec-proof-by-case-analysis" class="section section1" data-section-depth="1" data-line="362"><h2 id="heading-sec-proof-by-case-analysis" class="h1" data-heading-depth="1" style="display:block">Proof by case analysis</h2>
+<ul class="ul list-dash loose" data-line="364">
+<li class="li ul-li list-dash-li loose-li" data-line="364">
+<p data-line="364"><span data-line="364"></span>In math, we sometimes enumerate different possibilities
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="365">
+<p data-line="365"><span data-line="365"></span>In Dafny, one way to do this uses conditional statements
+</p><!-- inline-dafny Mathematics/A17 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="368" data-line-first="369" style="display:block"><code data-line="369">  <span style="color:blue">lemma</span> ProofByCaseAnalysis(n: <span style="color:teal">nat</span>)
+    <span style="color:purple">ensures</span> Even(n) || Odd(n)
+  {
+
+    <span style="color:blue">if</span> n % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> { <span style="color:blue">assert</span> n == <span class="constant" style="color:purple">2</span> * (n / <span class="constant" style="color:purple">2</span>); }
+
+    <span style="color:blue">if</span> n % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">1</span> { <span style="color:blue">assert</span> n == (<span class="constant" style="color:purple">2</span> * (n / <span class="constant" style="color:purple">2</span>)) + <span class="constant" style="color:purple">1</span>; }
+
+  }</code></pre></li></ul>
+</section>
+<section id="sec-proof-by-induction" class="section section1" data-section-depth="1" data-line="380"><h2 id="heading-sec-proof-by-induction" class="h1" data-heading-depth="1" style="display:block">Proof by induction</h2>
+<ul class="ul list-dash compact" data-line="382">
+<li class="li ul-li list-dash-li compact-li" data-line="382"><span data-line="382"></span>To prove a property that holds for all natural numbers, you can sometimes do it by <span data-line="382"></span><em class="em-star1">induction</em><span data-line="382"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="383"><span data-line="383"></span>If you can prove <span data-line="383"></span><span class="math-inline">$P(0)$</span><span data-line="383"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="384"><span data-line="384"></span>And <span data-line="384"></span><span class="math-inline">$\forall \; n \cdot P(n) \Rightarrow P(n+1)$</span><span data-line="384"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="385"><span data-line="385"></span>Then, you can conclude <span data-line="385"></span><span class="math-inline">$\forall \; n \cdot P(n)$</span><span data-line="385"></span>
+</li></ul>
+</section>
+<section id="sec-pencil-and-paper-proof-by-induction" class="section section1" data-section-depth="1" data-line="388"><h2 id="heading-sec-pencil-and-paper-proof-by-induction" class="h1" data-heading-depth="1" style="display:block">Pencil and paper proof by induction</h2>
+<div class="lemma" data-line="389" style="display:block;margin:1ex 0pt">
+<p class="p noindent" data-line="390"><span data-line="390"></span><span class="lemma-before"><strong class="strong-star2">Lemma&#160;<span class="lemma-label">1</span>.</strong> <span class="theorem-caption"></span><br>
+</span><span data-line="390"></span>  <span data-line="390"></span><span class="math-inline">$\forall n \cdot \sum_{i=0}^n i = \frac{n(n+1)}{2}$</span></p></div>
+<div class="proof" data-line="392" style="theorem-caption-end: ;display:block;margin:1ex 0pt">
+<p class="p noindent" data-line="393"><span data-line="393"></span><span class="proof-before"><strong class="strong-star2">Proof</strong>. <span class="theorem-caption"></span> </span></p></div>
+<ul class="ul list-dash compact" data-line="395">
+<li class="li ul-li list-dash-li compact-li" data-line="395"><span data-line="395"></span>Base case: <span data-line="395"></span><span class="math-inline">$\sum_{i=0}^0 i = 0 = \frac{0 \times 1}{2}$</span><span data-line="395"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="396"><span data-line="396"></span>Inductive case:
+
+<ul class="ul list-dash compact" data-line="397">
+<li class="li ul-li list-dash-li compact-li" data-line="397"><span data-line="397"></span>We assume that <span data-line="397"></span><span class="math-inline">$\sum_{i=0}^n i = \frac{n(n+1)}{2}$</span><span data-line="397"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="398"><span data-line="398"></span>Autopilot:
+
+<ul class="ul list-dash compact" data-line="399">
+<li class="li ul-li list-dash-li compact-li" data-line="399"><span data-line="399"></span><span class="math-inline">$\sum_{i=0}^{n+1} i$</span><span data-line="399"></span> 
+<span data-line="400"></span><br>
+<span data-line="400"></span> <span data-line="400"></span><span class="math-inline">$ = \sum_{i=0}^{n} i + (n + 1) \;\;\;\; \text{By definition}$</span><span data-line="400"></span>
+<span data-line="401"></span><br>
+<span data-line="401"></span> <span data-line="401"></span><span class="math-inline">$ = \frac{n(n+1)}{2} + (n + 1) \;\;\;\; \text{By induction hypothesis}$</span><span data-line="401"></span>
+<span data-line="402"></span><br>
+<span data-line="402"></span> <span data-line="402"></span><span class="math-inline">$ = \frac{(n+1)(n+2)}{2} \;\;\;\; \text{By algebra autopilot}$</span><span data-line="402"></span> <span data-line="402"></span> 
+</li></ul></li></ul></li>
+<li class="li ul-li list-dash-li compact-li" data-line="403"><span data-line="403"></span>Conclusion: <span data-line="403"></span><span class="math-inline">$\forall n \cdot \sum_{i=0}^n i = \frac{n(n+1)}{2}$</span><span data-line="403"></span>
+</li></ul>
+</section>
+<section id="sec-dafny-proof-by-induction" class="section section1" data-section-depth="1" data-line="405"><h2 id="heading-sec-dafny-proof-by-induction" class="h1" data-heading-depth="1" style="display:block">Dafny proof by induction</h2>
+<ul class="ul list-dash loose" data-line="407">
+<li class="li ul-li list-dash-li loose-li" data-line="407">
+<p data-line="407"><span data-line="407"></span>In Dafny, a proof by induction amounts to a recursive call with a smaller argument
+</p><!-- inline-dafny Mathematics/A18 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="410" data-line-first="411" style="display:block"><code data-line="411">  <span style="color:blue">lemma</span> ProofByInduction(n: <span style="color:teal">nat</span>)
+    <span style="color:purple">requires</span> n % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span>
+    <span style="color:purple">ensures</span> Even(n)
+  {
+
+    <span style="color:blue">if</span> n == <span class="constant" style="color:purple">0</span> {
+
+      <span style="color:blue">assert</span> n == <span class="constant" style="color:purple">2</span> * <span class="constant" style="color:purple">0</span>;
+
+    } <span style="color:blue">else</span> {
+
+      <span style="color:blue">assert</span> (n - <span class="constant" style="color:purple">2</span>) % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span>;
+      ProofByInduction(n - <span class="constant" style="color:purple">2</span>);
+      <span style="color:blue">var</span> m: <span style="color:teal">nat</span> :| n - <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">2</span> * m;
+      <span style="color:blue">assert</span> n == <span class="constant" style="color:purple">2</span> * m + <span class="constant" style="color:purple">2</span>;
+      <span style="color:blue">assert</span> n == <span class="constant" style="color:purple">2</span> * (m + <span class="constant" style="color:purple">1</span>);
+
+    }
+  }</code></pre></li></ul></section></div></div><span data-line=""></span></div>
+</body>
+<script type="text/javascript">
+  Reveal.initialize({
+          history: true,
+          transition: "none",
+          width: 1600,
+            height: 900,
+          center: false,
+          controls: false,
+             progress: false,
+          slideNumber: true
+          });
+  Reveal.configure({
+          history: true,
+          transition: "none",
+          width: 1600,
+            height: 900,
+          center: false,
+          controls: false,
+             progress: false,
+          slideNumber: true
+     });
+</script>
+<script>
+    // initialize printing
+    revealConfig.initPrint();
+    // initialize background embedded images
+    revealConfig.getEmbeddedImages();
+    </script>
+</html>

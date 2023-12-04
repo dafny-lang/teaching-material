@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta name="generator" content="Madoko, version 1.2.3" />
+  <meta name="viewport" content="initial-scale=1.0" />
+  <meta name="author" content="Jean-Baptiste Tristan \&amp, K. Rustan M. Leino" />
+  <title>Propositions</title>
+  <style type="text/css"  class="link">
+  /*# sourceURL=madoko.css */
+  
+  .madoko .toc>.tocblock .tocblock .tocblock {
+    margin-left: 2.25em;
+  }
+  .madoko .toc>.tocblock .tocblock {
+    margin-left: 1.5em;
+  }
+  .madoko .toc-contents>.tocblock>.tocitem {
+    font-weight: bold;
+  }
+  .madoko .toc {
+    margin-top: 1em;
+  }
+  .madoko p.para-continue {
+    margin-bottom: 0pt;
+  }
+  .madoko .para-block+p {
+    margin-top: 0pt;
+  }
+  .madoko ul.para-block, .madoko ol.para-block {
+    margin-top: 0pt;
+    margin-bottom: 0pt;
+  }
+  .madoko ul.para-end, .madoko ol.para-end {
+    margin-bottom: 1em;
+  }
+  .madoko dl {
+    margin-left: 0em;
+  }
+  .madoko blockquote {
+    font-style: italic;
+  }
+  .madoko a.localref {
+    text-decoration: none;
+  }
+  .madoko a.localref:hover {
+    text-decoration: underline;
+  }
+  .madoko .footnotes {
+    font-size: smaller;
+    margin-top: 2em;
+  }
+  .madoko .footnotes hr {
+    width: 50%;
+    text-align: left;
+  }
+  .madoko .footnote {
+    margin-left: 1em;
+  }
+  .madoko .footnote-before {
+    margin-left: -1em;
+    width: 1em;
+    display: inline-block;
+  }
+  .madoko .align-center, .madoko .align-center>p {
+    text-align: center !important;
+  }
+  .madoko .align-center pre {
+    text-align: left;
+  }
+  .madoko .align-center>* {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .madoko .align-left, .madoko .align-left>p {
+    text-align: left !important;
+  }
+  .madoko .align-left>* {
+    margin-left: 0pt !important;
+    margin-right: auto !important;
+  }
+  .madoko .align-right, .madoko .align-right>p {
+    text-align: right !important;
+  }
+  .madoko .align-right>* {
+    margin-left: auto !important;
+    margin-right: 0pt !important;
+  }
+  .madoko .align-center>table,
+  .madoko .align-left>table,
+  .madoko .align-right>table {
+    text-align: left !important;
+  }
+  .madoko .equation-before {
+    float: right;
+  }
+  .madoko .bibitem {
+    font-size: smaller;
+  }
+  .madoko .bibsearch {
+    font-size: x-small;
+    text-decoration:none;
+    color: black;
+    font-family: "Segoe UI Symbol", Symbola, serif;
+  }
+  .madoko .block, .madoko .figure, .madoko .bibitem, .madoko .equation, .madoko div.math {
+    margin-top: 1ex;
+    margin-bottom: 1ex;
+  }
+  .madoko .figure {
+    padding: 0.5em;
+    margin-left: 0pt;
+    margin-right: 0pt;
+  }
+  .madoko .hidden {
+    display: none;
+  }
+  .madoko .invisible {
+    visibility: hidden;
+  }
+  .madoko.preview .invisible {
+    visibility: visible;
+    opacity: 0.5;
+  }
+  .madoko code.code, .madoko span.code {
+    white-space: pre-wrap;
+  }
+  .madoko hr, hr.madoko {
+    border: none;
+    border-bottom: black solid 1px;
+    margin-bottom: 0.5ex;
+  }
+  .madoko .framed>*:first-child {
+    margin-top: 0pt;
+  }
+  .madoko .framed>*:last-child {
+    margin-bottom: 0pt;
+  }
+  .madoko ul.list-style-type-dash {
+      list-style-type: none !important;
+  }
+  .madoko ul.list-style-type-dash > li:before {
+      content: "\2013";
+      position: absolute;
+      margin-left: -1em;
+  }
+  .madoko table.madoko {
+    border-collapse: collapse;
+  }
+  .madoko td, .madoko th {
+    padding: 0ex 0.5ex;
+    margin: 0pt;
+    vertical-align: top;
+  }
+  .madoko .cell-border-left {
+    border-left: 1px solid black;
+  }
+  .madoko .cell-border-right {
+    border-right: 1px solid black;
+  }
+  .madoko thead>tr:first-child>.cell-line,
+  .madoko tbody:first-child>tr:first-child>.cell-line {
+    border-top: 1px solid black;
+    border-bottom: none;
+  }
+  .madoko .cell-line, .madoko .cell-double-line {
+    border-bottom: 1px solid black;
+    border-top: none;
+  }
+  .madoko .cell-double-line {
+    border-top: 1px solid black;
+    padding-top: 1.5px !important;
+  }
+  .madoko .input-mathpre .MathJax_Display {
+    text-align: left !important;
+  }
+  .madoko div.input-mathpre {
+    text-align: left;
+    margin-top: 1.5ex;
+    margin-bottom: 1ex;
+  }
+  .madoko .math-rendering {
+    text-align: left;
+    white-space: pre;
+    color: gray;
+  }
+  .madoko .mathdisplay {
+    text-align: center;
+  }
+  .madoko span.math-rendering {
+    display:inline-block;
+    width:8em;
+    overflow-x:auto;
+    font-size:70%;
+  }
+  .madoko span.math-rendering::-webkit-scrollbar {
+    width:4px;
+  }
+  .madoko .pretty table {
+    border-collapse: collapse;
+  }
+  .madoko .pretty td {
+    padding: 0em;
+  }
+  .madoko .pretty td.empty {
+    min-width: 1.5ex;
+  }
+  .madoko .pretty td.expander {
+    width: 100em;
+  }
+  body.madoko, .madoko .serif {
+    font-family: Cambria,"Times New Roman","Liberation Serif","Times",serif;
+  }
+  .madoko .sans-serif {
+    font-family: "Calibri", "Optima", sans-serif;
+  }
+  .madoko .symbol {
+    font-family: "Segoe UI Symbol", Symbola, serif;
+  }
+  body.madoko {
+    -webkit-text-size-adjust: 100%;       
+    text-rendering: optimizeLegibility;
+  }
+  body.madoko {
+    max-width: 88ex; 
+    margin: 1em auto;
+    padding: 0em 2em;
+  }
+  body.preview.madoko {
+    padding: 0em 1em;
+  }
+  .madoko p {
+    text-align: justify;
+  }
+  .madoko h1, .madoko h2, .madoko h3, .madoko h4 {
+    margin-top: 1.22em;
+    margin-bottom: 1ex;
+  }
+  .madoko h1+p, .madoko h2+p, .madoko h3+p, .madoko h4+p, .madoko h5+p  {
+    margin-top: 1ex;
+  }
+  .madoko h5, .madoko h6 {
+    margin-top: 1ex;
+    font-size: 1em;
+  }
+  .madoko h5 {
+    margin-bottom: 0.5ex;
+  }
+  .madoko h5 + p {
+    margin-top: 0.5ex;
+  }
+  .madoko h6 {
+    margin-bottom: 0pt;
+  }
+  .madoko h6 + p {
+    margin-top: 0pt;
+  }
+  .madoko pre, .madoko code, .madoko kbd, .madoko samp, .madoko tt,
+  .madoko .monospace, .madoko .token-indent, .madoko .reveal pre, .madoko .reveal code, .madoko .email {
+    font-family: Consolas,"Andale Mono WT","Andale Mono",Lucida Console,Monaco,monospace,monospace;
+    font-size: 0.85em;
+  }
+  .madoko pre code, .madoko .token-indent {
+    font-size: 0.95em;
+  }
+  .madoko pre code {
+    font-family: inherit !important;
+  }
+  .madoko ol.linenums li {
+    background-color: white;
+    list-style-type: decimal;
+  }
+  .madoko .remote {
+    background-color: #F0FFF0;
+  }
+  .madoko .remote + * {
+    margin-top: 0pt;
+  }
+  @media print {
+    body.madoko {
+      font-size: 10pt;
+    }
+    @page {
+      margin: 1in 1.5in;
+    }
+  }
+  @media only screen and (max-device-width:1024px) {
+    body.madoko {
+      padding: 0em 0.5em;
+    }
+    .madoko li {
+      text-align: left;
+    }
+  }
+  
+    </style>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/reveal.js/2.6.2/css/reveal.min.css"  class="link">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/reveal.js/2.6.2/css/theme/solarized.css"  class="link">
+  <script src="https://cdn.jsdelivr.net/reveal.js/2.6.2/lib/js/head.min.js"  class="script preview"></script>
+  <script src="https://cdn.jsdelivr.net/reveal.js/2.6.2/js/reveal.js"  class="script preview"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$']]},
+       TeX: { 
+         Macros: { mathid: ['\\mathit{#1\\hspace{0.1ex}}',1],
+                   mathkw: ['\\mathsf{#1}',1],
+                   mdmathindent: ['\\hspace{#1ex}',1],
+                   mathpre: ['#1',1],
+                 },
+  
+       }
+    });
+    MathJax.Hub.Register.StartupHook('TeX AMSmath Ready',function () { 
+      MathJax.InputJax.TeX.Definitions.environment['mdmathpre'] = ['AMSarray',null,null,null,'l','0em','0em'];
+    });
+  </script>
+  <script type="text/javascript" class="preview"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/reveal.js/2.6.2/css/theme/solarized.css" id="theme">    
+      <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/reveal.js/2.6.2/lib/js/html5shiv.js"></script>
+      <![endif]-->
+      <style>
+      body.madoko {
+        margin: 0pt;
+        padding: 0pt;
+        max-width: 100%;      
+      }
+      .madoko .reveal h1 {
+          font-size: 3.7em;
+      }
+      .madoko .reveal h2 {
+          font-size: 2.1em;
+      }
+      .reveal .authorblock .author {
+          font-size: 120%;
+          margin-bottom: 1ex;
+      }        
+      .reveal table {
+          margin-left: auto;
+          margin-right: auto;
+      }
+      .reveal pre table {
+        margin-left: 0pt;
+      }
+      .madoko .reveal pre.pretty {
+        padding-top: 0pt;
+        padding-bottom: 0pt;
+      }
+      .reveal li p {
+          text-align: left;
+      }
+      .reveal h2 {
+          margin-bottom: 0.7em;
+      }
+      .reveal section ul,
+      .reveal section ol {
+          margin-top: 0.35em;
+          margin-bottom: 0.35em;
+      }
+      .reveal section img.math-display {
+          padding: 1em;
+          box-shadow: none;
+          border: none;
+      }
+      .reveal section img.math-inline {
+          margin: 0pt;
+          padding: 0pt;
+          background-color: none;
+          box-shadow: none;
+          border: none;
+      }
+      .reveal section img {
+          box-shadow: none;
+          border: none;
+      }
+      .madoko .reveal pre {
+          border: 1px solid black;
+          word-wrap: normal;
+          background-color: white;
+          font-size: 0.7em;
+          padding: 0.7em;
+          line-height: 100%;
+          width: 100%;
+      }      
+      .reveal pre code, .reveal code {
+          padding: 0pt;
+      }
+      .reveal nav.toc {
+          line-height: 1em;
+          font-size: 60%;
+          overflow-y: auto;
+      }    
+      .reveal .tocitem {
+          text-align: left;
+      }
+      .reveal .toc>.tocblock .tocblock {
+          margin-left: 0.5em;
+      }   
+      .reveal .toc>.tocblock .tocblock .tocblock {
+          margin-left: 1em;
+      }
+      .reveal .bibliography {
+        height: 18em;
+        overflow-y: auto;
+        font-size: 0.8em;
+        line-height: 1.25;
+      }
+      .reveal section[data-smaller=""],
+      .reveal section[data-smaller="true"] {
+        font-size: 80%;
+        width: 110%;
+      }
+      .reveal .slides>section[data-smaller=""],
+      .reveal .slides>section[data-smaller="true"] {
+        left: -55%;
+      }
+      .reveal .details {
+        display: none;
+      }
+      .reveal[data-details=""] .details,
+      .reveal[data-details="true"] .details {
+        display: initial;
+      }
+      /* Display in the preview window */
+      html, body.madoko.preview, body.madoko.preview-full, .body.madoko {
+        height  : 100% !important;
+        width   : auto!important;
+        padding : 0pt !important;
+        margin  : 0pt !important;
+      }
+      body.madoko.preview, body.madoko.preview-full, .preview .body.madoko {
+        overflow: hidden !important;
+      }
+      body.preview .reveal .slides .fragment {
+        visibility: visible;
+        opacity: 0.5;
+      }
+      body.preview .reveal .slides .fragment.visible {
+        opacity: 1.0;
+      }
+      .preview .reveal div.notes,
+      .preview .reveal aside.notes {
+        display  : block;
+        position : absolute;
+        width    : 30%;
+        left     : 70%;
+        top      : -15%;
+        font-size: 50%;
+        border   : 1px solid black;
+        border-radius   : 10px;
+        background-color: white;
+      }
+      /* 'static' display in the preview window, unused for now */
+      body.preview.static div.reveal, 
+      body.preview.static div.ticreveal .slides, 
+      body.preview.static div.reveal section {
+        display: block !important;
+        position: relative !important;
+        width: auto !important;      
+      }
+      body.preview.static div.reveal section {
+        border: solid 1px black;
+        padding: 1em !important;
+        margin-top: 1em;
+        min-height: 15em;
+        top: 0pt;
+      }
+      body.madoko.preview.static section {
+        font-size: 75%;
+      }
+      body.madoko.preview.static {
+        padding: 0em 1em !important;
+      }
+      body.madoko.preview.static .reveal pre {
+        width: 95%;
+      }    
+      body.preview .reveal[data-details="false"] .details {
+        display: initial;
+        color: gray;
+      }
+      body.preview .reveal[data-long="false"] section[data-long] {
+        border-left: 2px black solid;
+      }
+      </style>
+      <script>    
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      window.revealConfig = {
+          controls: true,
+          progress: true,
+          history: true,
+          center: /^\s*(true|1)\s*$/i.test("true"),
+          slideNumber: /^\s*(true|1)\s*$/i.test("true"),
+          dependencies: [
+            { src: 'https://cdn.jsdelivr.net/reveal.js/2.6.2/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+            { src: 'https://cdn.jsdelivr.net/reveal.js/2.6.2/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+            { src: 'https://cdn.jsdelivr.net/reveal.js/2.6.2/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+          ],
+      };
+      function revealAddFragments() {
+        [].forEach.call(document.querySelectorAll( ".fragmented" ), function(elem0) {
+          var elem = (/^H\d$/.test(elem0.nodeName) ? elem0.parentNode : elem0);
+          [].forEach.call(elem.children, function(item) {
+            if (item==elem0) return;
+            if (item && !/\bfragment(ed)?\b/.test(item.className) && item.nodeType===1) {
+              item.className = item.className + " fragment";
+            }
+          });
+        });
+      }
+      function revealQuotedList(listType) {
+        //compatibility with Rmarkdown slides
+        [].forEach.call( document.querySelectorAll("blockquote>" + listType), function(ul) {
+          if (!/\bfragmented\b/.test(ul.className)) {
+            ul.className = ul.className + " fragmented";
+          }        
+          var quote = ul.parentNode;
+          if (quote.childElementCount===1) {
+            quote.parentNode.replaceChild(ul,quote);
+          }
+        });
+      }
+      function revealBuildToFragmented() {
+        [].forEach.call(document.querySelectorAll( ".build" ), function(elem) {
+          if (elem && !/\bfragmented\b/.test(elem.className) && elem.nodeType===1) {
+            elem.className = elem.className + " fragmented";
+          }
+        });
+      }
+      function revealDivNotesToAside() {
+        [].forEach.call(document.querySelectorAll("div.notes"), function(elem) {
+          var aside = document.createElement("ASIDE");
+          if (elem.id) aside.id = elem.id;
+          aside.className = elem.className;
+          [].forEach.call(elem.attributes, function(attr) {
+            aside.setAttribute( attr.name, attr.value );
+          });
+          aside.innerHTML = elem.innerHTML;
+          elem.parentNode.replaceChild(aside,elem);
+        });
+      }
+      function revealDataQuery() {
+        var reveal = document.querySelector(".reveal");
+        if (!reveal) return;
+        window.location.search.replace(/\bdata-(\w+)(?:=(\w+))?\b/g, function(matched,key,value) {
+          reveal.setAttribute("data-" + key, (value ? value : ""));
+          return matched;
+        });
+      }
+      function revealRemoveLong() {
+        // remove parts for 'long' presentation
+        if (/\bpreview(?![\w\-])/.test(document.body.className)) return;
+        var reveal = document.querySelector(".reveal");
+        if (!reveal) return;
+        var value = reveal.hasAttribute("data-long") ? reveal.getAttribute("data-long") : null;
+        if (value==null || value=="false" || value=="0") {
+          [].forEach.call( document.querySelectorAll("section[data-long]"), function(elem) {
+            elem.parentNode.removeChild(elem);
+          });
+        }
+      }
+      revealConfig.onLoad = function() {
+        revealConfig.getEmbeddedImages();
+        revealDataQuery();
+        revealRemoveLong();
+        revealQuotedList("ul");
+        revealQuotedList("ol");
+        revealBuildToFragmented();
+        revealDivNotesToAside();
+        revealAddFragments();
+      };
+      document.addEventListener("load",revealConfig.onLoad);    
+      document.addEventListener("DOMContentLoaded", function() {
+        if (typeof Reveal !== "undefined" && !Reveal.isReady()) {
+          revealConfig.onLoad();
+          Reveal.initialize(revealConfig);
+        }
+      });    
+      // add support for printing:
+      // use  ?print-pdf to get a pdf-printable version (in Chrome)
+      // use  ?print-paper to get a paper-printable version.
+      revealConfig.initPrint = function() {
+        var cssLink = null;
+        var bodyClass = null;
+        var cap = window.location.search.match(/\bprint-(\w+)\b/);
+        if (cap) {
+          bodyClass = cap[0];
+          cssLink = "https://cdn.jsdelivr.net/reveal.js/2.6.2/css/print/" + cap[1] + ".css";
+        }
+        if (cssLink) {
+          var link  = document.createElement( "link" );
+          link.rel  = "stylesheet";
+          link.type = "text/css";
+          link.href = cssLink;
+          var head = document.getElementsByTagName( 'head' )[0];
+          if (head) head.appendChild( link );
+        }
+        if (bodyClass) {
+          document.body.className = document.body.className + " " + bodyClass;
+        }
+      };
+      revealConfig.getEmbeddedImages = function() {
+        var images = {};
+        [].forEach.call( document.querySelectorAll("img[data-linkid]"), function(img) {
+          var linkid = img.getAttribute("data-linkid");
+          if (linkid) images["/" + linkid] = img.src;
+          var path = img.getAttribute("data-path");
+          if (path) images["/" + path] = img.src;
+        });     
+        [].forEach.call( document.querySelectorAll("section"), function(slide) {
+          var attrName = "data-background";
+          var image = slide.getAttribute(attrName);
+          if (!image) {
+            attrName = "data-background-image";
+            image = slide.getAttribute(attrName);
+          }
+          if (!image) return;
+          var cap = /^\s*!?\[([^\]]+)\]\s*$/.exec(image);
+          var href = images["/" + (cap ? cap[1] : image)];
+          if (!href) return;
+          if (attrName==="data-background" && /^data:/.test(href)) href = "url(" + href + ")";
+          slide.setAttribute(attrName, href);
+        });
+      };    
+      </script>
+  </head>
+<body class="madoko">
+
+<div class="body madoko" style="line-adjust:0">
+<div class="reveal" data-long="false" data-details="false" data-line="36" style="line-adjust:0">
+<div class="slides" data-line="36" style="line-adjust:0">
+
+<section class="titleblock align-center para-block" data-line="37" style="text-align:center;line-adjust:0">
+<div class="titleheader align-center" data-line="37" style="text-align:center;line-adjust:0">
+<h1 class="title para-block" data-line="37" style="font-weight:bold;margin-bottom:0.5ex;font-size:3em;line-adjust:0"><span data-line="37"></span>Propositions</h1></div>
+<div class="authors align-center" data-line="42" style="text-align:center;width:80%;line-adjust:0"><table class="authorrow columns block" data-line="42" style="margin-top:2ex;width:100%;line-adjust:0">
+<tbody><tr><td class="author column" data-line="42" style="text-align:center;font-size:x-large;line-adjust:0">
+<div class="authorname" data-line="42" style="font-size:1.4em;line-adjust:0"><span data-line="42"></span>Jean-Baptiste Tristan & K. Rustan M. Leino</div></td></tr></tbody></table></div></section><!-- This file was automatically generated from CedarPropositions.mdk -->
+
+
+
+<section id="sec-dafny-as-a-proof-assistant" class="section section1" data-section-depth="1" data-line="43"><h2 id="heading-sec-dafny-as-a-proof-assistant" class="h1" data-heading-depth="1" style="display:block">Dafny as a proof assistant</h2>
+<ul class="ul list-dash compact" data-line="45">
+<li class="li ul-li list-dash-li compact-li" data-line="45"><span data-line="45"></span>Dafny is a genuine programming language
+
+<ul class="ul list-dash compact" data-line="46">
+<li class="li ul-li list-dash-li compact-li" data-line="46"><span data-line="46"></span>Implemented using a compiler (including type checking) to write and execute programs
+</li></ul></li>
+<li class="li ul-li list-dash-li compact-li" data-line="47"><span data-line="47"></span>It is also a proof assistant
+
+<ul class="ul list-dash compact" data-line="48">
+<li class="li ul-li list-dash-li compact-li" data-line="48"><span data-line="48"></span>You can state and prove mathematical propositions
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="49"><span data-line="49"></span>More generally, you can formalize mathematical theories 
+
+<ul class="ul list-dash compact" data-line="50">
+<li class="li ul-li list-dash-li compact-li" data-line="50"><span data-line="50"></span>Arithmetic, set theory, group theory, measure theory, etc<span data-line="50"></span>&#8230;<span data-line="50"></span>
+</li></ul></li></ul></li>
+<li class="li ul-li list-dash-li compact-li" data-line="51"><span data-line="51"></span>Our ultimate goal (and Dafny<span data-line="51"></span>&#39;<span data-line="51"></span>s purpose) is to verify programs, not mathematics
+
+<ul class="ul list-dash compact" data-line="52">
+<li class="li ul-li list-dash-li compact-li" data-line="52"><span data-line="52"></span>Yet, an expert Dafny user must have a solid understanding of how to prove theorem in Dafny
+</li></ul></li></ul>
+</section>
+<section id="sec-theories" class="section section1" data-section-depth="1" data-line="54"><h2 id="heading-sec-theories" class="h1" data-heading-depth="1" style="display:block">Theories</h2>
+<ul class="ul list-dash compact" data-line="56">
+<li class="li ul-li list-dash-li compact-li" data-line="56"><span data-line="56"></span>In Dafny, you define theories with
+
+<ul class="ul list-dash compact" data-line="57">
+<li class="li ul-li list-dash-li compact-li" data-line="57"><span data-line="57"></span>Symbols
+
+<ul class="ul list-dash compact" data-line="58">
+<li class="li ul-li list-dash-li compact-li" data-line="58"><span data-line="58"></span>Types
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="59"><span data-line="59"></span>Functions
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="60"><span data-line="60"></span>Constants
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="61"><span data-line="61"></span>Predicates
+</li></ul></li>
+<li class="li ul-li list-dash-li compact-li" data-line="62"><span data-line="62"></span>Propositions
+</li></ul></li></ul>
+</section>
+<section id="sec-type-symbols" class="section section1" data-section-depth="1" data-line="64"><h2 id="heading-sec-type-symbols" class="h1" data-heading-depth="1" style="display:block">Type symbols</h2>
+<ul class="ul list-dash loose" data-line="66">
+<li class="li ul-li list-dash-li loose-li" data-line="66">
+<p data-line="66"><span data-line="66"></span>Dafny is a type theory:
+</p>
+<ul class="ul list-dash compact" data-line="67">
+<li class="li ul-li list-dash-li compact-li" data-line="67"><span data-line="67"></span>A proposition (mathematical statement) has a type: <span data-line="67"></span><code class="code code1">bool</code><span data-line="67"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="68"><span data-line="68"></span>Any term that constitutes a proposition has a type
+</li></ul></li>
+<li class="li ul-li list-dash-li loose-li" data-line="69">
+<p data-line="69"><span data-line="69"></span>You can declare the existence of types and give them definitions
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="70">
+<p data-line="70"><span data-line="70"></span>A type can be empty 
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="71">
+<p data-line="71"><span data-line="71"></span>Types can have <span data-line="71"></span><em class="em-low1">type characteristics</em><span data-line="71"></span>
+</p>
+<ul class="ul list-dash compact" data-line="72">
+<li class="li ul-li list-dash-li compact-li" data-line="72"><span data-line="72"></span><code class="code code1">00</code><span data-line="72"></span> says the type is nonempty
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="73"><span data-line="73"></span>Note that auto-init <span data-line="73"></span><code class="code code1">(0)</code><span data-line="73"></span> implies nonempty <span data-line="73"></span><code class="code code1">(00)</code><span data-line="73"></span>
+</li></ul></li>
+<li class="li ul-li list-dash-li loose-li" data-line="74">
+<p data-line="74"><span data-line="74"></span><code class="code code1">NaturalNumber</code><span data-line="74"></span> stands for a fixed but arbitrary, nonempty type
+</p><!-- inline-dafny FormalizingMathematics/SymbolTypeNat -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="77" data-line-first="78" style="display:block"><code data-line="78">  <span style="color:blue">type</span> NaturalNumber(<span class="constant" style="color:purple">00</span>)</code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="81">
+<p data-line="81"><span data-line="81"></span>A type can be parameterized by other types (a so-called <span data-line="81"></span><em class="em-low1">type operator</em><span data-line="81"></span>)
+</p><!-- inline-dafny FormalizingMathematics/SymbolTypeList -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="84" data-line-first="85" style="display:block"><code data-line="85">  <span style="color:blue">type</span> NaturalNumber(<span class="constant" style="color:purple">00</span>)</code></pre></li></ul>
+</section>
+<section id="sec-constant-symbols" class="section section1" data-section-depth="1" data-line="88"><h2 id="heading-sec-constant-symbols" class="h1" data-heading-depth="1" style="display:block">Constant symbols</h2>
+<ul class="ul list-dash loose" data-line="90">
+<li class="li ul-li list-dash-li loose-li" data-line="90">
+<p data-line="90"><span data-line="90"></span>You can declare the existence of constants
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="91">
+<p data-line="91"><span data-line="91"></span>They must have a type
+</p><!-- inline-dafny FormalizingMathematics/ConstantSymbol -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="94" data-line-first="95" style="display:block"><code data-line="95">  <span style="color:blue">ghost</span> <span style="color:blue">const</span> zero: NaturalNumber</code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="98">
+<p data-line="98"><span data-line="98"></span><code class="code code1">zero</code><span data-line="98"></span> stands for a fixed but arbitrary constant of type <span data-line="98"></span><code class="code code1">NaturalNumber</code><span data-line="98"></span>
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="99">
+<p data-line="99"><span data-line="99"></span>Since we are stating <span data-line="99"></span><code class="code code1">zero</code><span data-line="99"></span>&#39;<span data-line="99"></span>s existence, we need to know that <span data-line="99"></span><code class="code code1">NaturalNumber</code><span data-line="99"></span> is nonempty
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="100">
+<p data-line="100"><span data-line="100"></span>For now, think of the keyword <span data-line="100"></span><code class="code code1">ghost</code><span data-line="100"></span> as telling us that this constant is a mathematical object, not a programming one
+</p></li></ul>
+</section>
+<section id="sec-function-symbols" class="section section1" data-section-depth="1" data-line="102"><h2 id="heading-sec-function-symbols" class="h1" data-heading-depth="1" style="display:block">Function symbols</h2>
+<ul class="ul list-dash loose" data-line="104">
+<li class="li ul-li list-dash-li loose-li" data-line="104">
+<p data-line="104"><span data-line="104"></span>A constant with a function type is called a <span data-line="104"></span><em class="em-low1">function</em><span data-line="104"></span>
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="105">
+<p data-line="105"><span data-line="105"></span>A function symbol can be declared by <span data-line="105"></span><code class="code code1">function</code><span data-line="105"></span>
+</p><!-- inline-dafny FormalizingMathematics/FunctionSymbol -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="108" data-line-first="109" style="display:block"><code data-line="109">  <span style="color:blue">ghost</span> <span style="color:blue">function</span> Successor(n: NaturalNumber): NaturalNumber</code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="112">
+<p data-line="112"><span data-line="112"></span>Functions can have
+</p>
+<ul class="ul list-dash compact" data-line="113">
+<li class="li ul-li list-dash-li compact-li" data-line="113"><span data-line="113"></span>Type parameters
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="114"><span data-line="114"></span>Typed parameters
+</li></ul></li>
+<li class="li ul-li list-dash-li loose-li" data-line="115">
+<p data-line="115"><span data-line="115"></span>Functions have a return type
+</p></li></ul>
+</section>
+<section id="sec-predicate-symbols" class="section section1" data-section-depth="1" data-line="117"><h2 id="heading-sec-predicate-symbols" class="h1" data-heading-depth="1" style="display:block">Predicate symbols</h2>
+<ul class="ul list-dash loose" data-line="119">
+<li class="li ul-li list-dash-li loose-li" data-line="119">
+<p data-line="119"><span data-line="119"></span>A function with return type <span data-line="119"></span><code class="code code1">bool</code><span data-line="119"></span> is called a <span data-line="119"></span><em class="em-low1">predicate</em><span data-line="119"></span>
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="120">
+<p data-line="120"><span data-line="120"></span>A predicate symbol can be declared by <span data-line="120"></span><code class="code code1">predicate</code><span data-line="120"></span>
+</p><!-- inline-dafny FormalizingMathematics/PredicateSymbol -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="123" data-line-first="124" style="display:block"><code data-line="124">  <span style="color:blue">ghost</span> <span style="color:blue">predicate</span> Less(n: NaturalNumber, m: NaturalNumber)</code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="127">
+<p data-line="127"><span data-line="127"></span>Note that the <span data-line="127"></span>&#8220;<span data-line="127"></span><code class="code code1">: bool</code><span data-line="127"></span>&#8221;<span data-line="127"></span> is implicit for a <span data-line="127"></span><code class="code code1">predicate</code><span data-line="127"></span>
+</p></li></ul>
+</section>
+<section id="sec-lemmas" class="section section1" data-section-depth="1" data-line="129"><h2 id="heading-sec-lemmas" class="h1" data-heading-depth="1" style="display:block">Lemmas</h2>
+<ul class="ul list-dash loose" data-line="131">
+<li class="li ul-li list-dash-li loose-li" data-line="131">
+<p data-line="131"><span data-line="131"></span>A <span data-line="131"></span><em class="em-low1">functional (&#8220;executable&#8221;) expression</em><span data-line="131"></span> of type <span data-line="131"></span><code class="code code1">bool</code><span data-line="131"></span> represents a mathematical formula that can be <span data-line="131"></span><code class="code code1">false</code><span data-line="131"></span> or <span data-line="131"></span><code class="code code1">true</code><span data-line="131"></span>
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="132">
+<p data-line="132"><span data-line="132"></span>They are sometimes called <span data-line="132"></span><em class="em-low1">propositions</em><span data-line="132"></span>
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="133">
+<p data-line="133"><span data-line="133"></span>Propositions can be named using a <span data-line="133"></span><code class="code code1">lemma</code><span data-line="133"></span>
+</p><!-- inline-dafny ProvingByExplaining/Start -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="136" data-line-first="137" style="display:block"><code data-line="137">  <span style="color:blue">lemma</span> Proposition()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> m: <span style="color:teal">int</span>, n: <span style="color:teal">int</span> :: m &gt; <span class="constant" style="color:purple">0</span> &amp;&amp; n &gt; m ==&gt; m + n &gt; <span class="constant" style="color:purple">0</span></code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="141">
+<p data-line="141"><span data-line="141"></span>A lemma has a name (here, <span data-line="141"></span><code class="code code1">Proposition</code><span data-line="141"></span>)
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="142">
+<p data-line="142"><span data-line="142"></span>The proposition stated by a lemma is given after the <span data-line="142"></span><code class="code code1">ensures</code><span data-line="142"></span> keyword
+</p>
+<ul class="ul list-dash compact" data-line="143">
+<li class="li ul-li list-dash-li compact-li" data-line="143"><span data-line="143"></span>We call it the ensures clause of the lemma
+</li></ul>
+</li></ul>
+</section>
+<section id="sec-lemma-schema" class="section section1" data-section-depth="1" data-line="145"><h2 id="heading-sec-lemma-schema" class="h1" data-heading-depth="1" style="display:block">Lemma schema</h2>
+<ul class="ul list-dash loose" data-line="147">
+<li class="li ul-li list-dash-li loose-li" data-line="147">
+<p data-line="147"><span data-line="147"></span>More generally, a lemma names a family of formulas 
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="148">
+<p data-line="148"><span data-line="148"></span>In the simplest case, the formula is unique
+</p><!-- inline-dafny FormalizingMathematics/Schema1 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="151" data-line-first="152" style="display:block"><code data-line="152">  <span style="color:blue">lemma</span> Prop() 
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> x: <span style="color:teal">int</span> :: x % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; (x / <span class="constant" style="color:purple">2</span>) * <span class="constant" style="color:purple">2</span> == x </code></pre></li></ul>
+</section>
+<section id="sec-schemas-with-parameters" class="section section1" data-section-depth="1" data-line="156"><h2 id="heading-sec-schemas-with-parameters" class="h1" data-heading-depth="1" style="display:block">Schemas with parameters</h2>
+<ul class="ul list-dash loose" data-line="158">
+<li class="li ul-li list-dash-li loose-li" data-line="158">
+<p data-line="158"><span data-line="158"></span>The lemma can have type parameters and typed parameters
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="159">
+<p data-line="159"><span data-line="159"></span>There is one formula for each possible instantiation of these parameters
+</p><!-- inline-dafny FormalizingMathematics/Schema2' -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="162" data-line-first="163" style="display:block"><code data-line="163">  <span style="color:blue">lemma</span> Prop&lt;T&gt;(x: T) 
+    <span style="color:purple">ensures</span> x == x</code></pre></li></ul>
+</section>
+<section id="sec-schemas-with-preconditions" class="section section1" data-section-depth="1" data-line="167"><h2 id="heading-sec-schemas-with-preconditions" class="h1" data-heading-depth="1" style="display:block">Schemas with preconditions</h2>
+<ul class="ul list-dash loose" data-line="169">
+<li class="li ul-li list-dash-li loose-li" data-line="169">
+<p data-line="169"><span data-line="169"></span>A lemma can have a <span data-line="169"></span><code class="code code1">requires</code><span data-line="169"></span> clause, which is a precondition
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="170">
+<p data-line="170"><span data-line="170"></span>It restricts the set of formulas to those whose parameterizations satisfy the precondition
+</p><!-- inline-dafny FormalizingMathematics/Schema3 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="173" data-line-first="174" style="display:block"><code data-line="174">  <span style="color:blue">lemma</span> Prop(x: <span style="color:teal">int</span>) 
+    <span style="color:purple">requires</span> x % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span>
+    <span style="color:purple">ensures</span> (x / <span class="constant" style="color:purple">2</span>) * <span class="constant" style="color:purple">2</span> == x </code></pre></li></ul>
+</section>
+<section id="sec-type-test" class="section section1" data-section-depth="1" data-line="179"><h2 id="heading-sec-type-test" class="h1" data-heading-depth="1" style="display:block">Type test</h2>
+<ul class="ul list-dash loose" data-line="181">
+<li class="li ul-li list-dash-li loose-li" data-line="181">
+<p data-line="181"><span data-line="181"></span>We will now introduce the language of propositions (and terms/expressions)
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="182">
+<p data-line="182"><span data-line="182"></span>Every expression has a type
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="183">
+<p data-line="183"><span data-line="183"></span>There is an expression to test if an expression is of a certain type
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="184">
+<p data-line="184"><span data-line="184"></span>It uses the keyword <span data-line="184"></span><code class="code code1">is</code><span data-line="184"></span>
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="185">
+<p data-line="185"><span data-line="185"></span>It evaluates to a Boolean value 
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="186">
+<p data-line="186"><span data-line="186"></span>We will use that expression to introduce the syntax and types of expressions in Dafny 
+</p><!-- inline-dafny FunctionalProgramming/Example -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="189" data-line-first="190" style="display:block"><code data-line="190">  <span style="color:blue">predicate</span> IntPlus3IsInt(n: <span style="color:teal">int</span>) { (n + <span class="constant" style="color:purple">3</span>) <span style="color:blue">is</span> <span style="color:teal">int</span> }</code></pre></li></ul>
+</section>
+<section id="sec-basic-expressions" class="section section1" data-section-depth="1" data-line="193"><h2 id="heading-sec-basic-expressions" class="h1" data-heading-depth="1" style="display:block">Basic expressions</h2><!-- inline-dafny Expressions/SimpleExpressions -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="196" data-line-first="197" style="display:block"><code data-line="197">  <span style="color:blue">predicate</span> ConditionalExpression&lt;T&gt;(bexpr: <span style="color:teal">bool</span>, expr1: T, expr2: T)  { 
+    (<span style="color:blue">if</span> bexpr <span style="color:blue">then</span> expr1 <span style="color:blue">else</span> expr2) <span style="color:blue">is</span> T
+  }
+
+  <span style="color:blue">predicate</span> LetBinding&lt;U, V&gt;(expr1: U, expr2: V) { (<span style="color:blue">var</span> x := expr1; expr2) <span style="color:blue">is</span> V }
+
+  <span style="color:blue">predicate</span> Tuple&lt;T, U, V&gt;(t: T, u: U, v: V) { (t, u, v) <span style="color:blue">is</span> (T, U, V) }
+
+  <span style="color:blue">predicate</span> TupleAccess0&lt;T, U, V&gt;(tup: (T, U, V)) { tup.<span class="constant" style="color:purple">0</span> <span style="color:blue">is</span> T }
+
+  <span style="color:blue">predicate</span> TupleAccess1&lt;T, U, V&gt;(tup: (T, U, V)) { tup.<span class="constant" style="color:purple">1</span> <span style="color:blue">is</span> U }
+
+  <span style="color:blue">predicate</span> TupleAccess2&lt;T, U, V&gt;(tup: (T, U, V)) { tup.<span class="constant" style="color:purple">2</span> <span style="color:blue">is</span> V }</code></pre>
+<ul class="ul list-dash compact" data-line="212">
+<li class="li ul-li list-dash-li compact-li" data-line="212"><span data-line="212"></span>In the <span data-line="212"></span><em class="em-low1">let expression</em><span data-line="212"></span> <span data-line="212"></span><code class="code code1">var x := expr1; expr2</code><span data-line="212"></span>
+
+<ul class="ul list-dash compact" data-line="213">
+<li class="li ul-li list-dash-li compact-li" data-line="213"><span data-line="213"></span><code class="code code1">x</code><span data-line="213"></span> is just a name for the value of <span data-line="213"></span><code class="code code1">expr1</code><span data-line="213"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="214"><span data-line="214"></span>You can replace <span data-line="214"></span><code class="code code1">x</code><span data-line="214"></span> by <span data-line="214"></span><code class="code code1">expr1</code><span data-line="214"></span> in <span data-line="214"></span><code class="code code1">expr2</code><span data-line="214"></span> without changing the value of the expression
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="215"><span data-line="215"></span><code class="code code1">x</code><span data-line="215"></span> cannot be updated, despite the fact that let expressions use the keyword <span data-line="215"></span><code class="code code1">var</code><span data-line="215"></span>
+</li></ul></li></ul>
+</section>
+<section id="sec-anonymous-functions-and-application" class="section section1" data-section-depth="1" data-line="217"><h2 id="heading-sec-anonymous-functions-and-application" class="h1" data-heading-depth="1" style="display:block">Anonymous functions and application</h2><!-- inline-dafny Expressions/FunctionExpressions -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="220" data-line-first="221" style="display:block"><code data-line="221">  <span style="color:blue">predicate</span> LambdaAbstraction&lt;U, V&gt;(expr: V) { ((x: U) =&gt; expr) <span style="color:blue">is</span> U -&gt; V }
+
+  <span style="color:blue">predicate</span> Application&lt;U, V&gt;(fun: U -&gt; V, arg: U) { fun(arg) <span style="color:blue">is</span> V }</code></pre></section>
+<section id="sec-propositions-expressions" class="section section1" data-section-depth="1" data-line="226"><h2 id="heading-sec-propositions-expressions" class="h1" data-heading-depth="1" style="display:block">Propositions != expressions</h2>
+<ul class="ul list-dash compact" data-line="228">
+<li class="li ul-li list-dash-li compact-li" data-line="228"><span data-line="228"></span>All <span data-line="228"></span><em class="em-low1">functional</em><span data-line="228"></span> expressions of type <span data-line="228"></span><code class="code code1">bool</code><span data-line="228"></span> are valid propositions
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="229"><span data-line="229"></span>Other RHS expressions are <span data-line="229"></span><em class="em-low1">not</em><span data-line="229"></span> valid propositions
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="230"><span data-line="230"></span>Some propositions are not valid functional expressions
+</li></ul>
+</section>
+<section id="sec-propositional-logic" class="section section1" data-section-depth="1" data-line="232"><h2 id="heading-sec-propositional-logic" class="h1" data-heading-depth="1" style="display:block">Propositional logic</h2>
+<ul class="ul list-dash loose" data-line="234">
+<li class="li ul-li list-dash-li loose-li" data-line="234">
+<p data-line="234"><span data-line="234"></span>Type: <span data-line="234"></span><code class="code code1">bool</code><span data-line="234"></span>
+</p><!-- inline-dafny Booleans/Theory -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="237" data-line-first="238" style="display:block"><code data-line="238">  <span style="color:darkgreen">// Constants</span>
+  <span style="color:blue">lemma</span> False()
+    <span style="color:purple">ensures</span> <span style="color:blue">false</span> 
+  <span style="color:blue">lemma</span> True()
+    <span style="color:purple">ensures</span> <span style="color:blue">true</span> 
+
+  <span style="color:darkgreen">// Predicates</span>
+  <span style="color:blue">lemma</span> Conjunction(a: <span style="color:teal">bool</span>, b: <span style="color:teal">bool</span>)
+    <span style="color:purple">ensures</span> a &amp;&amp; b 
+  <span style="color:blue">lemma</span> Disjunction(a: <span style="color:teal">bool</span>, b: <span style="color:teal">bool</span>)
+    <span style="color:purple">ensures</span> a || b 
+  <span style="color:blue">lemma</span> Implication(a: <span style="color:teal">bool</span>, b: <span style="color:teal">bool</span>)
+    <span style="color:purple">ensures</span> a ==&gt; b 
+  <span style="color:blue">lemma</span> Explication(a: <span style="color:teal">bool</span>, b: <span style="color:teal">bool</span>)
+    <span style="color:purple">ensures</span> a &lt;== b 
+  <span style="color:blue">lemma</span> Equivalence(a: <span style="color:teal">bool</span>, b: <span style="color:teal">bool</span>)
+    <span style="color:purple">ensures</span> a &lt;==&gt; b 
+  <span style="color:blue">lemma</span> Negation(a: <span style="color:teal">bool</span>)
+    <span style="color:purple">ensures</span> !a </code></pre></li></ul>
+</section>
+<section id="sec-first-order-logic" class="section section1" data-section-depth="1" data-line="259"><h2 id="heading-sec-first-order-logic" class="h1" data-heading-depth="1" style="display:block">First-order logic</h2>
+<ul class="ul list-dash loose" data-line="261">
+<li class="li ul-li list-dash-li loose-li" data-line="261">
+<p data-line="261"><span data-line="261"></span>The language of propositions includes quantifiers that are not functional expressions
+</p><!-- inline-dafny Booleans/PredLogic -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="264" data-line-first="265" style="display:block"><code data-line="265">  <span style="color:blue">type</span> T
+  
+  <span style="color:blue">ghost</span> <span style="color:blue">predicate</span> P(x: T)
+
+  <span style="color:blue">lemma</span> PredicateLogicConnectives()
+    <span style="color:purple">ensures</span> (<span style="color:blue">forall</span> x: T :: P(x)) <span style="color:blue">is</span> <span style="color:teal">bool</span>
+    <span style="color:purple">ensures</span> (<span style="color:blue">exists</span> x: T :: P(x)) <span style="color:blue">is</span> <span style="color:teal">bool</span></code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="274">
+<p data-line="274"><span data-line="274"></span>Note: propositions need not be computable and they cannot always be compiled
+</p></li></ul>
+</section>
+<section id="sec-second-order-logic" class="section section1" data-section-depth="1" data-line="276"><h2 id="heading-sec-second-order-logic" class="h1" data-heading-depth="1" style="display:block">Second-order logic</h2>
+<ul class="ul list-dash loose" data-line="278">
+<li class="li ul-li list-dash-li loose-li" data-line="278">
+<p data-line="278"><span data-line="278"></span>You can quantify over predicates and state properties from second order logic
+</p><!-- inline-dafny FormalizingMathematics/PropositionsFour -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="281" data-line-first="282" style="display:block"><code data-line="282">  <span style="color:blue">lemma</span> SecondOrder()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> P: <span style="color:teal">int</span> -&gt; <span style="color:teal">bool</span> :: <span style="color:blue">forall</span> x: <span style="color:teal">int</span> :: P(x) || !P(x)</code></pre></li></ul>
+</section>
+<section id="sec-higher-order-logic" class="section section1" data-section-depth="1" data-line="286"><h2 id="heading-sec-higher-order-logic" class="h1" data-heading-depth="1" style="display:block">Higher-order logic</h2>
+<ul class="ul list-dash loose" data-line="288">
+<li class="li ul-li list-dash-li loose-li" data-line="288">
+<p data-line="288"><span data-line="288"></span>In fact, you can quantify over any value and Dafny is a higher-order logic
+</p><!-- inline-dafny FormalizingMathematics/PropositionsFive -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="291" data-line-first="292" style="display:block"><code data-line="292">  <span style="color:blue">lemma</span> ThirdOrder()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> P2: (<span style="color:teal">int</span> -&gt; <span style="color:teal">bool</span>) -&gt; <span style="color:teal">bool</span> :: <span style="color:blue">forall</span> P1: <span style="color:teal">int</span> -&gt; <span style="color:teal">bool</span> :: P2(P1) || !P2(P1)</code></pre></li></ul>
+</section>
+<section id="sec-impredicativity-of-propositions" class="section section1" data-section-depth="1" data-line="296"><h2 id="heading-sec-impredicativity-of-propositions" class="h1" data-heading-depth="1" style="display:block">Impredicativity of propositions</h2>
+<ul class="ul list-dash loose" data-line="298">
+<li class="li ul-li list-dash-li loose-li" data-line="298">
+<p data-line="298"><span data-line="298"></span>Dafny is <span data-line="298"></span><em class="em-low1">impredicative</em><span data-line="298"></span>: a predicate can be defined by quantifying over all predicates
+</p><!-- inline-dafny FormalizingMathematics/Impredicativity -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="301" data-line-first="302" style="display:block"><code data-line="302">  <span style="color:blue">lemma</span> Impredicative()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> x: T :: <span style="color:blue">forall</span> P: T -&gt; <span style="color:teal">bool</span> :: P(x)</code></pre></li></ul>
+</section>
+<section id="sec-predicativity-of-polymorphism" class="section section1" data-section-depth="1" data-line="306"><h2 id="heading-sec-predicativity-of-polymorphism" class="h1" data-heading-depth="1" style="display:block">Predicativity of polymorphism</h2>
+<ul class="ul list-dash loose" data-line="308">
+<li class="li ul-li list-dash-li loose-li" data-line="308">
+<p data-line="308"><span data-line="308"></span>Dafny<span data-line="308"></span>&#39;<span data-line="308"></span>s polymorphism is <span data-line="308"></span><em class="em-low1">predicative</em><span data-line="308"></span>: type parameters always appear before typed parameters
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="309">
+<p data-line="309"><span data-line="309"></span>Note, Dafny performs a syntactic rewrite called <span data-line="309"></span><em class="em-low1">type-parameter completion</em><span data-line="309"></span> on signatures<span data-line="309"></span><sup id="back-fn-fn-completion" ><a href="#fn-fn-completion" title="1.Dafny Power User: Type-Parameter Completion
+&#8617;" class="footnote-ref localref" ><span class="footnote-label">1</span></a></sup><span data-line="309"></span>
+</p>
+<ul class="ul list-dash compact" data-line="310">
+<li class="li ul-li list-dash-li compact-li" data-line="310"><span data-line="310"></span>This ensures that all type arguments are filled in
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="311"><span data-line="311"></span>This should not be confused for first-class higher-order type operators
+</li></ul>
+<!-- inline-dafny FormalizingMathematics/Predicativity -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="314" data-line-first="315" style="display:block"><code data-line="315">  <span style="color:blue">type</span> List&lt;X&gt;
+
+  <span style="color:blue">function</span> F&lt;T&gt;(x: T): T {
+    x
+  }
+
+  <span style="color:blue">function</span> G(): List -&gt; List {  <span style="color:darkgreen">// expands to:  function G&lt;_T0&gt;(): List&lt;_T0&gt; -&gt; List&lt;_T0&gt;</span>
+    F&lt;List&gt;                     <span style="color:darkgreen">// expands to:  F&lt;List&lt;_T0&gt;&gt;</span>
+  }</code></pre></li></ul>
+</section>
+<section id="sec-partiality" class="section section1" data-section-depth="1" data-line="328"><h2 id="heading-sec-partiality" class="h1" data-heading-depth="1" style="display:block">Partiality</h2>
+<ul class="ul list-dash loose" data-line="330">
+<li class="li ul-li list-dash-li loose-li" data-line="330">
+<p data-line="330"><span data-line="330"></span>Dafny is a <span data-line="330"></span><em class="em-low1">partial logic</em><span data-line="330"></span>: some propositions, while syntactically correct, are rejected
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="331">
+<p data-line="331"><span data-line="331"></span>In this example, Dafny rejects this proposition because <span data-line="331"></span><code class="code code1">1/x</code><span data-line="331"></span> is not defined for <span data-line="331"></span><code class="code code1">x == 0</code><span data-line="331"></span>
+</p><!-- inline-dafny FormalizingMathematics/Partial1 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="334" data-line-first="335" style="display:block"><code data-line="335">  <span style="color:blue">lemma</span> Partial() 
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> x: <span style="color:teal">int</span> :: x * <span class="constant" style="color:purple">1</span>/x == x </code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="339">
+<p data-line="339"><span data-line="339"></span>Note for experts:
+</p>
+<ul class="ul list-dash compact" data-line="340">
+<li class="li ul-li list-dash-li compact-li" data-line="340"><span data-line="340"></span>Dafny only pretends to be a partial logic
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="341"><span data-line="341"></span>In reality, it ensures that nothing can be proved about an undefined term 
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="342"><span data-line="342"></span>The existing implementation requires propositions to be proved to be defined 
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="343"><span data-line="343"></span>An implementation could also ensure that nothing can be proved about an undefined term
+</li></ul>
+</li></ul>
+</section>
+<section id="sec-partiality-and-proofs" class="section section1" data-section-depth="1" data-line="346"><h2 id="heading-sec-partiality-and-proofs" class="h1" data-heading-depth="1" style="display:block">Partiality and proofs</h2>
+<ul class="ul list-dash loose" data-line="348">
+<li class="li ul-li list-dash-li loose-li" data-line="348">
+<p data-line="348"><span data-line="348"></span>Dafny therefore needs to verify whether a proposition is acceptable
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="349">
+<p data-line="349"><span data-line="349"></span>To do so, it actually proves that the proposition is defined 
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="350">
+<p data-line="350"><span data-line="350"></span>In this example, Dafny can prove that <span data-line="350"></span><code class="code code1">x</code><span data-line="350"></span> will not be equal to <span data-line="350"></span><code class="code code1">0</code><span data-line="350"></span> 
+</p><!-- inline-dafny FormalizingMathematics/Partial2 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="353" data-line-first="354" style="display:block"><code data-line="354">  <span style="color:blue">lemma</span> Partial() 
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> x: <span style="color:teal">int</span> :: x != <span class="constant" style="color:purple">0</span> ==&gt; x / x == <span class="constant" style="color:purple">1</span></code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="358">
+<p data-line="358"><span data-line="358"></span>Conclusion: in Dafny, the language of propositions depends on provability
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="359">
+<p data-line="359"><span data-line="359"></span>And vice versa
+</p></li></ul>
+</section>
+<section id="sec-description" class="section section1" data-section-depth="1" data-line="361"><h2 id="heading-sec-description" class="h1" data-heading-depth="1" style="display:block">Description</h2>
+<ul class="ul list-dash loose" data-line="363">
+<li class="li ul-li list-dash-li loose-li" data-line="363">
+<p data-line="363"><span data-line="363"></span>You can use Hilbert<span data-line="363"></span>&#39;<span data-line="363"></span>s Epsilon operator to choose a value satisfying some property 
+</p><!-- inline-dafny FormalizingMathematics/Description -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="366" data-line-first="367" style="display:block"><code data-line="367">  <span style="color:blue">predicate</span> P(x: <span style="color:teal">int</span>)
+
+  <span style="color:blue">lemma</span> HilbertEpsilon() 
+    <span style="color:purple">requires</span> <span style="color:blue">forall</span> x: <span style="color:teal">int</span> :: P(x)
+    <span style="color:purple">ensures</span> <span style="color:blue">var</span> x: <span style="color:teal">int</span> :| P(x); <span style="color:blue">true</span> </code></pre></li></ul>
+</section>
+<section id="sec-referential-transparency" class="section section1" data-section-depth="1" data-line="374"><h2 id="heading-sec-referential-transparency" class="h1" data-heading-depth="1" style="display:block">Referential transparency</h2>
+<ul class="ul list-dash loose" data-line="376">
+<li class="li ul-li list-dash-li loose-li" data-line="376">
+<p data-line="376"><span data-line="376"></span>Dafny is not referentially transparent<span data-line="376"></span><sup id="back-fn-fn-computingepsilon" ><a href="#fn-fn-computingepsilon" title="2.Compiling Hilbert’s epsilon operator
+&#8617;" class="footnote-ref localref" ><span class="footnote-label">2</span></a></sup><span data-line="376"></span>
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="377">
+<p data-line="377"><span data-line="377"></span>The following proposition is false in Dafny: 
+</p><!-- inline-dafny FormalizingMathematics/RefTrans -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="380" data-line-first="381" style="display:block"><code data-line="381">  <span style="color:blue">lemma</span> NotReferentiallyTransparent()
+    <span style="color:purple">ensures</span> (<span style="color:blue">var</span> x: <span style="color:teal">int</span> :| <span style="color:blue">true</span>; x) == (<span style="color:blue">var</span> x: <span style="color:teal">int</span> :| <span style="color:blue">true</span>; x)</code></pre></li></ul>
+</section>
+<section id="sec-subtypes" class="section section1" data-section-depth="1" data-line="387"><h2 id="heading-sec-subtypes" class="h1" data-heading-depth="1" style="display:block">Subtypes</h2>
+<ul class="ul list-dash loose" data-line="389">
+<li class="li ul-li list-dash-li loose-li" data-line="389">
+<p data-line="389"><span data-line="389"></span>You can combine a type and a proposition to define a <span data-line="389"></span><em class="em-low1">subset type</em><span data-line="389"></span>
+</p><!-- inline-dafny FormalizingMathematics/SubsetType -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="392" data-line-first="393" style="display:block"><code data-line="393">  <span style="color:blue">type</span> T
+
+  <span style="color:blue">predicate</span> P(x: T) 
+
+  <span style="color:blue">type</span> U = x: T | P(x)
+    <span style="color:purple">witness</span> *</code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="401">
+<p data-line="401"><span data-line="401"></span>Elements of type <span data-line="401"></span><code class="code code1">U</code><span data-line="401"></span> are elements of type <span data-line="401"></span><code class="code code1">T</code><span data-line="401"></span> that satisfy predicate <span data-line="401"></span><code class="code code1">P</code><span data-line="401"></span>
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="402">
+<p data-line="402"><span data-line="402"></span>A subset type is empty if the predicate never holds 
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="403">
+<p data-line="403"><span data-line="403"></span>The <span data-line="403"></span><code class="code code1">witness</code><span data-line="403"></span> clause allows you to provide a witness if you want to guarantee that the type is inhabited
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="404">
+<p data-line="404"><span data-line="404"></span>The <span data-line="404"></span><code class="code code1">witness *</code><span data-line="404"></span> clause says that the type may be empty
+</p></li></ul>
+</section>
+<section id="sec-empty-subset-types" class="section section1" data-section-depth="1" data-line="406"><h2 id="heading-sec-empty-subset-types" class="h1" data-heading-depth="1" style="display:block">Empty subset types</h2>
+<ul class="ul list-dash loose" data-line="408">
+<li class="li ul-li list-dash-li loose-li" data-line="408">
+<p data-line="408"><span data-line="408"></span>Example of nonempty subset type with a witness
+</p><!-- inline-dafny FormalizingMathematics/SubsetType2 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="411" data-line-first="412" style="display:block"><code data-line="412">  <span style="color:blue">type</span> T(<span class="constant" style="color:purple">00</span>)
+
+  <span style="color:blue">ghost</span> <span style="color:blue">const</span> k: T
+
+  <span style="color:blue">type</span> U = x: T | <span style="color:blue">true</span>
+    <span style="color:blue">ghost</span> <span style="color:purple">witness</span> k</code></pre></li></ul>
+</section>
+<section id="sec-subtyping" class="section section1" data-section-depth="1" data-line="420"><h2 id="heading-sec-subtyping" class="h1" data-heading-depth="1" style="display:block">Subtyping</h2>
+<ul class="ul list-dash loose" data-line="422">
+<li class="li ul-li list-dash-li loose-li" data-line="422">
+<p data-line="422"><span data-line="422"></span>If type <span data-line="422"></span><code class="code code1">U</code><span data-line="422"></span> is defined as a subset type of <span data-line="422"></span><code class="code code1">T</code><span data-line="422"></span> then <span data-line="422"></span><code class="code code1">U</code><span data-line="422"></span> is a subtype of <span data-line="422"></span><code class="code code1">T</code><span data-line="422"></span> 
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="423">
+<p data-line="423"><span data-line="423"></span>Consider the following types 
+</p><!-- inline-dafny FormalizingMathematics/Subtyping0 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="426" data-line-first="427" style="display:block"><code data-line="427">  <span style="color:blue">type</span> T 
+
+  <span style="color:blue">predicate</span> P1(x: T)
+
+  <span style="color:blue">type</span> U = x: T | P1(x) <span style="color:purple">witness</span> *
+
+  <span style="color:blue">predicate</span> P2(x: U)
+
+  <span style="color:blue">type</span> V = x: U | P2(x) <span style="color:purple">witness</span> *</code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="438">
+<p data-line="438"><span data-line="438"></span><code class="code code1">U</code><span data-line="438"></span> is a subtype of <span data-line="438"></span><code class="code code1">T</code><span data-line="438"></span>
+</p>
+<ul class="ul list-dash compact" data-line="439">
+<li class="li ul-li list-dash-li compact-li" data-line="439"><span data-line="439"></span>the inhabitants of <span data-line="439"></span><code class="code code1">U</code><span data-line="439"></span> are those <span data-line="439"></span><code class="code code1">T</code><span data-line="439"></span> inhabitants <span data-line="439"></span><code class="code code1">x</code><span data-line="439"></span> for which <span data-line="439"></span><code class="code code1">P1(x)</code><span data-line="439"></span> holds
+</li></ul></li>
+<li class="li ul-li list-dash-li loose-li" data-line="440">
+<p data-line="440"><span data-line="440"></span><code class="code code1">V</code><span data-line="440"></span> is a subtype of <span data-line="440"></span><code class="code code1">U</code><span data-line="440"></span>
+</p>
+<ul class="ul list-dash compact" data-line="441">
+<li class="li ul-li list-dash-li compact-li" data-line="441"><span data-line="441"></span>the inhabitants of <span data-line="441"></span><code class="code code1">V</code><span data-line="441"></span> are those <span data-line="441"></span><code class="code code1">U</code><span data-line="441"></span> inhabitants <span data-line="441"></span><code class="code code1">x</code><span data-line="441"></span> for which <span data-line="441"></span><code class="code code1">P2(x)</code><span data-line="441"></span> holds
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="442"><span data-line="442"></span>the inhabitants of <span data-line="442"></span><code class="code code1">V</code><span data-line="442"></span> are those <span data-line="442"></span><code class="code code1">T</code><span data-line="442"></span> inhabitants <span data-line="442"></span><code class="code code1">x</code><span data-line="442"></span> for which <span data-line="442"></span><code class="code code1">P1(x) &amp;&amp; P2(x)</code><span data-line="442"></span> holds
+</li></ul>
+</li></ul>
+</section>
+<section id="sec-subtyping-for-functions" class="section section1" data-section-depth="1" data-line="444"><h2 id="heading-sec-subtyping-for-functions" class="h1" data-heading-depth="1" style="display:block">Subtyping for functions</h2>
+<ul class="ul list-dash loose" data-line="446">
+<li class="li ul-li list-dash-li loose-li" data-line="446">
+<p data-line="446"><span data-line="446"></span>Function type <span data-line="446"></span><code class="code code1">A -&gt; B</code><span data-line="446"></span> is a subtype of <span data-line="446"></span><code class="code code1">C -&gt; D</code><span data-line="446"></span> if
+</p>
+<ul class="ul list-dash compact" data-line="447">
+<li class="li ul-li list-dash-li compact-li" data-line="447"><span data-line="447"></span><code class="code code1">C</code><span data-line="447"></span> is a subtype of <span data-line="447"></span><code class="code code1">A</code><span data-line="447"></span> 
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="448"><span data-line="448"></span><code class="code code1">B</code><span data-line="448"></span> is a subtype of <span data-line="448"></span><code class="code code1">D</code><span data-line="448"></span> 
+</li></ul>
+<!-- inline-dafny FormalizingMathematics/Subtyping1 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="451" data-line-first="452" style="display:block"><code data-line="452">  <span style="color:blue">lemma</span> Subtyping(h: (V -&gt; T) -&gt; <span style="color:teal">bool</span>, f: U -&gt; U)
+    <span style="color:purple">ensures</span> h(f) </code></pre></li></ul>
+</section>
+<section id="sec-covariant-subtyping-for-type-parameters" class="section section1" data-section-depth="1" data-line="456"><h2 id="heading-sec-covariant-subtyping-for-type-parameters" class="h1" data-heading-depth="1" style="display:block">Covariant subtyping for type parameters</h2>
+<ul class="ul list-dash loose" data-line="458">
+<li class="li ul-li list-dash-li loose-li" data-line="458">
+<p data-line="458"><span data-line="458"></span>If a type operator <span data-line="458"></span><code class="code code1">S</code><span data-line="458"></span> is covariant in its parameter (declared with <span data-line="458"></span><code class="code code1">+</code><span data-line="458"></span>) then 
+</p>
+<ul class="ul list-dash compact" data-line="459">
+<li class="li ul-li list-dash-li compact-li" data-line="459"><span data-line="459"></span>if <span data-line="459"></span><code class="code code1">U</code><span data-line="459"></span> is a subtype of <span data-line="459"></span><code class="code code1">V</code><span data-line="459"></span>, then <span data-line="459"></span><code class="code code1">S&lt;U&gt;</code><span data-line="459"></span> is a subtype of <span data-line="459"></span><code class="code code1">S&lt;V&gt;</code><span data-line="459"></span>
+</li></ul>
+<!-- inline-dafny FormalizingMathematics/Subtyping2 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="462" data-line-first="463" style="display:block"><code data-line="463">  <span style="color:blue">type</span> S&lt;+X&gt; 
+
+  <span style="color:blue">lemma</span> Subtyping(f: S&lt;U&gt; -&gt; <span style="color:teal">bool</span>, y: S&lt;V&gt;)
+    <span style="color:purple">ensures</span> f(y) </code></pre></li></ul>
+</section>
+<section id="sec-contravariant-subtyping-for-type-parameters" class="section section1" data-section-depth="1" data-line="469"><h2 id="heading-sec-contravariant-subtyping-for-type-parameters" class="h1" data-heading-depth="1" style="display:block">Contravariant subtyping for type parameters</h2>
+<ul class="ul list-dash loose" data-line="471">
+<li class="li ul-li list-dash-li loose-li" data-line="471">
+<p data-line="471"><span data-line="471"></span>If a type operator <span data-line="471"></span><code class="code code1">S</code><span data-line="471"></span> is contravariant in its parameter (declared with <span data-line="471"></span><code class="code code1">-</code><span data-line="471"></span>) then 
+</p>
+<ul class="ul list-dash compact" data-line="472">
+<li class="li ul-li list-dash-li compact-li" data-line="472"><span data-line="472"></span>if <span data-line="472"></span><code class="code code1">U</code><span data-line="472"></span> is a subtype of <span data-line="472"></span><code class="code code1">V</code><span data-line="472"></span>, then <span data-line="472"></span><code class="code code1">S&lt;V&gt;</code><span data-line="472"></span> is a subtype of <span data-line="472"></span><code class="code code1">S&lt;U&gt;</code><span data-line="472"></span>
+</li></ul>
+<!-- inline-dafny FormalizingMathematics/Subtyping3 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="475" data-line-first="476" style="display:block"><code data-line="476">  <span style="color:blue">type</span> S&lt;-X&gt; 
+
+  <span style="color:blue">lemma</span> Subtyping(f: S&lt;U&gt; -&gt; <span style="color:teal">bool</span>, y: S&lt;T&gt;)
+    <span style="color:purple">ensures</span> f(y)</code></pre></li></ul>
+</section>
+<section id="sec-restrictions-on-type-synonyms" class="section section1" data-section-depth="1" data-line="482"><h2 id="heading-sec-restrictions-on-type-synonyms" class="h1" data-heading-depth="1" style="display:block">Restrictions on type synonyms</h2>
+<ul class="ul list-dash loose" data-line="484">
+<li class="li ul-li list-dash-li loose-li" data-line="484">
+<p data-line="484"><span data-line="484"></span>To ensure that it remains consistent, Dafny sometimes rejects the definition of a type operator
+</p><!-- inline-dafny FormalizingMathematics/Cardinality -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="487" data-line-first="488" style="display:block"><code data-line="488">  <span style="color:blue">type</span> S&lt;!X&gt; = X -&gt; <span style="color:teal">bool</span></code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="491">
+<p data-line="491"><span data-line="491"></span>In this example, because of how the type parameter <span data-line="491"></span><code class="code code1">X</code><span data-line="491"></span> is used, Dafny asks for the parameter to be marked as <span data-line="491"></span><code class="code code1">!</code><span data-line="491"></span>
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="492">
+<p data-line="492"><span data-line="492"></span>This limits the how it can be instantiated 
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="493">
+<p data-line="493"><span data-line="493"></span>A covariant type parameter that needs to be restricted is declared as <span data-line="493"></span><code class="code code1">*</code><span data-line="493"></span> instead of <span data-line="493"></span><code class="code code1">+</code><span data-line="493"></span> 
+</p></li></ul>
+</section>
+<section id="sec-logic-expressiveness" class="section section1" data-section-depth="1" data-line="495"><h2 id="heading-sec-logic-expressiveness" class="h1" data-heading-depth="1" style="display:block">Logic expressiveness</h2>
+<ul class="ul list-dash compact" data-line="497">
+<li class="li ul-li list-dash-li compact-li" data-line="497"><span data-line="497"></span>Dafny<span data-line="497"></span>&#39;<span data-line="497"></span>s language of proposition is rich enough to be a foundation for mathematics 
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="498"><span data-line="498"></span>For example, you can axiomatize set theory 
+</li></ul>
+</section>
+<section id="sec-theory--integers" class="section section1" data-section-depth="1" data-line="500"><h2 id="heading-sec-theory--integers" class="h1" data-heading-depth="1" style="display:block">Theory: integers</h2>
+<ul class="ul list-dash loose" data-line="502">
+<li class="li ul-li list-dash-li loose-li" data-line="502">
+<p data-line="502"><span data-line="502"></span>Type: <span data-line="502"></span><code class="code code1">int</code><span data-line="502"></span>
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="503">
+<p data-line="503"><span data-line="503"></span>Mathematical integers: no max, no min
+</p><!-- inline-dafny Integers/Theory -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="506" data-line-first="507" style="display:block"><code data-line="507">  <span style="color:darkgreen">// Constants</span>
+  <span style="color:blue">lemma</span> DecimalLiteral() <span style="color:purple">ensures</span> <span class="constant" style="color:purple">38</span> <span style="color:blue">is</span> <span style="color:teal">int</span>
+  <span style="color:blue">lemma</span> HexadecimalLiteral() <span style="color:purple">ensures</span> <span class="constant" style="color:purple">0xBadDecaf</span> <span style="color:blue">is</span> <span style="color:teal">int</span>
+  <span style="color:blue">lemma</span> ReadableLiteral() <span style="color:purple">ensures</span> <span class="constant" style="color:purple">4_345_765</span> <span style="color:blue">is</span> <span style="color:teal">int</span>
+  <span style="color:darkgreen">// Functions</span>
+  <span style="color:blue">lemma</span> Negation(n: <span style="color:teal">int</span>) <span style="color:purple">ensures</span> -n <span style="color:blue">is</span> <span style="color:teal">int</span> 
+  <span style="color:blue">lemma</span> Addition(n: <span style="color:teal">int</span>, m: <span style="color:teal">int</span>) <span style="color:purple">ensures</span> (n + m) <span style="color:blue">is</span> <span style="color:teal">int</span>
+  <span style="color:blue">lemma</span> Substraction(n: <span style="color:teal">int</span>, m: <span style="color:teal">int</span>) <span style="color:purple">ensures</span> (n - m) <span style="color:blue">is</span> <span style="color:teal">int</span>
+  <span style="color:blue">lemma</span> Multiplication(n: <span style="color:teal">int</span>, m: <span style="color:teal">int</span>) <span style="color:purple">ensures</span> (n * m) <span style="color:blue">is</span> <span style="color:teal">int</span>
+  <span style="color:blue">lemma</span> Division(n: <span style="color:teal">int</span>, m: <span style="color:teal">int</span>)
+    <span style="color:purple">requires</span> m != <span class="constant" style="color:purple">0</span>
+    <span style="color:purple">ensures</span> (n / m) <span style="color:blue">is</span> <span style="color:teal">int</span>
+  <span style="color:blue">lemma</span> Remainder(n: <span style="color:teal">int</span>, m: <span style="color:teal">int</span>)
+    <span style="color:purple">requires</span> m != <span class="constant" style="color:purple">0</span>
+    <span style="color:purple">ensures</span> (n % m) <span style="color:blue">is</span> <span style="color:teal">int</span>
+  <span style="color:darkgreen">// Predicates</span>
+  <span style="color:blue">lemma</span> Equality(n: <span style="color:teal">int</span>, m: <span style="color:teal">int</span>) <span style="color:purple">ensures</span> n == m 
+  <span style="color:blue">lemma</span> Disequality(n: <span style="color:teal">int</span>, m: <span style="color:teal">int</span>) <span style="color:purple">ensures</span> n != m
+  <span style="color:blue">lemma</span> LessOrEqual(n: <span style="color:teal">int</span>, m: <span style="color:teal">int</span>) <span style="color:purple">ensures</span> n &lt;= m
+  <span style="color:blue">lemma</span> LessThan(n: <span style="color:teal">int</span>, m: <span style="color:teal">int</span>) <span style="color:purple">ensures</span> n &lt; m
+  <span style="color:blue">lemma</span> GreaterOrEqual(n: <span style="color:teal">int</span>, m: <span style="color:teal">int</span>) <span style="color:purple">ensures</span> n &gt;= m
+  <span style="color:blue">lemma</span> GreaterThan(n: <span style="color:teal">int</span>, m: <span style="color:teal">int</span>) <span style="color:purple">ensures</span> n &gt; m</code></pre></li></ul>
+</section>
+<section id="sec-theory--reals" class="section section1" data-section-depth="1" data-line="531"><h2 id="heading-sec-theory--reals" class="h1" data-heading-depth="1" style="display:block">Theory: reals</h2>
+<ul class="ul list-dash loose" data-line="533">
+<li class="li ul-li list-dash-li loose-li" data-line="533">
+<p data-line="533"><span data-line="533"></span>Type: <span data-line="533"></span><code class="code code1">real</code><span data-line="533"></span>
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="534">
+<p data-line="534"><span data-line="534"></span>Complete ordered field (cannot construct non-rationals but safe to assume existence)
+</p><!-- inline-dafny Reals/Theory -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="537" data-line-first="538" style="display:block"><code data-line="538">  <span style="color:darkgreen">// Constants</span>
+  <span style="color:blue">lemma</span> DecimalLiteral() <span style="color:purple">ensures</span> <span class="constant" style="color:purple">38.98</span> <span style="color:blue">is</span> <span style="color:teal">real</span> 
+  <span style="color:blue">lemma</span> ReadableLiteral() <span style="color:purple">ensures</span> <span class="constant" style="color:purple">4_345_765.999_987</span> <span style="color:blue">is</span> <span style="color:teal">real</span>
+  <span style="color:darkgreen">// Functions</span>
+  <span style="color:blue">lemma</span> Negation(n: <span style="color:teal">real</span>) <span style="color:purple">ensures</span> -n <span style="color:blue">is</span> <span style="color:teal">real</span>
+  <span style="color:blue">lemma</span> Addition(n: <span style="color:teal">real</span>, m: <span style="color:teal">real</span>) <span style="color:purple">ensures</span> (n + m) <span style="color:blue">is</span> <span style="color:teal">real</span>
+  <span style="color:blue">lemma</span> Substraction(n: <span style="color:teal">real</span>, m: <span style="color:teal">real</span>) <span style="color:purple">ensures</span> (n - m) <span style="color:blue">is</span> <span style="color:teal">real</span>
+  <span style="color:blue">lemma</span> Multiplication(n: <span style="color:teal">real</span>, m: <span style="color:teal">real</span>) <span style="color:purple">ensures</span> (n * m) <span style="color:blue">is</span> <span style="color:teal">real</span>
+  <span style="color:blue">lemma</span> Division(n: <span style="color:teal">real</span>, m: <span style="color:teal">real</span>)
+    <span style="color:purple">requires</span> m != <span class="constant" style="color:purple">0.0</span>
+    <span style="color:purple">ensures</span> (n / m) <span style="color:blue">is</span> <span style="color:teal">real</span>
+  <span style="color:blue">lemma</span> IntegerToReal(k: <span style="color:teal">int</span>) <span style="color:purple">ensures</span> (k <span style="color:blue">as</span> <span style="color:teal">real</span>) <span style="color:blue">is</span> <span style="color:teal">real</span>
+  <span style="color:blue">lemma</span> Floor(n: <span style="color:teal">real</span>) <span style="color:purple">ensures</span> n.Floor <span style="color:blue">is</span> <span style="color:teal">int</span> 
+  <span style="color:darkgreen">// Predicates</span>
+  <span style="color:blue">lemma</span> Equality(n: <span style="color:teal">real</span>, m: <span style="color:teal">real</span>) <span style="color:purple">ensures</span> n == m
+  <span style="color:blue">lemma</span> Disequality(n: <span style="color:teal">real</span>, m: <span style="color:teal">real</span>) <span style="color:purple">ensures</span> n != m
+  <span style="color:blue">lemma</span> LessOrEqual(n: <span style="color:teal">real</span>, m: <span style="color:teal">real</span>) <span style="color:purple">ensures</span> n &lt;= m
+  <span style="color:blue">lemma</span> LessThan(n: <span style="color:teal">real</span>, m: <span style="color:teal">real</span>) <span style="color:purple">ensures</span> n &lt; m
+  <span style="color:blue">lemma</span> GreaterOrEqual(n: <span style="color:teal">real</span>, m: <span style="color:teal">real</span>) <span style="color:purple">ensures</span> n &gt;= m
+  <span style="color:blue">lemma</span> GreaterThan(n: <span style="color:teal">real</span>, m: <span style="color:teal">real</span>) <span style="color:purple">ensures</span> n &gt; m</code></pre></li></ul>
+</section>
+<section id="sec-theory--finite-sets" class="section section1" data-section-depth="1" data-line="560"><h2 id="heading-sec-theory--finite-sets" class="h1" data-heading-depth="1" style="display:block">Theory: finite sets</h2>
+<ul class="ul list-dash loose" data-line="562">
+<li class="li ul-li list-dash-li loose-li" data-line="562">
+<p data-line="562"><span data-line="562"></span>Type: <span data-line="562"></span><code class="code code1">set&lt;T&gt;</code><span data-line="562"></span>
+</p><!-- inline-dafny Sets/Theory -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="565" data-line-first="566" style="display:block"><code data-line="566">  <span style="color:darkgreen">// Constants</span>
+  <span style="color:blue">lemma</span> EmptySet&lt;T&gt;() <span style="color:purple">ensures</span> {} <span style="color:blue">is</span> <span style="color:teal">set</span>&lt;T&gt; 
+
+  <span style="color:darkgreen">// Functions</span>
+  <span style="color:blue">lemma</span> Cardinality&lt;T&gt;(A: <span style="color:teal">set</span>&lt;T&gt;) <span style="color:purple">ensures</span> |A| <span style="color:blue">is</span> <span style="color:teal">int</span> 
+  <span style="color:blue">lemma</span> Union&lt;T&gt;(A: <span style="color:teal">set</span>&lt;T&gt;, B: <span style="color:teal">set</span>&lt;T&gt;) <span style="color:purple">ensures</span> (A + B) <span style="color:blue">is</span> <span style="color:teal">set</span>&lt;T&gt;
+  <span style="color:blue">lemma</span> Intersection&lt;T&gt;(A: <span style="color:teal">set</span>&lt;T&gt;, B: <span style="color:teal">set</span>&lt;T&gt;) <span style="color:purple">ensures</span> (A * B) <span style="color:blue">is</span> <span style="color:teal">set</span>&lt;T&gt;
+  <span style="color:blue">lemma</span> AsymmetricDifference&lt;T&gt;(A: <span style="color:teal">set</span>&lt;T&gt;, B: <span style="color:teal">set</span>&lt;T&gt;) <span style="color:purple">ensures</span> (A - B) <span style="color:blue">is</span> <span style="color:teal">set</span>&lt;T&gt;
+
+  <span style="color:darkgreen">// Predicates</span>
+  <span style="color:blue">lemma</span> Equality&lt;T&gt;(A: <span style="color:teal">set</span>&lt;T&gt;, B: <span style="color:teal">set</span>&lt;T&gt;) <span style="color:purple">ensures</span> A == B
+  <span style="color:blue">lemma</span> Disequality&lt;T&gt;(A: <span style="color:teal">set</span>&lt;T&gt;, B: <span style="color:teal">set</span>&lt;T&gt;) <span style="color:purple">ensures</span> A != B
+  <span style="color:blue">lemma</span> Subset&lt;T&gt;(A: <span style="color:teal">set</span>&lt;T&gt;, B: <span style="color:teal">set</span>&lt;T&gt;) <span style="color:purple">ensures</span> A &lt;= B
+  <span style="color:blue">lemma</span> StrictSubset&lt;T&gt;(A: <span style="color:teal">set</span>&lt;T&gt;, B: <span style="color:teal">set</span>&lt;T&gt;) <span style="color:purple">ensures</span> A &lt; B
+  <span style="color:blue">lemma</span> Superset&lt;T&gt;(A: <span style="color:teal">set</span>&lt;T&gt;, B: <span style="color:teal">set</span>&lt;T&gt;) <span style="color:purple">ensures</span> A &gt;= B
+  <span style="color:blue">lemma</span> StrictSuperset&lt;T&gt;(A: <span style="color:teal">set</span>&lt;T&gt;, B: <span style="color:teal">set</span>&lt;T&gt;) <span style="color:purple">ensures</span> A &gt; B
+  <span style="color:blue">lemma</span> Disjoint&lt;T&gt;(A: <span style="color:teal">set</span>&lt;T&gt;, B: <span style="color:teal">set</span>&lt;T&gt;) <span style="color:purple">ensures</span> A !! B
+  <span style="color:blue">lemma</span> Membership&lt;T&gt;(e: T, A: <span style="color:teal">set</span>&lt;T&gt;) <span style="color:purple">ensures</span> e <span style="color:blue">in</span> A
+  <span style="color:blue">lemma</span> Absence&lt;T&gt;(e: T, A: <span style="color:teal">set</span>&lt;T&gt;) <span style="color:purple">ensures</span> e !<span style="color:blue">in</span> A</code></pre></li></ul>
+</section>
+<section id="sec-theory--sets" class="section section1" data-section-depth="1" data-line="587"><h2 id="heading-sec-theory--sets" class="h1" data-heading-depth="1" style="display:block">Theory: sets</h2>
+<ul class="ul list-dash loose" data-line="589">
+<li class="li ul-li list-dash-li loose-li" data-line="589">
+<p data-line="589"><span data-line="589"></span>Type: <span data-line="589"></span><code class="code code1">iset&lt;T&gt;</code><span data-line="589"></span>
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="590">
+<p data-line="590"><span data-line="590"></span>Set may or may not be finite
+</p><!-- inline-dafny ISets/Theory -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="593" data-line-first="594" style="display:block"><code data-line="594">  <span style="color:darkgreen">// Functions</span>
+  <span style="color:blue">lemma</span> Union&lt;T&gt;(A: <span style="color:teal">iset</span>&lt;T&gt;, B: <span style="color:teal">iset</span>&lt;T&gt;) <span style="color:purple">ensures</span> (A + B) <span style="color:blue">is</span> <span style="color:teal">iset</span>&lt;T&gt;
+  <span style="color:blue">lemma</span> Intersection&lt;T&gt;(A: <span style="color:teal">iset</span>&lt;T&gt;, B: <span style="color:teal">iset</span>&lt;T&gt;) <span style="color:purple">ensures</span> (A * B) <span style="color:blue">is</span> <span style="color:teal">iset</span>&lt;T&gt;
+  <span style="color:blue">lemma</span> AsymmetricDifference&lt;T&gt;(A: <span style="color:teal">iset</span>&lt;T&gt;, B: <span style="color:teal">iset</span>&lt;T&gt;) <span style="color:purple">ensures</span> (A - B) <span style="color:blue">is</span> <span style="color:teal">iset</span>&lt;T&gt;
+
+  <span style="color:darkgreen">// Predicates</span>
+  <span style="color:blue">lemma</span> Equality&lt;T&gt;(A: <span style="color:teal">iset</span>&lt;T&gt;, B: <span style="color:teal">iset</span>&lt;T&gt;) <span style="color:purple">ensures</span> A == B
+  <span style="color:blue">lemma</span> Disequality&lt;T&gt;(A: <span style="color:teal">iset</span>&lt;T&gt;, B: <span style="color:teal">iset</span>&lt;T&gt;) <span style="color:purple">ensures</span> A != B
+  <span style="color:blue">lemma</span> Subset&lt;T&gt;(A: <span style="color:teal">iset</span>&lt;T&gt;, B: <span style="color:teal">iset</span>&lt;T&gt;) <span style="color:purple">ensures</span> A &lt;= B
+  <span style="color:blue">lemma</span> StrictSubset&lt;T&gt;(A: <span style="color:teal">iset</span>&lt;T&gt;, B: <span style="color:teal">iset</span>&lt;T&gt;) <span style="color:purple">ensures</span> A &lt; B
+  <span style="color:blue">lemma</span> Superset&lt;T&gt;(A: <span style="color:teal">iset</span>&lt;T&gt;, B: <span style="color:teal">iset</span>&lt;T&gt;) <span style="color:purple">ensures</span> A &gt;= B
+  <span style="color:blue">lemma</span> StrictSuperset&lt;T&gt;(A: <span style="color:teal">iset</span>&lt;T&gt;, B: <span style="color:teal">iset</span>&lt;T&gt;) <span style="color:purple">ensures</span> A &gt; B
+  <span style="color:blue">lemma</span> Disjoint&lt;T&gt;(A: <span style="color:teal">iset</span>&lt;T&gt;, B: <span style="color:teal">iset</span>&lt;T&gt;) <span style="color:purple">ensures</span> A !! B
+  <span style="color:blue">lemma</span> In&lt;T&gt;(e: T, A: <span style="color:teal">iset</span>&lt;T&gt;) <span style="color:purple">ensures</span> e <span style="color:blue">in</span> A
+  <span style="color:blue">lemma</span> NotIn&lt;T&gt;(e: T, A: <span style="color:teal">iset</span>&lt;T&gt;) <span style="color:purple">ensures</span> e !<span style="color:blue">in</span> A</code></pre></li></ul>
+</section>
+<section id="sec-set-comprehension" class="section section1" data-section-depth="1" data-line="611"><h2 id="heading-sec-set-comprehension" class="h1" data-heading-depth="1" style="display:block">Set comprehension</h2>
+<ul class="ul list-dash loose" data-line="613">
+<li class="li ul-li list-dash-li loose-li" data-line="613">
+<p data-line="613"><span data-line="613"></span>Finite and infinite sets can be created by comprehension
+</p><!-- inline-dafny ISets/Comprehension -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="616" data-line-first="617" style="display:block"><code data-line="617">  <span style="color:blue">predicate</span> P(x: <span style="color:teal">int</span>)
+
+  <span style="color:blue">lemma</span> SetOfPValues() 
+    <span style="color:purple">ensures</span> (<span style="color:teal">iset</span> x: <span style="color:teal">int</span> | P(x)) <span style="color:blue">is</span> <span style="color:teal">iset</span> </code></pre></li></ul></section></div></div><span data-line=""></span>
+<div class="footnotes madoko">
+<hr >
+
+<div id="fn-fn-completion" class="footnote" data-line="326" style="line-adjust:0">
+<p class="p noindent" data-line="326"><span data-line="326"></span><span class="footnote-before"><sup><span class="footnote-label">1</span>.</sup></span><span data-line="326"></span><a href="https://leino.science/papers/krml270.html">Dafny Power User: Type-Parameter Completion</a><span data-line="326"></span>
+<span data-line="327"></span><span data-line="327"></span><a href="#back-fn-fn-completion" class="footnote-backref localref">&#8617;</a></p></div>
+<div id="fn-fn-computingepsilon" class="footnote" data-line="385" style="line-adjust:0">
+<p class="p noindent" data-line="385"><span data-line="385"></span><span class="footnote-before"><sup><span class="footnote-label">2</span>.</sup></span><span data-line="385"></span><a href="https://easychair.org/publications/paper/dM">Compiling Hilbert’s epsilon operator</a><span data-line="385"></span>
+<span data-line="386"></span><span data-line="386"></span><a href="#back-fn-fn-computingepsilon" class="footnote-backref localref">&#8617;</a></p></div></div></div>
+</body>
+<script type="text/javascript">
+  Reveal.initialize({
+          history: true,
+          transition: "none",
+          width: 1600,
+            height: 900,
+          center: false,
+          controls: false,
+             progress: false,
+          slideNumber: true
+          });
+  Reveal.configure({
+          history: true,
+          transition: "none",
+          width: 1600,
+            height: 900,
+          center: false,
+          controls: false,
+             progress: false,
+          slideNumber: true
+     });
+</script>
+<script>
+    // initialize printing
+    revealConfig.initPrint();
+    // initialize background embedded images
+    revealConfig.getEmbeddedImages();
+    </script>
+</html>

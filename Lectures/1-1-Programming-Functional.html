@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta name="generator" content="Madoko, version 1.2.3" />
+  <meta name="viewport" content="initial-scale=1.0" />
+  <meta name="author" content="Jean-Baptiste Tristan \&amp, K. Rustan M. Leino" />
+  <title>Functional Programming</title>
+  <style type="text/css"  class="link">
+  /*# sourceURL=madoko.css */
+  
+  .madoko .toc>.tocblock .tocblock .tocblock {
+    margin-left: 2.25em;
+  }
+  .madoko .toc>.tocblock .tocblock {
+    margin-left: 1.5em;
+  }
+  .madoko .toc-contents>.tocblock>.tocitem {
+    font-weight: bold;
+  }
+  .madoko .toc {
+    margin-top: 1em;
+  }
+  .madoko p.para-continue {
+    margin-bottom: 0pt;
+  }
+  .madoko .para-block+p {
+    margin-top: 0pt;
+  }
+  .madoko ul.para-block, .madoko ol.para-block {
+    margin-top: 0pt;
+    margin-bottom: 0pt;
+  }
+  .madoko ul.para-end, .madoko ol.para-end {
+    margin-bottom: 1em;
+  }
+  .madoko dl {
+    margin-left: 0em;
+  }
+  .madoko blockquote {
+    font-style: italic;
+  }
+  .madoko a.localref {
+    text-decoration: none;
+  }
+  .madoko a.localref:hover {
+    text-decoration: underline;
+  }
+  .madoko .footnotes {
+    font-size: smaller;
+    margin-top: 2em;
+  }
+  .madoko .footnotes hr {
+    width: 50%;
+    text-align: left;
+  }
+  .madoko .footnote {
+    margin-left: 1em;
+  }
+  .madoko .footnote-before {
+    margin-left: -1em;
+    width: 1em;
+    display: inline-block;
+  }
+  .madoko .align-center, .madoko .align-center>p {
+    text-align: center !important;
+  }
+  .madoko .align-center pre {
+    text-align: left;
+  }
+  .madoko .align-center>* {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .madoko .align-left, .madoko .align-left>p {
+    text-align: left !important;
+  }
+  .madoko .align-left>* {
+    margin-left: 0pt !important;
+    margin-right: auto !important;
+  }
+  .madoko .align-right, .madoko .align-right>p {
+    text-align: right !important;
+  }
+  .madoko .align-right>* {
+    margin-left: auto !important;
+    margin-right: 0pt !important;
+  }
+  .madoko .align-center>table,
+  .madoko .align-left>table,
+  .madoko .align-right>table {
+    text-align: left !important;
+  }
+  .madoko .equation-before {
+    float: right;
+  }
+  .madoko .bibitem {
+    font-size: smaller;
+  }
+  .madoko .bibsearch {
+    font-size: x-small;
+    text-decoration:none;
+    color: black;
+    font-family: "Segoe UI Symbol", Symbola, serif;
+  }
+  .madoko .block, .madoko .figure, .madoko .bibitem, .madoko .equation, .madoko div.math {
+    margin-top: 1ex;
+    margin-bottom: 1ex;
+  }
+  .madoko .figure {
+    padding: 0.5em;
+    margin-left: 0pt;
+    margin-right: 0pt;
+  }
+  .madoko .hidden {
+    display: none;
+  }
+  .madoko .invisible {
+    visibility: hidden;
+  }
+  .madoko.preview .invisible {
+    visibility: visible;
+    opacity: 0.5;
+  }
+  .madoko code.code, .madoko span.code {
+    white-space: pre-wrap;
+  }
+  .madoko hr, hr.madoko {
+    border: none;
+    border-bottom: black solid 1px;
+    margin-bottom: 0.5ex;
+  }
+  .madoko .framed>*:first-child {
+    margin-top: 0pt;
+  }
+  .madoko .framed>*:last-child {
+    margin-bottom: 0pt;
+  }
+  .madoko ul.list-style-type-dash {
+      list-style-type: none !important;
+  }
+  .madoko ul.list-style-type-dash > li:before {
+      content: "\2013";
+      position: absolute;
+      margin-left: -1em;
+  }
+  .madoko table.madoko {
+    border-collapse: collapse;
+  }
+  .madoko td, .madoko th {
+    padding: 0ex 0.5ex;
+    margin: 0pt;
+    vertical-align: top;
+  }
+  .madoko .cell-border-left {
+    border-left: 1px solid black;
+  }
+  .madoko .cell-border-right {
+    border-right: 1px solid black;
+  }
+  .madoko thead>tr:first-child>.cell-line,
+  .madoko tbody:first-child>tr:first-child>.cell-line {
+    border-top: 1px solid black;
+    border-bottom: none;
+  }
+  .madoko .cell-line, .madoko .cell-double-line {
+    border-bottom: 1px solid black;
+    border-top: none;
+  }
+  .madoko .cell-double-line {
+    border-top: 1px solid black;
+    padding-top: 1.5px !important;
+  }
+  .madoko .input-mathpre .MathJax_Display {
+    text-align: left !important;
+  }
+  .madoko div.input-mathpre {
+    text-align: left;
+    margin-top: 1.5ex;
+    margin-bottom: 1ex;
+  }
+  .madoko .math-rendering {
+    text-align: left;
+    white-space: pre;
+    color: gray;
+  }
+  .madoko .mathdisplay {
+    text-align: center;
+  }
+  .madoko span.math-rendering {
+    display:inline-block;
+    width:8em;
+    overflow-x:auto;
+    font-size:70%;
+  }
+  .madoko span.math-rendering::-webkit-scrollbar {
+    width:4px;
+  }
+  .madoko .pretty table {
+    border-collapse: collapse;
+  }
+  .madoko .pretty td {
+    padding: 0em;
+  }
+  .madoko .pretty td.empty {
+    min-width: 1.5ex;
+  }
+  .madoko .pretty td.expander {
+    width: 100em;
+  }
+  body.madoko, .madoko .serif {
+    font-family: Cambria,"Times New Roman","Liberation Serif","Times",serif;
+  }
+  .madoko .sans-serif {
+    font-family: "Calibri", "Optima", sans-serif;
+  }
+  .madoko .symbol {
+    font-family: "Segoe UI Symbol", Symbola, serif;
+  }
+  body.madoko {
+    -webkit-text-size-adjust: 100%;       
+    text-rendering: optimizeLegibility;
+  }
+  body.madoko {
+    max-width: 88ex; 
+    margin: 1em auto;
+    padding: 0em 2em;
+  }
+  body.preview.madoko {
+    padding: 0em 1em;
+  }
+  .madoko p {
+    text-align: justify;
+  }
+  .madoko h1, .madoko h2, .madoko h3, .madoko h4 {
+    margin-top: 1.22em;
+    margin-bottom: 1ex;
+  }
+  .madoko h1+p, .madoko h2+p, .madoko h3+p, .madoko h4+p, .madoko h5+p  {
+    margin-top: 1ex;
+  }
+  .madoko h5, .madoko h6 {
+    margin-top: 1ex;
+    font-size: 1em;
+  }
+  .madoko h5 {
+    margin-bottom: 0.5ex;
+  }
+  .madoko h5 + p {
+    margin-top: 0.5ex;
+  }
+  .madoko h6 {
+    margin-bottom: 0pt;
+  }
+  .madoko h6 + p {
+    margin-top: 0pt;
+  }
+  .madoko pre, .madoko code, .madoko kbd, .madoko samp, .madoko tt,
+  .madoko .monospace, .madoko .token-indent, .madoko .reveal pre, .madoko .reveal code, .madoko .email {
+    font-family: Consolas,"Andale Mono WT","Andale Mono",Lucida Console,Monaco,monospace,monospace;
+    font-size: 0.85em;
+  }
+  .madoko pre code, .madoko .token-indent {
+    font-size: 0.95em;
+  }
+  .madoko pre code {
+    font-family: inherit !important;
+  }
+  .madoko ol.linenums li {
+    background-color: white;
+    list-style-type: decimal;
+  }
+  .madoko .remote {
+    background-color: #F0FFF0;
+  }
+  .madoko .remote + * {
+    margin-top: 0pt;
+  }
+  @media print {
+    body.madoko {
+      font-size: 10pt;
+    }
+    @page {
+      margin: 1in 1.5in;
+    }
+  }
+  @media only screen and (max-device-width:1024px) {
+    body.madoko {
+      padding: 0em 0.5em;
+    }
+    .madoko li {
+      text-align: left;
+    }
+  }
+  
+    </style>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/reveal.js/2.6.2/css/reveal.min.css"  class="link">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/reveal.js/2.6.2/css/theme/solarized.css"  class="link">
+  <script src="https://cdn.jsdelivr.net/reveal.js/2.6.2/lib/js/head.min.js"  class="script preview"></script>
+  <script src="https://cdn.jsdelivr.net/reveal.js/2.6.2/js/reveal.js"  class="script preview"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$']]},
+       TeX: { 
+         Macros: { mathid: ['\\mathit{#1\\hspace{0.1ex}}',1],
+                   mathkw: ['\\mathsf{#1}',1],
+                   mdmathindent: ['\\hspace{#1ex}',1],
+                   mathpre: ['#1',1],
+                 },
+  
+       }
+    });
+    MathJax.Hub.Register.StartupHook('TeX AMSmath Ready',function () { 
+      MathJax.InputJax.TeX.Definitions.environment['mdmathpre'] = ['AMSarray',null,null,null,'l','0em','0em'];
+    });
+  </script>
+  <script type="text/javascript" class="preview"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/reveal.js/2.6.2/css/theme/solarized.css" id="theme">    
+      <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/reveal.js/2.6.2/lib/js/html5shiv.js"></script>
+      <![endif]-->
+      <style>
+      body.madoko {
+        margin: 0pt;
+        padding: 0pt;
+        max-width: 100%;      
+      }
+      .madoko .reveal h1 {
+          font-size: 3.7em;
+      }
+      .madoko .reveal h2 {
+          font-size: 2.1em;
+      }
+      .reveal .authorblock .author {
+          font-size: 120%;
+          margin-bottom: 1ex;
+      }        
+      .reveal table {
+          margin-left: auto;
+          margin-right: auto;
+      }
+      .reveal pre table {
+        margin-left: 0pt;
+      }
+      .madoko .reveal pre.pretty {
+        padding-top: 0pt;
+        padding-bottom: 0pt;
+      }
+      .reveal li p {
+          text-align: left;
+      }
+      .reveal h2 {
+          margin-bottom: 0.7em;
+      }
+      .reveal section ul,
+      .reveal section ol {
+          margin-top: 0.35em;
+          margin-bottom: 0.35em;
+      }
+      .reveal section img.math-display {
+          padding: 1em;
+          box-shadow: none;
+          border: none;
+      }
+      .reveal section img.math-inline {
+          margin: 0pt;
+          padding: 0pt;
+          background-color: none;
+          box-shadow: none;
+          border: none;
+      }
+      .reveal section img {
+          box-shadow: none;
+          border: none;
+      }
+      .madoko .reveal pre {
+          border: 1px solid black;
+          word-wrap: normal;
+          background-color: white;
+          font-size: 0.7em;
+          padding: 0.7em;
+          line-height: 100%;
+          width: 100%;
+      }      
+      .reveal pre code, .reveal code {
+          padding: 0pt;
+      }
+      .reveal nav.toc {
+          line-height: 1em;
+          font-size: 60%;
+          overflow-y: auto;
+      }    
+      .reveal .tocitem {
+          text-align: left;
+      }
+      .reveal .toc>.tocblock .tocblock {
+          margin-left: 0.5em;
+      }   
+      .reveal .toc>.tocblock .tocblock .tocblock {
+          margin-left: 1em;
+      }
+      .reveal .bibliography {
+        height: 18em;
+        overflow-y: auto;
+        font-size: 0.8em;
+        line-height: 1.25;
+      }
+      .reveal section[data-smaller=""],
+      .reveal section[data-smaller="true"] {
+        font-size: 80%;
+        width: 110%;
+      }
+      .reveal .slides>section[data-smaller=""],
+      .reveal .slides>section[data-smaller="true"] {
+        left: -55%;
+      }
+      .reveal .details {
+        display: none;
+      }
+      .reveal[data-details=""] .details,
+      .reveal[data-details="true"] .details {
+        display: initial;
+      }
+      /* Display in the preview window */
+      html, body.madoko.preview, body.madoko.preview-full, .body.madoko {
+        height  : 100% !important;
+        width   : auto!important;
+        padding : 0pt !important;
+        margin  : 0pt !important;
+      }
+      body.madoko.preview, body.madoko.preview-full, .preview .body.madoko {
+        overflow: hidden !important;
+      }
+      body.preview .reveal .slides .fragment {
+        visibility: visible;
+        opacity: 0.5;
+      }
+      body.preview .reveal .slides .fragment.visible {
+        opacity: 1.0;
+      }
+      .preview .reveal div.notes,
+      .preview .reveal aside.notes {
+        display  : block;
+        position : absolute;
+        width    : 30%;
+        left     : 70%;
+        top      : -15%;
+        font-size: 50%;
+        border   : 1px solid black;
+        border-radius   : 10px;
+        background-color: white;
+      }
+      /* 'static' display in the preview window, unused for now */
+      body.preview.static div.reveal, 
+      body.preview.static div.ticreveal .slides, 
+      body.preview.static div.reveal section {
+        display: block !important;
+        position: relative !important;
+        width: auto !important;      
+      }
+      body.preview.static div.reveal section {
+        border: solid 1px black;
+        padding: 1em !important;
+        margin-top: 1em;
+        min-height: 15em;
+        top: 0pt;
+      }
+      body.madoko.preview.static section {
+        font-size: 75%;
+      }
+      body.madoko.preview.static {
+        padding: 0em 1em !important;
+      }
+      body.madoko.preview.static .reveal pre {
+        width: 95%;
+      }    
+      body.preview .reveal[data-details="false"] .details {
+        display: initial;
+        color: gray;
+      }
+      body.preview .reveal[data-long="false"] section[data-long] {
+        border-left: 2px black solid;
+      }
+      </style>
+      <script>    
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      window.revealConfig = {
+          controls: true,
+          progress: true,
+          history: true,
+          center: /^\s*(true|1)\s*$/i.test("true"),
+          slideNumber: /^\s*(true|1)\s*$/i.test("true"),
+          dependencies: [
+            { src: 'https://cdn.jsdelivr.net/reveal.js/2.6.2/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+            { src: 'https://cdn.jsdelivr.net/reveal.js/2.6.2/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+            { src: 'https://cdn.jsdelivr.net/reveal.js/2.6.2/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+          ],
+      };
+      function revealAddFragments() {
+        [].forEach.call(document.querySelectorAll( ".fragmented" ), function(elem0) {
+          var elem = (/^H\d$/.test(elem0.nodeName) ? elem0.parentNode : elem0);
+          [].forEach.call(elem.children, function(item) {
+            if (item==elem0) return;
+            if (item && !/\bfragment(ed)?\b/.test(item.className) && item.nodeType===1) {
+              item.className = item.className + " fragment";
+            }
+          });
+        });
+      }
+      function revealQuotedList(listType) {
+        //compatibility with Rmarkdown slides
+        [].forEach.call( document.querySelectorAll("blockquote>" + listType), function(ul) {
+          if (!/\bfragmented\b/.test(ul.className)) {
+            ul.className = ul.className + " fragmented";
+          }        
+          var quote = ul.parentNode;
+          if (quote.childElementCount===1) {
+            quote.parentNode.replaceChild(ul,quote);
+          }
+        });
+      }
+      function revealBuildToFragmented() {
+        [].forEach.call(document.querySelectorAll( ".build" ), function(elem) {
+          if (elem && !/\bfragmented\b/.test(elem.className) && elem.nodeType===1) {
+            elem.className = elem.className + " fragmented";
+          }
+        });
+      }
+      function revealDivNotesToAside() {
+        [].forEach.call(document.querySelectorAll("div.notes"), function(elem) {
+          var aside = document.createElement("ASIDE");
+          if (elem.id) aside.id = elem.id;
+          aside.className = elem.className;
+          [].forEach.call(elem.attributes, function(attr) {
+            aside.setAttribute( attr.name, attr.value );
+          });
+          aside.innerHTML = elem.innerHTML;
+          elem.parentNode.replaceChild(aside,elem);
+        });
+      }
+      function revealDataQuery() {
+        var reveal = document.querySelector(".reveal");
+        if (!reveal) return;
+        window.location.search.replace(/\bdata-(\w+)(?:=(\w+))?\b/g, function(matched,key,value) {
+          reveal.setAttribute("data-" + key, (value ? value : ""));
+          return matched;
+        });
+      }
+      function revealRemoveLong() {
+        // remove parts for 'long' presentation
+        if (/\bpreview(?![\w\-])/.test(document.body.className)) return;
+        var reveal = document.querySelector(".reveal");
+        if (!reveal) return;
+        var value = reveal.hasAttribute("data-long") ? reveal.getAttribute("data-long") : null;
+        if (value==null || value=="false" || value=="0") {
+          [].forEach.call( document.querySelectorAll("section[data-long]"), function(elem) {
+            elem.parentNode.removeChild(elem);
+          });
+        }
+      }
+      revealConfig.onLoad = function() {
+        revealConfig.getEmbeddedImages();
+        revealDataQuery();
+        revealRemoveLong();
+        revealQuotedList("ul");
+        revealQuotedList("ol");
+        revealBuildToFragmented();
+        revealDivNotesToAside();
+        revealAddFragments();
+      };
+      document.addEventListener("load",revealConfig.onLoad);    
+      document.addEventListener("DOMContentLoaded", function() {
+        if (typeof Reveal !== "undefined" && !Reveal.isReady()) {
+          revealConfig.onLoad();
+          Reveal.initialize(revealConfig);
+        }
+      });    
+      // add support for printing:
+      // use  ?print-pdf to get a pdf-printable version (in Chrome)
+      // use  ?print-paper to get a paper-printable version.
+      revealConfig.initPrint = function() {
+        var cssLink = null;
+        var bodyClass = null;
+        var cap = window.location.search.match(/\bprint-(\w+)\b/);
+        if (cap) {
+          bodyClass = cap[0];
+          cssLink = "https://cdn.jsdelivr.net/reveal.js/2.6.2/css/print/" + cap[1] + ".css";
+        }
+        if (cssLink) {
+          var link  = document.createElement( "link" );
+          link.rel  = "stylesheet";
+          link.type = "text/css";
+          link.href = cssLink;
+          var head = document.getElementsByTagName( 'head' )[0];
+          if (head) head.appendChild( link );
+        }
+        if (bodyClass) {
+          document.body.className = document.body.className + " " + bodyClass;
+        }
+      };
+      revealConfig.getEmbeddedImages = function() {
+        var images = {};
+        [].forEach.call( document.querySelectorAll("img[data-linkid]"), function(img) {
+          var linkid = img.getAttribute("data-linkid");
+          if (linkid) images["/" + linkid] = img.src;
+          var path = img.getAttribute("data-path");
+          if (path) images["/" + path] = img.src;
+        });     
+        [].forEach.call( document.querySelectorAll("section"), function(slide) {
+          var attrName = "data-background";
+          var image = slide.getAttribute(attrName);
+          if (!image) {
+            attrName = "data-background-image";
+            image = slide.getAttribute(attrName);
+          }
+          if (!image) return;
+          var cap = /^\s*!?\[([^\]]+)\]\s*$/.exec(image);
+          var href = images["/" + (cap ? cap[1] : image)];
+          if (!href) return;
+          if (attrName==="data-background" && /^data:/.test(href)) href = "url(" + href + ")";
+          slide.setAttribute(attrName, href);
+        });
+      };    
+      </script>
+  </head>
+<body class="madoko">
+
+<div class="body madoko" style="line-adjust:0">
+<div class="reveal" data-long="false" data-details="false" data-line="36" style="line-adjust:0">
+<div class="slides" data-line="36" style="line-adjust:0">
+
+<section class="titleblock align-center para-block" data-line="37" style="text-align:center;line-adjust:0">
+<div class="titleheader align-center" data-line="37" style="text-align:center;line-adjust:0">
+<h1 class="title para-block" data-line="37" style="font-weight:bold;margin-bottom:0.5ex;font-size:3em;line-adjust:0"><span data-line="37"></span>Functional Programming</h1></div>
+<div class="authors align-center" data-line="42" style="text-align:center;width:80%;line-adjust:0"><table class="authorrow columns block" data-line="42" style="margin-top:2ex;width:100%;line-adjust:0">
+<tbody><tr><td class="author column" data-line="42" style="text-align:center;font-size:x-large;line-adjust:0">
+<div class="authorname" data-line="42" style="font-size:1.4em;line-adjust:0"><span data-line="42"></span>Jean-Baptiste Tristan & K. Rustan M. Leino</div></td></tr></tbody></table></div></section><!-- This file was automatically generated from FunctionalProgramming.mdk -->
+
+
+
+<section id="sec-overview" class="section section1" data-section-depth="1" data-line="43"><h2 id="heading-sec-overview" class="h1" data-heading-depth="1" style="display:block">Overview</h2>
+<ul class="ul list-dash compact" data-line="45">
+<li class="li ul-li list-dash-li compact-li" data-line="45"><span data-line="45"></span>Dafny is a statically and strongly typed programming language
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="46"><span data-line="46"></span>A functional program is essentially made of three kinds of definitions
+
+<ul class="ul list-dash compact" data-line="47">
+<li class="li ul-li list-dash-li compact-li" data-line="47"><span data-line="47"></span>Functions
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="48"><span data-line="48"></span>Constants
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="49"><span data-line="49"></span>Datatypes
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="50"><span data-line="50"></span>Type synonyms
+</li></ul></li></ul>
+</section>
+<section id="sec-function-declaration" class="section section1" data-section-depth="1" data-line="52"><h2 id="heading-sec-function-declaration" class="h1" data-heading-depth="1" style="display:block">Function declaration</h2>
+<ul class="ul list-dash compact" data-line="54">
+<li class="li ul-li list-dash-li compact-li" data-line="54"><span data-line="54"></span>Here is an example function definition
+</li></ul>
+<!-- inline-dafny FunctionalProgramming/A1 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="57" data-line-first="58" style="display:block"><code data-line="58">  <span style="color:blue">function</span> FunctionName(x: X, y: Y): R {
+    expression
+  }</code></pre>
+<ul class="ul list-dash compact" data-line="63">
+<li class="li ul-li list-dash-li compact-li" data-line="63"><span data-line="63"></span>Declared with the keyword <span data-line="63"></span><code class="code code1">function</code><span data-line="63"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="64"><span data-line="64"></span>Has a name: <span data-line="64"></span><code class="code code1">FunctionName</code><span data-line="64"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="65"><span data-line="65"></span>Has typed parameters: <span data-line="65"></span><code class="code code1">x</code><span data-line="65"></span> and <span data-line="65"></span><code class="code code1">y</code><span data-line="65"></span>, respectively of types <span data-line="65"></span><code class="code code1">X</code><span data-line="65"></span> and <span data-line="65"></span><code class="code code1">Y</code><span data-line="65"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="66"><span data-line="66"></span>Has a return type: <span data-line="66"></span><code class="code code1">R</code><span data-line="66"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="67"><span data-line="67"></span>Has a body: <span data-line="67"></span><code class="code code1">expression</code><span data-line="67"></span>
+</li></ul>
+</section>
+<section id="sec-function-body" class="section section1" data-section-depth="1" data-line="69"><h2 id="heading-sec-function-body" class="h1" data-heading-depth="1" style="display:block">Function body</h2>
+<ul class="ul list-dash compact" data-line="71">
+<li class="li ul-li list-dash-li compact-li" data-line="71"><span data-line="71"></span>The body of a function is an expression 
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="72"><span data-line="72"></span>An expression has a type
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="73"><span data-line="73"></span>An expression can be evaluated and produces a value of that type
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="74"><span data-line="74"></span>Evaluating an expression has no side effect
+</li></ul>
+</section>
+<section id="sec-calling-a-function" class="section section1" data-section-depth="1" data-line="76"><h2 id="heading-sec-calling-a-function" class="h1" data-heading-depth="1" style="display:block">Calling a function</h2><!-- inline-dafny FunctionalProgramming/A1' -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="79" data-line-first="80" style="display:block"><code data-line="80">  <span style="color:blue">function</span> F(n: <span style="color:teal">int</span>, m: <span style="color:teal">int</span>): <span style="color:teal">int</span> {
+    n + m
+  }
+
+  <span style="color:blue">function</span> G(n: <span style="color:teal">int</span>): <span style="color:teal">int</span> {
+    F(n + n, n * n)
+  }</code></pre>
+<ul class="ul list-dash compact" data-line="89">
+<li class="li ul-li list-dash-li compact-li" data-line="89"><span data-line="89"></span>To call a function, the type of the arguments must match that of the parameters
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="90"><span data-line="90"></span>Arguments are evaluated before the function is called
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="91"><span data-line="91"></span>The arguments are then substituted in the body of the function
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="92"><span data-line="92"></span>The type of the expression must match the return type
+</li></ul>
+</section>
+<section id="sec-constants" class="section section1" data-section-depth="1" data-line="94"><h2 id="heading-sec-constants" class="h1" data-heading-depth="1" style="display:block">Constants</h2>
+<ul class="ul list-dash compact" data-line="96">
+<li class="li ul-li list-dash-li compact-li" data-line="96"><span data-line="96"></span>The arity of a function is the number of parameters
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="97"><span data-line="97"></span>A constant is a function with arity 0, written without the parentheses
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="98"><span data-line="98"></span>Declared with the keyword <span data-line="98"></span><code class="code code1">const</code><span data-line="98"></span>
+</li></ul>
+<!-- inline-dafny FunctionalProgramming/A1'' -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="101" data-line-first="102" style="display:block"><code data-line="102">  <span style="color:blue">const</span> constantName: Type := expression</code></pre></section>
+<section id="sec-predicates" class="section section1" data-section-depth="1" data-line="105"><h2 id="heading-sec-predicates" class="h1" data-heading-depth="1" style="display:block">Predicates</h2>
+<ul class="ul list-dash compact" data-line="107">
+<li class="li ul-li list-dash-li compact-li" data-line="107"><span data-line="107"></span>A function whose return type is bool is also called a predicate
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="108"><span data-line="108"></span>Declared with keyword <span data-line="108"></span><code class="code code1">predicate</code><span data-line="108"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="109"><span data-line="109"></span>Return type is implicit
+</li></ul>
+<!-- inline-dafny FunctionalProgramming/A1111 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="112" data-line-first="113" style="display:block"><code data-line="113">  <span style="color:blue">predicate</span> predicateName(x: X, y: Y) {
+    booleanExpression
+  }</code></pre></section>
+<section id="sec-expressions" class="section section1" data-section-depth="1" data-line="118"><h2 id="heading-sec-expressions" class="h1" data-heading-depth="1" style="display:block">Expressions</h2>
+<ul class="ul list-dash compact" data-line="120">
+<li class="li ul-li list-dash-li compact-li" data-line="120"><span data-line="120"></span>We will now introduce the language of expressions
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="121"><span data-line="121"></span>We call this set of expressions <span data-line="121"></span>&#8220;functional expressions&#8221;<span data-line="121"></span>
+
+<ul class="ul list-dash compact" data-line="122">
+<li class="li ul-li list-dash-li compact-li" data-line="122"><span data-line="122"></span>There will be others
+</li></ul></li>
+<li class="li ul-li list-dash-li compact-li" data-line="123"><span data-line="123"></span>Dafny has 5 primitive scalar types:
+
+<ul class="ul list-dash compact" data-line="124">
+<li class="li ul-li list-dash-li compact-li" data-line="124"><span data-line="124"></span>Booleans (<span data-line="124"></span><code class="code code1">bool</code><span data-line="124"></span>)
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="125"><span data-line="125"></span>Integers (<span data-line="125"></span><code class="code code1">int</code><span data-line="125"></span>)
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="126"><span data-line="126"></span>Reals (<span data-line="126"></span><code class="code code1">real</code><span data-line="126"></span>)
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="127"><span data-line="127"></span>Characters (<span data-line="127"></span><code class="code code1">char</code><span data-line="127"></span>)
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="128"><span data-line="128"></span>Bit vectors (<span data-line="128"></span><code class="code code1">bv0</code><span data-line="128"></span>, <span data-line="128"></span><code class="code code1">bv1</code><span data-line="128"></span>, <span data-line="128"></span><code class="code code1">bv2</code><span data-line="128"></span>, <span data-line="128"></span>&#8230;<span data-line="128"></span>, <span data-line="128"></span><code class="code code1">bv32</code><span data-line="128"></span>, <span data-line="128"></span>&#8230;<span data-line="128"></span>)
+</li></ul></li></ul>
+</section>
+<section id="sec-type-test" class="section section1" data-section-depth="1" data-line="130"><h2 id="heading-sec-type-test" class="h1" data-heading-depth="1" style="display:block">Type test</h2>
+<ul class="ul list-dash compact" data-line="132">
+<li class="li ul-li list-dash-li compact-li" data-line="132"><span data-line="132"></span>Every expression has a type
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="133"><span data-line="133"></span>There is an expression to test if an expression is of a certain type
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="134"><span data-line="134"></span>It uses the keyword <span data-line="134"></span><code class="code code1">is</code><span data-line="134"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="135"><span data-line="135"></span>It evaluates to a Boolean value 
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="136"><span data-line="136"></span>We will use that expression and predicates to introduce the syntax and types of expressions in Dafny 
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="137"><span data-line="137"></span>That way, you learn Dafny by reading Dafny 
+</li></ul>
+<!-- inline-dafny FunctionalProgramming/Example -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="140" data-line-first="141" style="display:block"><code data-line="141">  <span style="color:blue">predicate</span> IntPlus3IsInt(n: <span style="color:teal">int</span>) { (n + <span class="constant" style="color:purple">3</span>) <span style="color:blue">is</span> <span style="color:teal">int</span> }</code></pre></section>
+<section id="sec-booleans" class="section section1" data-section-depth="1" data-line="145"><h2 id="heading-sec-booleans" class="h1" data-heading-depth="1" style="display:block">Booleans</h2><!-- inline-dafny Booleans/Programming -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="148" data-line-first="149" style="display:block"><code data-line="149">  <span style="color:blue">predicate</span> False() { <span style="color:blue">false</span> <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+
+  <span style="color:blue">predicate</span> True() { <span style="color:blue">true</span> <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+
+  <span style="color:blue">predicate</span> Conjunction(a: <span style="color:teal">bool</span>, b: <span style="color:teal">bool</span>) { (a &amp;&amp; b) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+
+  <span style="color:blue">predicate</span> Disjunction(a: <span style="color:teal">bool</span>, b: <span style="color:teal">bool</span>) { (a || b) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+
+  <span style="color:blue">predicate</span> Implication(a: <span style="color:teal">bool</span>, b: <span style="color:teal">bool</span>) { (a ==&gt; b) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+
+  <span style="color:blue">predicate</span> Explication(a: <span style="color:teal">bool</span>, b: <span style="color:teal">bool</span>) { (a &lt;== b) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+
+  <span style="color:blue">predicate</span> Equivalence(a: <span style="color:teal">bool</span>, b: <span style="color:teal">bool</span>) { (a &lt;==&gt; b) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+
+  <span style="color:blue">predicate</span> Negation(a: <span style="color:teal">bool</span>) { !a <span style="color:blue">is</span> <span style="color:teal">bool</span> }</code></pre></section>
+<section id="sec-integers" class="section section1" data-section-depth="1" data-line="166"><h2 id="heading-sec-integers" class="h1" data-heading-depth="1" style="display:block">Integers</h2><!-- inline-dafny Integers/Programming -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="169" data-line-first="170" style="display:block"><code data-line="170">  <span style="color:blue">predicate</span> DecimalLiteral() { <span class="constant" style="color:purple">38</span> <span style="color:blue">is</span> <span style="color:teal">int</span> }
+  <span style="color:blue">predicate</span> HexadecimalLiteral() { <span class="constant" style="color:purple">0xBadDecaf</span> <span style="color:blue">is</span> <span style="color:teal">int</span> }
+  <span style="color:blue">predicate</span> ReadableLiteral() { <span class="constant" style="color:purple">4_345_765</span> <span style="color:blue">is</span> <span style="color:teal">int</span> }
+  <span style="color:blue">predicate</span> Negation(n: <span style="color:teal">int</span>) { -n <span style="color:blue">is</span> <span style="color:teal">int</span> }
+  <span style="color:blue">predicate</span> Addition(n: <span style="color:teal">int</span>, m: <span style="color:teal">int</span>) { (n + m) <span style="color:blue">is</span> <span style="color:teal">int</span> }
+  <span style="color:blue">predicate</span> Substraction(n: <span style="color:teal">int</span>, m: <span style="color:teal">int</span>) { (n - m) <span style="color:blue">is</span> <span style="color:teal">int</span> }
+  <span style="color:blue">predicate</span> Multiplication(n: <span style="color:teal">int</span>, m: <span style="color:teal">int</span>) { (n * m) <span style="color:blue">is</span> <span style="color:teal">int</span> }
+  <span style="color:blue">predicate</span> Division(n: <span style="color:teal">int</span>, m: <span style="color:teal">int</span>) { (n / m) <span style="color:blue">is</span> <span style="color:teal">int</span> }
+  <span style="color:blue">predicate</span> Modulus(n: <span style="color:teal">int</span>, m: <span style="color:teal">int</span>) { (n % m) <span style="color:blue">is</span> <span style="color:teal">int</span> }
+  <span style="color:blue">predicate</span> Equality(n: <span style="color:teal">int</span>, m: <span style="color:teal">int</span>) { (n == m) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> Disequality(n: <span style="color:teal">int</span>, m: <span style="color:teal">int</span>) { (n != m) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> SmallerOrEqual(n: <span style="color:teal">int</span>, m: <span style="color:teal">int</span>) { (n &lt;= m) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> Smaller(n: <span style="color:teal">int</span>, m: <span style="color:teal">int</span>) { (n &lt; m) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> GreaterOrEqual(n: <span style="color:teal">int</span>, m: <span style="color:teal">int</span>) { (n &gt;= m) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> Greater(n: <span style="color:teal">int</span>, m: <span style="color:teal">int</span>) { (n &gt; m) <span style="color:blue">is</span> <span style="color:teal">bool</span> }</code></pre></section>
+<section id="sec-reals" class="section section1" data-section-depth="1" data-line="187"><h2 id="heading-sec-reals" class="h1" data-heading-depth="1" style="display:block">Reals</h2><!-- inline-dafny Reals/Programming -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="190" data-line-first="191" style="display:block"><code data-line="191">  <span style="color:blue">predicate</span> DecimalLiteral() { <span class="constant" style="color:purple">38.98</span> <span style="color:blue">is</span> <span style="color:teal">real</span> }
+  <span style="color:blue">predicate</span> ReadableLiteral() { <span class="constant" style="color:purple">4_345_765.999_987</span> <span style="color:blue">is</span> <span style="color:teal">real</span> }
+  <span style="color:blue">predicate</span> Negation(n: <span style="color:teal">real</span>) { -n <span style="color:blue">is</span> <span style="color:teal">real</span> }
+  <span style="color:blue">predicate</span> Addition(n: <span style="color:teal">real</span>, m: <span style="color:teal">real</span>) { (n + m) <span style="color:blue">is</span> <span style="color:teal">real</span> }
+  <span style="color:blue">predicate</span> Substraction(n: <span style="color:teal">real</span>, m: <span style="color:teal">real</span>) { (n - m) <span style="color:blue">is</span> <span style="color:teal">real</span> }
+  <span style="color:blue">predicate</span> Multiplication(n: <span style="color:teal">real</span>, m: <span style="color:teal">real</span>) { (n * m) <span style="color:blue">is</span> <span style="color:teal">real</span> }
+  <span style="color:blue">predicate</span> Division(n: <span style="color:teal">real</span>, m: <span style="color:teal">real</span>) { (n / m) <span style="color:blue">is</span> <span style="color:teal">real</span> }
+  <span style="color:blue">predicate</span> Equality(n: <span style="color:teal">real</span>, m: <span style="color:teal">real</span>) { (n == m) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> Disequality(n: <span style="color:teal">real</span>, m: <span style="color:teal">real</span>) { (n != m) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> SmallerOrEqual(n: <span style="color:teal">real</span>, m: <span style="color:teal">real</span>) { (n &lt;= m) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> Smaller(n: <span style="color:teal">real</span>, m: <span style="color:teal">real</span>) { (n &lt; m) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> GreaterOrEqual(n: <span style="color:teal">real</span>, m: <span style="color:teal">real</span>) { (n &gt;= m) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> Greater(n: <span style="color:teal">real</span>, m: <span style="color:teal">real</span>) { (n &gt; m) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> IntegerToReal(k: <span style="color:teal">int</span>) { (k <span style="color:blue">as</span> <span style="color:teal">real</span>) <span style="color:blue">is</span> <span style="color:teal">real</span> }
+  <span style="color:blue">predicate</span> Floor(n: <span style="color:teal">real</span>) { (n.Floor) <span style="color:blue">is</span> <span style="color:teal">int</span> }</code></pre></section>
+<section id="sec-characters" class="section section1" data-section-depth="1" data-line="208"><h2 id="heading-sec-characters" class="h1" data-heading-depth="1" style="display:block">Characters</h2>
+<ul class="ul list-dash compact" data-line="210">
+<li class="li ul-li list-dash-li compact-li" data-line="210"><span data-line="210"></span>Characters are Unicode
+</li></ul>
+<!-- inline-dafny Characters/Programming -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="213" data-line-first="214" style="display:block"><code data-line="214">  <span style="color:blue">predicate</span> ASCII() { <span style="color:maroon">&#39;a&#39;</span> <span style="color:blue">is</span> <span style="color:teal">char</span> }
+  <span style="color:blue">predicate</span> SingleQuote() { <span style="color:maroon">&#39;</span><span style="color:gray">\&#39;</span><span style="color:maroon">&#39;</span> <span style="color:blue">is</span> <span style="color:teal">char</span> }
+  <span style="color:blue">predicate</span> DoubleQuote() { <span style="color:maroon">&#39;</span><span style="color:gray">\&quot;</span><span style="color:maroon">&#39;</span> <span style="color:blue">is</span> <span style="color:teal">char</span> }
+  <span style="color:blue">predicate</span> BackSlash() { <span style="color:maroon">&#39;</span><span style="color:gray">\\</span><span style="color:maroon">&#39;</span> <span style="color:blue">is</span> <span style="color:teal">char</span> }
+  <span style="color:blue">predicate</span> NullCharacter() { <span style="color:maroon">&#39;</span><span style="color:gray">\0</span><span style="color:maroon">&#39;</span> <span style="color:blue">is</span> <span style="color:teal">char</span> }
+  <span style="color:blue">predicate</span> LineFeed() { <span style="color:maroon">&#39;</span><span style="color:gray">\n</span><span style="color:maroon">&#39;</span> <span style="color:blue">is</span> <span style="color:teal">char</span> }
+  <span style="color:blue">predicate</span> CarriageReturn() { <span style="color:maroon">&#39;</span><span style="color:gray">\r</span><span style="color:maroon">&#39;</span> <span style="color:blue">is</span> <span style="color:teal">char</span> }
+  <span style="color:blue">predicate</span> Tab() { <span style="color:maroon">&#39;</span><span style="color:gray">\t</span><span style="color:maroon">&#39;</span> <span style="color:blue">is</span> <span style="color:teal">char</span> }
+  <span style="color:blue">predicate</span> Unicode() { &#39;\U{<span class="constant" style="color:purple">1</span>F71D}&#39; <span style="color:blue">is</span> <span style="color:teal">char</span> }
+  <span style="color:blue">predicate</span> Addition(a: <span style="color:teal">char</span>, b: <span style="color:teal">char</span>) { (a + b) <span style="color:blue">is</span> <span style="color:teal">char</span> }
+  <span style="color:blue">predicate</span> Substraction(a: <span style="color:teal">char</span>, b: <span style="color:teal">char</span>) { (a - b) <span style="color:blue">is</span> <span style="color:teal">char</span> }
+  <span style="color:blue">predicate</span> Less(a: <span style="color:teal">char</span>, b: <span style="color:teal">char</span>) { (a &lt; b) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> LessEqual(a: <span style="color:teal">char</span>, b: <span style="color:teal">char</span>) { (a &lt;= b) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> Greater(a: <span style="color:teal">char</span>, b: <span style="color:teal">char</span>) { (a &gt; b) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> GreaterEqual(a: <span style="color:teal">char</span>, b: <span style="color:teal">char</span>) { (a &gt;= b) <span style="color:blue">is</span> <span style="color:teal">bool</span> }</code></pre></section>
+<section id="sec-other-expressions" class="section section1" data-section-depth="1" data-line="231"><h2 id="heading-sec-other-expressions" class="h1" data-heading-depth="1" style="display:block">Other expressions</h2><!-- inline-dafny Expressions/SimpleExpressions -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="234" data-line-first="235" style="display:block"><code data-line="235">  <span style="color:blue">predicate</span> ConditionalExpression&lt;T&gt;(bexpr: <span style="color:teal">bool</span>, expr1: T, expr2: T)  { 
+    (<span style="color:blue">if</span> bexpr <span style="color:blue">then</span> expr1 <span style="color:blue">else</span> expr2) <span style="color:blue">is</span> T
+  }
+
+  <span style="color:blue">predicate</span> LetBinding&lt;U, V&gt;(expr1: U, expr2: V) { (<span style="color:blue">var</span> x := expr1; expr2) <span style="color:blue">is</span> V }
+
+  <span style="color:blue">predicate</span> Tuple&lt;T, U, V&gt;(t: T, u: U, v: V) { (t, u, v) <span style="color:blue">is</span> (T, U, V) }
+
+  <span style="color:blue">predicate</span> TupleAccess0&lt;T, U, V&gt;(tup: (T, U, V)) { tup.<span class="constant" style="color:purple">0</span> <span style="color:blue">is</span> T }
+
+  <span style="color:blue">predicate</span> TupleAccess1&lt;T, U, V&gt;(tup: (T, U, V)) { tup.<span class="constant" style="color:purple">1</span> <span style="color:blue">is</span> U }
+
+  <span style="color:blue">predicate</span> TupleAccess2&lt;T, U, V&gt;(tup: (T, U, V)) { tup.<span class="constant" style="color:purple">2</span> <span style="color:blue">is</span> V }</code></pre>
+<ul class="ul list-dash compact" data-line="250">
+<li class="li ul-li list-dash-li compact-li" data-line="250"><span data-line="250"></span>Despite what the name suggests, <span data-line="250"></span><code class="code code1">x</code><span data-line="250"></span> is not a mutable variable
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="251"><span data-line="251"></span><code class="code code1">x</code><span data-line="251"></span> cannot be updated, it is just a name for the value of <span data-line="251"></span><code class="code code1">expr1</code><span data-line="251"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="252"><span data-line="252"></span>You can replace <span data-line="252"></span><code class="code code1">x</code><span data-line="252"></span> with <span data-line="252"></span><code class="code code1">expr1</code><span data-line="252"></span> in <span data-line="252"></span><code class="code code1">expr2</code><span data-line="252"></span> without changing the value of the expression 
+</li></ul>
+</section>
+<section id="sec-functions-are-first-class-citizens" class="section section1" data-section-depth="1" data-line="254"><h2 id="heading-sec-functions-are-first-class-citizens" class="h1" data-heading-depth="1" style="display:block">Functions are first-class citizens</h2>
+<ul class="ul list-dash compact" data-line="256">
+<li class="li ul-li list-dash-li compact-li" data-line="256"><span data-line="256"></span>A function can be passed as an argument to a function
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="257"><span data-line="257"></span>Type of a function
+
+<ul class="ul list-dash compact" data-line="258">
+<li class="li ul-li list-dash-li compact-li" data-line="258"><span data-line="258"></span>If parameters have types <span data-line="258"></span><code class="code code1">X</code><span data-line="258"></span>, <span data-line="258"></span><code class="code code1">Y</code><span data-line="258"></span>, <span data-line="258"></span><code class="code code1">Z</code><span data-line="258"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="259"><span data-line="259"></span>If return type is <span data-line="259"></span><code class="code code1">U</code><span data-line="259"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="260"><span data-line="260"></span>The type of the function is <span data-line="260"></span><code class="code code1">(X, Y, Z) -&gt; U</code><span data-line="260"></span>
+</li></ul></li></ul>
+</section>
+<section id="sec-functions-as-in-parameters" class="section section1" data-section-depth="1" data-line="262"><h2 id="heading-sec-functions-as-in-parameters" class="h1" data-heading-depth="1" style="display:block">Functions as in-parameters</h2><!-- inline-dafny FunctionalProgramming/A4 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="265" data-line-first="266" style="display:block"><code data-line="266">  <span style="color:blue">function</span> Apply(f: <span style="color:teal">int</span> -&gt; <span style="color:teal">int</span>, n: <span style="color:teal">int</span>): <span style="color:teal">int</span> {
+    f(n)
+  }</code></pre></section>
+<section id="sec-functions-as-out-parameters" class="section section1" data-section-depth="1" data-line="271"><h2 id="heading-sec-functions-as-out-parameters" class="h1" data-heading-depth="1" style="display:block">Functions as out-parameters</h2><!-- inline-dafny FunctionalProgramming/A5 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="274" data-line-first="275" style="display:block"><code data-line="275">  <span style="color:blue">function</span> ApplyPartial(f: <span style="color:teal">int</span> -&gt; <span style="color:teal">int</span> -&gt; <span style="color:teal">int</span>, n: <span style="color:teal">int</span>): <span style="color:teal">int</span> -&gt; <span style="color:teal">int</span> {
+    f(n)
+  }</code></pre></section>
+<section id="sec-recursive-functions" class="section section1" data-section-depth="1" data-line="280"><h2 id="heading-sec-recursive-functions" class="h1" data-heading-depth="1" style="display:block">Recursive functions</h2>
+<ul class="ul list-dash compact" data-line="282">
+<li class="li ul-li list-dash-li compact-li" data-line="282"><span data-line="282"></span>A function definition can be recursive
+</li></ul>
+<!-- inline-dafny FunctionalProgramming/A3 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="285" data-line-first="286" style="display:block"><code data-line="286">  <span style="color:blue">function</span> Factorial(n: <span style="color:teal">int</span>): <span style="color:teal">int</span> {
+    <span style="color:blue">if</span> n == <span class="constant" style="color:purple">0</span> <span style="color:blue">then</span> <span class="constant" style="color:purple">1</span> <span style="color:blue">else</span> n * Factorial(n - <span class="constant" style="color:purple">1</span>)
+  }</code></pre></section>
+<section id="sec-new-expression--anonymous-functions-and-application" class="section section1" data-section-depth="1" data-line="291"><h2 id="heading-sec-new-expression--anonymous-functions-and-application" class="h1" data-heading-depth="1" style="display:block">New expression: anonymous functions and application</h2><!-- inline-dafny Expressions/FunctionExpressions -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="294" data-line-first="295" style="display:block"><code data-line="295">  <span style="color:blue">predicate</span> LambdaAbstraction&lt;U, V&gt;(expr: V) { ((x: U) =&gt; expr) <span style="color:blue">is</span> U -&gt; V }
+
+  <span style="color:blue">predicate</span> Application&lt;U, V&gt;(fun: U -&gt; V, arg: U) { fun(arg) <span style="color:blue">is</span> V }</code></pre></section>
+<section id="sec-algebraic-datatypes" class="section section1" data-section-depth="1" data-line="300"><h2 id="heading-sec-algebraic-datatypes" class="h1" data-heading-depth="1" style="display:block">Algebraic datatypes</h2>
+<ul class="ul list-dash compact" data-line="302">
+<li class="li ul-li list-dash-li compact-li" data-line="302"><span data-line="302"></span>Algebraic datatypes are a staple of functional programming
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="303"><span data-line="303"></span>As a first approximation, they are like an enumeration of possible values
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="304"><span data-line="304"></span>Here, the datatype defines two values, <span data-line="304"></span><code class="code code1">Small</code><span data-line="304"></span> and <span data-line="304"></span><code class="code code1">Large</code><span data-line="304"></span>
+</li></ul>
+<!-- inline-dafny Datatypes/A1 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="307" data-line-first="308" style="display:block"><code data-line="308">  <span style="color:blue">datatype</span> Size =
+    | Small
+    | Large</code></pre></section>
+<section id="sec-type-and-constructors" class="section section1" data-section-depth="1" data-line="313"><h2 id="heading-sec-type-and-constructors" class="h1" data-heading-depth="1" style="display:block">Type and constructors</h2>
+<ul class="ul list-dash compact" data-line="315">
+<li class="li ul-li list-dash-li compact-li" data-line="315"><span data-line="315"></span>A datatype definition defines multiple things
+
+<ul class="ul list-dash compact" data-line="316">
+<li class="li ul-li list-dash-li compact-li" data-line="316"><span data-line="316"></span>A type whose name is that of the datatype definition
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="317"><span data-line="317"></span>The possible values
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="318"><span data-line="318"></span>Constructors for such values (in this simple case, the constructor and the value cannot be distinguished)
+</li></ul></li></ul>
+<!-- inline-dafny Datatypes/A2 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="321" data-line-first="322" style="display:block"><code data-line="322">  <span style="color:blue">predicate</span> Constructor() { Small <span style="color:blue">is</span> Size }</code></pre></section>
+<section id="sec-equality" class="section section1" data-section-depth="1" data-line="325"><h2 id="heading-sec-equality" class="h1" data-heading-depth="1" style="display:block">Equality</h2>
+<ul class="ul list-dash compact" data-line="327">
+<li class="li ul-li list-dash-li compact-li" data-line="327"><span data-line="327"></span>Simple datatypes support equality
+</li></ul>
+<!-- inline-dafny Datatypes/A1' -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="330" data-line-first="331" style="display:block"><code data-line="331">  <span style="color:blue">predicate</span> Equality(a: Size, b: Size) { (a == b) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+
+  <span style="color:blue">predicate</span> Disequality(a: Size, b: Size) { (a != b) <span style="color:blue">is</span> <span style="color:teal">bool</span> }</code></pre></section>
+<section id="sec-pattern-matching" class="section section1" data-section-depth="1" data-line="336"><h2 id="heading-sec-pattern-matching" class="h1" data-heading-depth="1" style="display:block">Pattern matching</h2>
+<ul class="ul list-dash compact" data-line="338">
+<li class="li ul-li list-dash-li compact-li" data-line="338"><span data-line="338"></span>Pattern matching allows you to consider the possible values of a datatype
+</li></ul>
+<!-- inline-dafny Datatypes/A3 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="341" data-line-first="342" style="display:block"><code data-line="342">  <span style="color:blue">function</span> SizeToOunces(s: Size): <span style="color:teal">int</span> {
+    <span style="color:blue">match</span> s
+    <span style="color:blue">case</span> Small =&gt; <span class="constant" style="color:purple">4</span>
+    <span style="color:blue">case</span> Large =&gt; <span class="constant" style="color:purple">8</span>
+  }</code></pre></section>
+<section id="sec-new-expression--pattern-matching" class="section section1" data-section-depth="1" data-line="349"><h2 id="heading-sec-new-expression--pattern-matching" class="h1" data-heading-depth="1" style="display:block">New expression: pattern matching</h2><!-- inline-dafny Datatypes/A4 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="352" data-line-first="353" style="display:block"><code data-line="353">  <span style="color:blue">predicate</span> MatchExpression(s: Size) {
+    (<span style="color:blue">match</span> s <span style="color:blue">case</span> Small =&gt; <span class="constant" style="color:purple">4</span> <span style="color:blue">case</span> Large =&gt; <span class="constant" style="color:purple">8</span>) <span style="color:blue">is</span> <span style="color:teal">int</span>
+  }</code></pre></section>
+<section id="sec-parameterized-constructors" class="section section1" data-section-depth="1" data-line="358"><h2 id="heading-sec-parameterized-constructors" class="h1" data-heading-depth="1" style="display:block">Parameterized constructors</h2>
+<ul class="ul list-dash compact" data-line="360">
+<li class="li ul-li list-dash-li compact-li" data-line="360"><span data-line="360"></span>Constructors can have parameters
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="361"><span data-line="361"></span>Example
+
+<ul class="ul list-dash compact" data-line="362">
+<li class="li ul-li list-dash-li compact-li" data-line="362"><span data-line="362"></span><code class="code code1">Coffee</code><span data-line="362"></span> is a constructor: it takes a value of type <span data-line="362"></span><code class="code code1">Size</code><span data-line="362"></span> and produces a value of type <span data-line="362"></span><code class="code code1">Drink</code><span data-line="362"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="363"><span data-line="363"></span><code class="code code1">Coffee(Small)</code><span data-line="363"></span> is a value
+</li></ul></li></ul>
+<!-- inline-dafny Datatypes/A5 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="366" data-line-first="367" style="display:block"><code data-line="367">  <span style="color:blue">datatype</span> Drink =
+    | Coffee(Size)
+    | Tea(Size)
+    | Water(Size)</code></pre></section>
+<section id="sec-applying-constructors" class="section section1" data-section-depth="1" data-line="373"><h2 id="heading-sec-applying-constructors" class="h1" data-heading-depth="1" style="display:block">Applying constructors</h2><!-- inline-dafny Datatypes/A6 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="376" data-line-first="377" style="display:block"><code data-line="377">  <span style="color:blue">predicate</span> Constructor() { (Tea(Small)) <span style="color:blue">is</span> Drink }</code></pre>
+<ul class="ul list-dash compact" data-line="380">
+<li class="li ul-li list-dash-li compact-li" data-line="380"><span data-line="380"></span>Are constructors functions?
+
+<ul class="ul list-dash compact" data-line="381">
+<li class="li ul-li list-dash-li compact-li" data-line="381"><span data-line="381"></span>No
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="382"><span data-line="382"></span><code class="code code1">Coffee</code><span data-line="382"></span> and <span data-line="382"></span><code class="code code1">Tea</code><span data-line="382"></span> cannot be used without being fully applied
+</li></ul></li></ul>
+</section>
+<section id="sec-matching-constructors-with-parameters" class="section section1" data-section-depth="1" data-line="384"><h2 id="heading-sec-matching-constructors-with-parameters" class="h1" data-heading-depth="1" style="display:block">Matching constructors with parameters</h2><!-- inline-dafny Datatypes/A7 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="387" data-line-first="388" style="display:block"><code data-line="388">  <span style="color:blue">function</span> GetCaffeine(d: Drink): <span style="color:teal">int</span> {
+    <span style="color:blue">match</span> d
+    <span style="color:blue">case</span> Coffee(s) =&gt; <span class="constant" style="color:purple">5</span> * SizeToOunces(s)
+    <span style="color:blue">case</span> Tea(s) =&gt; <span class="constant" style="color:purple">7</span> * SizeToOunces(s)
+    <span style="color:blue">case</span> Water(s) =&gt; <span class="constant" style="color:purple">0</span>
+  }</code></pre></section>
+<section id="sec-wild-identifiers-on-arguments" class="section section1" data-section-depth="1" data-line="396"><h2 id="heading-sec-wild-identifiers-on-arguments" class="h1" data-heading-depth="1" style="display:block">Wild identifiers on arguments</h2>
+<ul class="ul list-dash compact" data-line="398">
+<li class="li ul-li list-dash-li compact-li" data-line="398"><span data-line="398"></span>When you don<span data-line="398"></span>&#39;<span data-line="398"></span>t need to use a value and don<span data-line="398"></span>&#39;<span data-line="398"></span>t want to name it
+</li></ul>
+<!-- inline-dafny Datatypes/A8 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="401" data-line-first="402" style="display:block"><code data-line="402">  <span style="color:blue">function</span> GetCaffeine(d: Drink): <span style="color:teal">int</span> {
+    <span style="color:blue">match</span> d
+    <span style="color:blue">case</span> Coffee(s) =&gt; <span class="constant" style="color:purple">5</span> * SizeToOunces(s)
+    <span style="color:blue">case</span> Tea(s) =&gt; <span class="constant" style="color:purple">7</span> * SizeToOunces(s)
+    <span style="color:blue">case</span> Water(_) =&gt; <span class="constant" style="color:purple">0</span>
+  }</code></pre></section>
+<section id="sec-wild-identifiers-on-constructors" class="section section1" data-section-depth="1" data-line="410"><h2 id="heading-sec-wild-identifiers-on-constructors" class="h1" data-heading-depth="1" style="display:block">Wild identifiers on constructors</h2><!-- inline-dafny Datatypes/A9 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="413" data-line-first="414" style="display:block"><code data-line="414">  <span style="color:blue">function</span> GetCaffeine(d: Drink): <span style="color:teal">int</span> {
+    <span style="color:blue">match</span> d
+    <span style="color:blue">case</span> Coffee(s) =&gt; <span class="constant" style="color:purple">5</span> * SizeToOunces(s)
+    <span style="color:blue">case</span> Tea(s) =&gt; <span class="constant" style="color:purple">7</span> * SizeToOunces(s)
+    <span style="color:blue">case</span> _ =&gt; <span class="constant" style="color:purple">0</span>
+  }</code></pre></section>
+<section id="sec-named-parameters" class="section section1" data-section-depth="1" data-line="422"><h2 id="heading-sec-named-parameters" class="h1" data-heading-depth="1" style="display:block">Named parameters</h2>
+<ul class="ul list-dash compact" data-line="424">
+<li class="li ul-li list-dash-li compact-li" data-line="424"><span data-line="424"></span>Constructor parameters can be named
+</li></ul>
+<!-- inline-dafny Datatypes/A10 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="427" data-line-first="428" style="display:block"><code data-line="428">  <span style="color:blue">datatype</span> Drink =
+    | Coffee(sz: Size)
+    | Tea(sz: Size)
+    | Water(sz: Size)</code></pre></section>
+<section id="sec-discriminators-and-destructors" class="section section1" data-section-depth="1" data-line="434"><h2 id="heading-sec-discriminators-and-destructors" class="h1" data-heading-depth="1" style="display:block">Discriminators and destructors</h2>
+<ul class="ul list-dash compact" data-line="436">
+<li class="li ul-li list-dash-li compact-li" data-line="436"><span data-line="436"></span>Discriminator: test if a value correspond to a specific constructor
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="437"><span data-line="437"></span>Destructor: extract value for some constructor
+</li></ul>
+<!-- inline-dafny Datatypes/A11 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="440" data-line-first="441" style="display:block"><code data-line="441">  <span style="color:blue">predicate</span> Discriminator(d: Drink) { d.Coffee? <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+
+  <span style="color:blue">predicate</span> Destructor(d: Drink) { d.sz <span style="color:blue">is</span> Size }</code></pre></section>
+<section id="sec-example-with-discriminators-and-destructors" class="section section1" data-section-depth="1" data-line="446"><h2 id="heading-sec-example-with-discriminators-and-destructors" class="h1" data-heading-depth="1" style="display:block">Example with discriminators and destructors</h2><!-- inline-dafny Datatypes/A12 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="449" data-line-first="450" style="display:block"><code data-line="450">  <span style="color:blue">function</span> GetCaffeine(d: Drink): <span style="color:teal">int</span> {
+    <span style="color:blue">if</span> d.Coffee? <span style="color:blue">then</span>
+      <span class="constant" style="color:purple">5</span> * SizeToOunces(d.sz)
+    <span style="color:blue">else</span> <span style="color:blue">if</span> d.Tea? <span style="color:blue">then</span>
+      <span class="constant" style="color:purple">7</span> * SizeToOunces(d.sz)
+    <span style="color:blue">else</span>
+      <span class="constant" style="color:purple">0</span>
+  }</code></pre></section>
+<section id="sec-member-declarations" class="section section1" data-section-depth="1" data-line="460"><h2 id="heading-sec-member-declarations" class="h1" data-heading-depth="1" style="display:block">Member declarations</h2>
+<ul class="ul list-dash compact" data-line="462">
+<li class="li ul-li list-dash-li compact-li" data-line="462"><span data-line="462"></span>Functions can be defined along with datatype
+
+<ul class="ul list-dash compact" data-line="463">
+<li class="li ul-li list-dash-li compact-li" data-line="463"><span data-line="463"></span>That is, including constants and predicates 
+</li></ul></li>
+<li class="li ul-li list-dash-li compact-li" data-line="464"><span data-line="464"></span>In this context, the datatype value can be referred to as <span data-line="464"></span><code class="code code1">this</code><span data-line="464"></span>
+</li></ul>
+<!-- inline-dafny Datatypes/A13_pre -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="467" data-line-first="468" style="display:block"><code data-line="468">  <span style="color:blue">datatype</span> Size =
+    | Small
+    | Large
+  {
+
+    <span style="color:blue">predicate</span> This() { <span style="color:blue">this</span> <span style="color:blue">is</span> Size }
+
+  }</code></pre></section>
+<section id="sec-example-with-member-function" class="section section1" data-section-depth="1" data-line="478"><h2 id="heading-sec-example-with-member-function" class="h1" data-heading-depth="1" style="display:block">Example with member function</h2><!-- inline-dafny Datatypes/A13 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="481" data-line-first="482" style="display:block"><code data-line="482">  <span style="color:blue">datatype</span> Size =
+    | Small
+    | Large
+  {
+
+    <span style="color:blue">function</span> ToOunces(): <span style="color:teal">int</span> {
+      <span style="color:blue">match</span> <span style="color:blue">this</span>
+      <span style="color:blue">case</span> Small =&gt; <span class="constant" style="color:purple">4</span>
+      <span style="color:blue">case</span> Large =&gt; <span class="constant" style="color:purple">8</span>
+    }
+
+  }</code></pre></section>
+<section id="sec-functional-dot-notation" class="section section1" data-section-depth="1" data-line="496"><h2 id="heading-sec-functional-dot-notation" class="h1" data-heading-depth="1" style="display:block">Functional dot notation</h2>
+<ul class="ul list-dash compact" data-line="498">
+<li class="li ul-li list-dash-li compact-li" data-line="498"><span data-line="498"></span>You have functional programming with dot notation!
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="499"><span data-line="499"></span>For OO experts: no late binding, no dynamic dispatch, it<span data-line="499"></span>&#39;<span data-line="499"></span>s just syntactic convenience
+</li></ul>
+<!-- inline-dafny Datatypes/A14 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="502" data-line-first="503" style="display:block"><code data-line="503">  <span style="color:blue">predicate</span> DotExpression(s: Size) { s.ToOunces <span style="color:blue">is</span> () -&gt; <span style="color:teal">int</span> }</code></pre></section>
+<section id="sec-records" class="section section1" data-section-depth="1" data-line="506"><h2 id="heading-sec-records" class="h1" data-heading-depth="1" style="display:block">Records</h2>
+<ul class="ul list-dash compact" data-line="508">
+<li class="li ul-li list-dash-li compact-li" data-line="508"><span data-line="508"></span>Algebraic datatypes with a single constructor are also called records
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="509"><span data-line="509"></span>The single constructor usually has the same name as the datatype, but you can also choose a different name
+</li></ul>
+<!-- inline-dafny Datatypes/A15 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="512" data-line-first="513" style="display:block"><code data-line="513">  <span style="color:blue">datatype</span> Complex = Complex(r: <span style="color:teal">real</span>, i: <span style="color:teal">real</span>)</code></pre></section>
+<section id="sec-type-operators" class="section section1" data-section-depth="1" data-line="516"><h2 id="heading-sec-type-operators" class="h1" data-heading-depth="1" style="display:block">Type operators</h2>
+<ul class="ul list-dash compact" data-line="518">
+<li class="li ul-li list-dash-li compact-li" data-line="518"><span data-line="518"></span>Datatypes can be parameterized with a type
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="519"><span data-line="519"></span>That way, you can define collections that are oblivious to what they contain
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="520"><span data-line="520"></span><code class="code code1">List</code><span data-line="520"></span> is a type operator: it takes a type as an argument and creates a new type
+</li></ul>
+<!-- inline-dafny Polymorphism/A16 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="523" data-line-first="524" style="display:block"><code data-line="524">  <span style="color:blue">datatype</span> List&lt;T&gt; =
+    | Nil
+    | Cons(head: T, tail: List)</code></pre></section>
+<section id="sec-polymorphism" class="section section1" data-section-depth="1" data-line="529"><h2 id="heading-sec-polymorphism" class="h1" data-heading-depth="1" style="display:block">Polymorphism</h2>
+<ul class="ul list-dash compact" data-line="531">
+<li class="li ul-li list-dash-li compact-li" data-line="531"><span data-line="531"></span>Functions can also be parameterized
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="532"><span data-line="532"></span>That way, you can not only define collections oblivious to what they contain
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="533"><span data-line="533"></span>But also functions on them that are also oblivious
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="534"><span data-line="534"></span>The parameters of a function can be typed with type parameters
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="535"><span data-line="535"></span>Type parameters always appear before parameters (prenex polymorphism)
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="536"><span data-line="536"></span>A parameterized type needs to be applied to a type argument
+</li></ul>
+<!-- inline-dafny Polymorphism/A17 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="539" data-line-first="540" style="display:block"><code data-line="540">  <span style="color:blue">function</span> Len&lt;T&gt;(l: List&lt;T&gt;): <span style="color:teal">nat</span> {
+    <span style="color:blue">match</span> l
+    <span style="color:blue">case</span> Nil =&gt; <span class="constant" style="color:purple">0</span>
+    <span style="color:blue">case</span> Cons(_, tail) =&gt; <span class="constant" style="color:purple">1</span> + Len(tail)
+  }</code></pre></section>
+<section id="sec-type-parameter-inference" class="section section1" data-section-depth="1" data-line="547"><h2 id="heading-sec-type-parameter-inference" class="h1" data-heading-depth="1" style="display:block">Type parameter inference</h2>
+<ul class="ul list-dash compact" data-line="549">
+<li class="li ul-li list-dash-li compact-li" data-line="549"><span data-line="549"></span>In most cases, Dafny can infer that the type should be
+</li></ul>
+<!-- inline-dafny Polymorphism/A17' -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="552" data-line-first="553" style="display:block"><code data-line="553">  <span style="color:blue">function</span> Len&lt;T&gt;(l: List): <span style="color:teal">nat</span> {
+    <span style="color:blue">match</span> l
+    <span style="color:blue">case</span> Nil =&gt; <span class="constant" style="color:purple">0</span>
+    <span style="color:blue">case</span> Cons(_, tail) =&gt; <span class="constant" style="color:purple">1</span> + Len(tail)
+  }</code></pre></section>
+<section id="sec-type-characteristics" class="section section1" data-section-depth="1" data-line="560"><h2 id="heading-sec-type-characteristics" class="h1" data-heading-depth="1" style="display:block">Type characteristics</h2>
+<ul class="ul list-dash compact" data-line="562">
+<li class="li ul-li list-dash-li compact-li" data-line="562"><span data-line="562"></span>Sometimes, you want to constrain a type parameter
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="563"><span data-line="563"></span>It is done with type characteristics (of which there are 4 in Dafny)
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="564"><span data-line="564"></span>For example, you can demand that the type support equality
+</li></ul>
+<!-- inline-dafny Polymorphism/A19 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="567" data-line-first="568" style="display:block"><code data-line="568">  <span style="color:blue">function</span> TestEquality&lt;T(==)&gt;(a: T, b: T): <span style="color:teal">bool</span> {
+    a == b
+  }</code></pre></section>
+<section id="sec-collections" class="section section1" data-section-depth="1" data-line="573"><h2 id="heading-sec-collections" class="h1" data-heading-depth="1" style="display:block">Collections</h2>
+<ul class="ul list-dash compact" data-line="575">
+<li class="li ul-li list-dash-li compact-li" data-line="575"><span data-line="575"></span>Dafny has 4 built-in immutable collections for programming
+
+<ul class="ul list-dash compact" data-line="576">
+<li class="li ul-li list-dash-li compact-li" data-line="576"><span data-line="576"></span>Sequences (<span data-line="576"></span><code class="code code1">seq&lt;T&gt;</code><span data-line="576"></span>)
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="577"><span data-line="577"></span>Sets (<span data-line="577"></span><code class="code code1">set&lt;T&gt;</code><span data-line="577"></span> and <span data-line="577"></span><code class="code code1">iset&lt;T&gt;</code><span data-line="577"></span>)
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="578"><span data-line="578"></span>Multisets (<span data-line="578"></span><code class="code code1">multiset&lt;T&gt;</code><span data-line="578"></span>)
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="579"><span data-line="579"></span>Maps (<span data-line="579"></span><code class="code code1">map&lt;K, V&gt;</code><span data-line="579"></span> and <span data-line="579"></span><code class="code code1">imap&lt;K, V&gt;</code><span data-line="579"></span>)
+</li></ul></li>
+<li class="li ul-li list-dash-li compact-li" data-line="580"><span data-line="580"></span>Sets and maps come in two flavors: finite and possibly infinite
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="581"><span data-line="581"></span>Sequences and multisets are always finite
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="582"><span data-line="582"></span>The built-in type <span data-line="582"></span><code class="code code1">string</code><span data-line="582"></span> is a type synonym for <span data-line="582"></span><code class="code code1">seq&lt;char&gt;</code><span data-line="582"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="583"><span data-line="583"></span>The contents of these collections may be mutable, but the collections themselves are not 
+</li></ul>
+</section>
+<section id="sec-sequences" class="section section1" data-section-depth="1" data-line="585"><h2 id="heading-sec-sequences" class="h1" data-heading-depth="1" style="display:block">Sequences</h2><!-- inline-dafny Sequences/Programming -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="588" data-line-first="589" style="display:block"><code data-line="589">  <span style="color:blue">predicate</span> Empty&lt;T&gt;() { [] <span style="color:blue">is</span> <span style="color:teal">seq</span>&lt;T&gt; }
+  <span style="color:blue">predicate</span> SequenceDisplay&lt;T&gt;(x: T, y: T, z: T) { [x, y, z] <span style="color:blue">is</span> <span style="color:teal">seq</span>&lt;T&gt; }
+  <span style="color:blue">predicate</span> Equality&lt;T(==)&gt;(a: <span style="color:teal">seq</span>, b: <span style="color:teal">seq</span>) { (a == b) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> Disequality&lt;T(==)&gt;(a: <span style="color:teal">seq</span>, b: <span style="color:teal">seq</span>) { (a != b) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> ProperPrefix&lt;T(==)&gt;(a: <span style="color:teal">seq</span>, b: <span style="color:teal">seq</span>) { (a &lt; b) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> Prefix&lt;T(==)&gt;(a: <span style="color:teal">seq</span>, b: <span style="color:teal">seq</span>) { (a &lt;= b) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> Concatenation&lt;T&gt;(a: <span style="color:teal">seq</span>, b: <span style="color:teal">seq</span>) { (a + b) <span style="color:blue">is</span> <span style="color:teal">seq</span>&lt;T&gt; }
+  <span style="color:blue">predicate</span> Membership&lt;T(==)&gt;(a: <span style="color:teal">seq</span>, e: T) { (e <span style="color:blue">in</span> a) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> Absence&lt;T(==)&gt;(a: <span style="color:teal">seq</span>, e: T) { (e !<span style="color:blue">in</span> a) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> Size&lt;T&gt;(a: <span style="color:teal">seq</span>) { |a| <span style="color:blue">is</span> <span style="color:teal">int</span> }
+  <span style="color:blue">predicate</span> Indexing&lt;T&gt;(a: <span style="color:teal">seq</span>, k: <span style="color:teal">int</span>) { a[k] <span style="color:blue">is</span> T }
+  <span style="color:blue">predicate</span> Update&lt;T&gt;(a: <span style="color:teal">seq</span>, k: <span style="color:teal">int</span>, e: T) { a[k := e] <span style="color:blue">is</span> <span style="color:teal">seq</span>&lt;T&gt; }
+  <span style="color:blue">predicate</span> Slice&lt;T&gt;(a: <span style="color:teal">seq</span>, k: <span style="color:teal">int</span>, l: <span style="color:teal">int</span>) { a[k..l] <span style="color:blue">is</span> <span style="color:teal">seq</span>&lt;T&gt; }
+  <span style="color:blue">predicate</span> Drop&lt;T&gt;(a: <span style="color:teal">seq</span>, k: <span style="color:teal">int</span>) { a[k..] <span style="color:blue">is</span> <span style="color:teal">seq</span>&lt;T&gt; }
+  <span style="color:blue">predicate</span> Take&lt;T&gt;(a: <span style="color:teal">seq</span>, l: <span style="color:teal">int</span>) { a[..l] <span style="color:blue">is</span> <span style="color:teal">seq</span>&lt;T&gt; }</code></pre></section>
+<section id="sec-strings" class="section section1" data-section-depth="1" data-line="606"><h2 id="heading-sec-strings" class="h1" data-heading-depth="1" style="display:block">Strings</h2>
+<ul class="ul list-dash compact" data-line="608">
+<li class="li ul-li list-dash-li compact-li" data-line="608"><span data-line="608"></span>Strings are sequences of characters
+</li></ul>
+<!-- inline-dafny Strings/Programming -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="611" data-line-first="612" style="display:block"><code data-line="612">  <span style="color:blue">predicate</span> Type(s: <span style="color:teal">string</span>) { s <span style="color:blue">is</span> <span style="color:teal">seq</span>&lt;<span style="color:teal">char</span>&gt; }
+
+  <span style="color:blue">predicate</span> Display() { <span style="color:maroon">&quot;</span><span style="color:maroon">Hello</span><span style="color:maroon">&quot;</span> <span style="color:blue">is</span> <span style="color:teal">string</span> }</code></pre></section>
+<section id="sec-sets" class="section section1" data-section-depth="1" data-line="617"><h2 id="heading-sec-sets" class="h1" data-heading-depth="1" style="display:block">Sets</h2><!-- inline-dafny Sets/Programming -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="620" data-line-first="621" style="display:block"><code data-line="621">  <span style="color:blue">predicate</span> EmptySet&lt;T(==)&gt;() { {} <span style="color:blue">is</span> <span style="color:teal">set</span>&lt;T&gt; }
+  <span style="color:blue">predicate</span> SetDisplay&lt;T(==)&gt;(x: T, y: T, z: T) { {x, y, z} <span style="color:blue">is</span> <span style="color:teal">set</span>&lt;T&gt; }
+  <span style="color:blue">predicate</span> Union&lt;T(==)&gt;(A: <span style="color:teal">set</span>&lt;T&gt;, B: <span style="color:teal">set</span>&lt;T&gt;) { (A + B) <span style="color:blue">is</span> <span style="color:teal">set</span>&lt;T&gt; }
+  <span style="color:blue">predicate</span> Intersection&lt;T(==)&gt;(A: <span style="color:teal">set</span>&lt;T&gt;, B: <span style="color:teal">set</span>&lt;T&gt;) { (A * B) <span style="color:blue">is</span> <span style="color:teal">set</span>&lt;T&gt; }
+  <span style="color:blue">predicate</span> AsymmetricDifference&lt;T(==)&gt;(A: <span style="color:teal">set</span>&lt;T&gt;, B: <span style="color:teal">set</span>&lt;T&gt;) { (A - B) <span style="color:blue">is</span> <span style="color:teal">set</span>&lt;T&gt; }
+  <span style="color:blue">predicate</span> Equality&lt;T(==)&gt;(A: <span style="color:teal">set</span>&lt;T&gt;, B: <span style="color:teal">set</span>&lt;T&gt;) { (A == B) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> Disequality&lt;T(==)&gt;(A: <span style="color:teal">set</span>&lt;T&gt;, B: <span style="color:teal">set</span>&lt;T&gt;) { (A != B) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> Subset&lt;T(==)&gt;(A: <span style="color:teal">set</span>&lt;T&gt;, B: <span style="color:teal">set</span>&lt;T&gt;) { (A &lt;= B) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> StrictSubset&lt;T(==)&gt;(A: <span style="color:teal">set</span>&lt;T&gt;, B: <span style="color:teal">set</span>&lt;T&gt;) { (A &lt; B) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> Superset&lt;T(==)&gt;(A: <span style="color:teal">set</span>&lt;T&gt;, B: <span style="color:teal">set</span>&lt;T&gt;) { (A &gt;= B) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> StrictSuperset&lt;T(==)&gt;(A: <span style="color:teal">set</span>&lt;T&gt;, B: <span style="color:teal">set</span>&lt;T&gt;) { (A &gt; B) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> Disjoint&lt;T(==)&gt;(A: <span style="color:teal">set</span>&lt;T&gt;, B: <span style="color:teal">set</span>&lt;T&gt;) { (A !! B) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> Membership&lt;T(==)&gt;(e: T, A: <span style="color:teal">set</span>&lt;T&gt;) { (e <span style="color:blue">in</span> A) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> Absence&lt;T(==)&gt;(e: T, A: <span style="color:teal">set</span>&lt;T&gt;) { (e !<span style="color:blue">in</span> A) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> Cardinality&lt;T(==)&gt;(A: <span style="color:teal">set</span>&lt;T&gt;) { |A| <span style="color:blue">is</span> <span style="color:teal">int</span> }</code></pre></section>
+<section id="sec-multisets" class="section section1" data-section-depth="1" data-line="638"><h2 id="heading-sec-multisets" class="h1" data-heading-depth="1" style="display:block">Multisets</h2><!-- inline-dafny Multisets/Programming -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="641" data-line-first="642" style="display:block"><code data-line="642">  <span style="color:blue">predicate</span> EmptyMultiset&lt;T(==)&gt;() { <span style="color:teal">multiset</span>{} <span style="color:blue">is</span> <span style="color:teal">multiset</span>&lt;T&gt; }
+  <span style="color:blue">predicate</span> MultisetDisplay&lt;T(==)&gt;(x: T, y: T, z: T) { <span style="color:teal">multiset</span>{x, y, z} <span style="color:blue">is</span> <span style="color:teal">multiset</span>&lt;T&gt; }
+  <span style="color:blue">predicate</span> Union&lt;T(==)&gt;(A: <span style="color:teal">multiset</span>&lt;T&gt;, B: <span style="color:teal">multiset</span>&lt;T&gt;) { (A + B) <span style="color:blue">is</span> <span style="color:teal">multiset</span>&lt;T&gt; }
+  <span style="color:blue">predicate</span> Intersection&lt;T(==)&gt;(A: <span style="color:teal">multiset</span>&lt;T&gt;, B: <span style="color:teal">multiset</span>&lt;T&gt;) { (A * B) <span style="color:blue">is</span> <span style="color:teal">multiset</span>&lt;T&gt; }
+  <span style="color:blue">predicate</span> Difference&lt;T(==)&gt;(A: <span style="color:teal">multiset</span>&lt;T&gt;, B: <span style="color:teal">multiset</span>&lt;T&gt;) { (A - B) <span style="color:blue">is</span> <span style="color:teal">multiset</span>&lt;T&gt; }
+  <span style="color:blue">predicate</span> Equality&lt;T(==)&gt;(A: <span style="color:teal">multiset</span>&lt;T&gt;, B: <span style="color:teal">multiset</span>&lt;T&gt;) { (A == B) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> Disequality&lt;T(==)&gt;(A: <span style="color:teal">multiset</span>&lt;T&gt;, B: <span style="color:teal">multiset</span>&lt;T&gt;) { (A != B) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> Submultiset&lt;T(==)&gt;(A: <span style="color:teal">multiset</span>&lt;T&gt;, B: <span style="color:teal">multiset</span>&lt;T&gt;) { (A &lt;= B) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> StrictSubmultiset&lt;T(==)&gt;(A: <span style="color:teal">multiset</span>&lt;T&gt;, B: <span style="color:teal">multiset</span>&lt;T&gt;) { (A &lt; B) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> Supermultiset&lt;T(==)&gt;(A: <span style="color:teal">multiset</span>&lt;T&gt;, B: <span style="color:teal">multiset</span>&lt;T&gt;) { (A &gt;= B) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> StrictSupermultiset&lt;T(==)&gt;(A: <span style="color:teal">multiset</span>&lt;T&gt;, B: <span style="color:teal">multiset</span>&lt;T&gt;) { (A &gt; B) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> Disjoint&lt;T(==)&gt;(A: <span style="color:teal">multiset</span>&lt;T&gt;, B: <span style="color:teal">multiset</span>&lt;T&gt;) { (A !! B) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> Membership&lt;T(==)&gt;(e: T, A: <span style="color:teal">multiset</span>&lt;T&gt;) { (e <span style="color:blue">in</span> A) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> Absence&lt;T(==)&gt;(e: T, A: <span style="color:teal">multiset</span>&lt;T&gt;) { (e !<span style="color:blue">in</span> A) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> Cardinality&lt;T(==)&gt;(A: <span style="color:teal">multiset</span>&lt;T&gt;) { |A| <span style="color:blue">is</span> <span style="color:teal">int</span> }
+  <span style="color:blue">predicate</span> Multiplicity&lt;T(==)&gt;(e: T, A: <span style="color:teal">multiset</span>&lt;T&gt;) { A[e] <span style="color:blue">is</span> <span style="color:teal">int</span> }
+  <span style="color:blue">predicate</span> MultiplicityUpdate&lt;T(==)&gt;(e: T, A: <span style="color:teal">multiset</span>&lt;T&gt;, k: <span style="color:teal">int</span>) { A[e := k] <span style="color:blue">is</span> <span style="color:teal">multiset</span>&lt;T&gt; }</code></pre></section>
+<section id="sec-maps" class="section section1" data-section-depth="1" data-line="661"><h2 id="heading-sec-maps" class="h1" data-heading-depth="1" style="display:block">Maps</h2><!-- inline-dafny Maps/Programming -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="664" data-line-first="665" style="display:block"><code data-line="665">  <span style="color:blue">predicate</span> Empty&lt;U(==), V&gt;() { <span style="color:teal">map</span>[] <span style="color:blue">is</span> <span style="color:teal">map</span>&lt;U, V&gt; }
+  <span style="color:blue">predicate</span> Display() { <span style="color:teal">map</span>[<span class="constant" style="color:purple">20</span> := <span style="color:blue">true</span>, <span class="constant" style="color:purple">3</span> := <span style="color:blue">false</span>, <span class="constant" style="color:purple">20</span> := <span style="color:blue">false</span>] <span style="color:blue">is</span> <span style="color:teal">map</span>&lt;<span style="color:teal">int</span>,<span style="color:teal">bool</span>&gt;}
+  <span style="color:blue">predicate</span> KeyMembership&lt;U(==), V&gt;(m: <span style="color:teal">map</span>, k: U) { (k <span style="color:blue">in</span> m) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> KeyAbsence&lt;U(==), V&gt;(m: <span style="color:teal">map</span>, k: U) { (k !<span style="color:blue">in</span> m) <span style="color:blue">is</span> <span style="color:teal">bool</span> }
+  <span style="color:blue">predicate</span> Cardinality&lt;U(==), V&gt;(m: <span style="color:teal">map</span>) { |m| <span style="color:blue">is</span> <span style="color:teal">int</span> }
+  <span style="color:blue">predicate</span> Indexing&lt;U(==), V&gt;(m: <span style="color:teal">map</span>, k: U) { m[k] <span style="color:blue">is</span> V}
+  <span style="color:blue">predicate</span> Update&lt;U(==), V&gt;(m: <span style="color:teal">map</span>, k: U, v: V) { m[k := v] <span style="color:blue">is</span> <span style="color:teal">map</span>}
+  <span style="color:blue">predicate</span> Keys&lt;U(==), V&gt;(m: <span style="color:teal">map</span>) { m.Keys <span style="color:blue">is</span> <span style="color:teal">set</span>&lt;U&gt; }
+  <span style="color:blue">predicate</span> Values&lt;U(==), V(==)&gt;(m: <span style="color:teal">map</span>) { m.Values <span style="color:blue">is</span> <span style="color:teal">set</span>&lt;V&gt; }
+  <span style="color:blue">predicate</span> Items&lt;U(==), V(==)&gt;(m: <span style="color:teal">map</span>) { m.Items <span style="color:blue">is</span> <span style="color:teal">set</span>&lt;(U, V)&gt; }
+  <span style="color:blue">predicate</span> Merge&lt;U(==), V&gt;(m1: <span style="color:teal">map</span>, m2: <span style="color:teal">map</span>) { (m1 + m2) <span style="color:blue">is</span> <span style="color:teal">map</span> }
+  <span style="color:blue">predicate</span> MapDomainSubtraction&lt;U(==), V&gt;(m: <span style="color:teal">map</span>, s: <span style="color:teal">set</span>) { (m - s) <span style="color:blue">is</span> <span style="color:teal">map</span> }</code></pre></section>
+<section id="sec-type-synonyms" class="section section1" data-section-depth="1" data-line="679"><h2 id="heading-sec-type-synonyms" class="h1" data-heading-depth="1" style="display:block">Type synonyms</h2><!-- inline-dafny FunctionalProgramming/Ainfinite -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="682" data-line-first="683" style="display:block"><code data-line="683">  <span style="color:blue">type</span> Complex = (<span style="color:teal">real</span>, <span style="color:teal">real</span>)</code></pre></section></div></div><span data-line=""></span></div>
+</body>
+<script type="text/javascript">
+  Reveal.initialize({
+          history: true,
+          transition: "none",
+          width: 1600,
+            height: 900,
+          center: false,
+          controls: false,
+             progress: false,
+          slideNumber: true
+          });
+  Reveal.configure({
+          history: true,
+          transition: "none",
+          width: 1600,
+            height: 900,
+          center: false,
+          controls: false,
+             progress: false,
+          slideNumber: true
+     });
+</script>
+<script>
+    // initialize printing
+    revealConfig.initPrint();
+    // initialize background embedded images
+    revealConfig.getEmbeddedImages();
+    </script>
+</html>

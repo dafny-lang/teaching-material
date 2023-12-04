@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta name="generator" content="Madoko, version 1.2.3" />
+  <meta name="viewport" content="initial-scale=1.0" />
+  <meta name="author" content="Jean-Baptiste Tristan \&amp, K. Rustan M. Leino" />
+  <title>Dependent Verification of Functional Programs</title>
+  <style type="text/css"  class="link">
+  /*# sourceURL=madoko.css */
+  
+  .madoko .toc>.tocblock .tocblock .tocblock {
+    margin-left: 2.25em;
+  }
+  .madoko .toc>.tocblock .tocblock {
+    margin-left: 1.5em;
+  }
+  .madoko .toc-contents>.tocblock>.tocitem {
+    font-weight: bold;
+  }
+  .madoko .toc {
+    margin-top: 1em;
+  }
+  .madoko p.para-continue {
+    margin-bottom: 0pt;
+  }
+  .madoko .para-block+p {
+    margin-top: 0pt;
+  }
+  .madoko ul.para-block, .madoko ol.para-block {
+    margin-top: 0pt;
+    margin-bottom: 0pt;
+  }
+  .madoko ul.para-end, .madoko ol.para-end {
+    margin-bottom: 1em;
+  }
+  .madoko dl {
+    margin-left: 0em;
+  }
+  .madoko blockquote {
+    font-style: italic;
+  }
+  .madoko a.localref {
+    text-decoration: none;
+  }
+  .madoko a.localref:hover {
+    text-decoration: underline;
+  }
+  .madoko .footnotes {
+    font-size: smaller;
+    margin-top: 2em;
+  }
+  .madoko .footnotes hr {
+    width: 50%;
+    text-align: left;
+  }
+  .madoko .footnote {
+    margin-left: 1em;
+  }
+  .madoko .footnote-before {
+    margin-left: -1em;
+    width: 1em;
+    display: inline-block;
+  }
+  .madoko .align-center, .madoko .align-center>p {
+    text-align: center !important;
+  }
+  .madoko .align-center pre {
+    text-align: left;
+  }
+  .madoko .align-center>* {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .madoko .align-left, .madoko .align-left>p {
+    text-align: left !important;
+  }
+  .madoko .align-left>* {
+    margin-left: 0pt !important;
+    margin-right: auto !important;
+  }
+  .madoko .align-right, .madoko .align-right>p {
+    text-align: right !important;
+  }
+  .madoko .align-right>* {
+    margin-left: auto !important;
+    margin-right: 0pt !important;
+  }
+  .madoko .align-center>table,
+  .madoko .align-left>table,
+  .madoko .align-right>table {
+    text-align: left !important;
+  }
+  .madoko .equation-before {
+    float: right;
+  }
+  .madoko .bibitem {
+    font-size: smaller;
+  }
+  .madoko .bibsearch {
+    font-size: x-small;
+    text-decoration:none;
+    color: black;
+    font-family: "Segoe UI Symbol", Symbola, serif;
+  }
+  .madoko .block, .madoko .figure, .madoko .bibitem, .madoko .equation, .madoko div.math {
+    margin-top: 1ex;
+    margin-bottom: 1ex;
+  }
+  .madoko .figure {
+    padding: 0.5em;
+    margin-left: 0pt;
+    margin-right: 0pt;
+  }
+  .madoko .hidden {
+    display: none;
+  }
+  .madoko .invisible {
+    visibility: hidden;
+  }
+  .madoko.preview .invisible {
+    visibility: visible;
+    opacity: 0.5;
+  }
+  .madoko code.code, .madoko span.code {
+    white-space: pre-wrap;
+  }
+  .madoko hr, hr.madoko {
+    border: none;
+    border-bottom: black solid 1px;
+    margin-bottom: 0.5ex;
+  }
+  .madoko .framed>*:first-child {
+    margin-top: 0pt;
+  }
+  .madoko .framed>*:last-child {
+    margin-bottom: 0pt;
+  }
+  .madoko ul.list-style-type-dash {
+      list-style-type: none !important;
+  }
+  .madoko ul.list-style-type-dash > li:before {
+      content: "\2013";
+      position: absolute;
+      margin-left: -1em;
+  }
+  .madoko table.madoko {
+    border-collapse: collapse;
+  }
+  .madoko td, .madoko th {
+    padding: 0ex 0.5ex;
+    margin: 0pt;
+    vertical-align: top;
+  }
+  .madoko .cell-border-left {
+    border-left: 1px solid black;
+  }
+  .madoko .cell-border-right {
+    border-right: 1px solid black;
+  }
+  .madoko thead>tr:first-child>.cell-line,
+  .madoko tbody:first-child>tr:first-child>.cell-line {
+    border-top: 1px solid black;
+    border-bottom: none;
+  }
+  .madoko .cell-line, .madoko .cell-double-line {
+    border-bottom: 1px solid black;
+    border-top: none;
+  }
+  .madoko .cell-double-line {
+    border-top: 1px solid black;
+    padding-top: 1.5px !important;
+  }
+  .madoko .input-mathpre .MathJax_Display {
+    text-align: left !important;
+  }
+  .madoko div.input-mathpre {
+    text-align: left;
+    margin-top: 1.5ex;
+    margin-bottom: 1ex;
+  }
+  .madoko .math-rendering {
+    text-align: left;
+    white-space: pre;
+    color: gray;
+  }
+  .madoko .mathdisplay {
+    text-align: center;
+  }
+  .madoko span.math-rendering {
+    display:inline-block;
+    width:8em;
+    overflow-x:auto;
+    font-size:70%;
+  }
+  .madoko span.math-rendering::-webkit-scrollbar {
+    width:4px;
+  }
+  .madoko .pretty table {
+    border-collapse: collapse;
+  }
+  .madoko .pretty td {
+    padding: 0em;
+  }
+  .madoko .pretty td.empty {
+    min-width: 1.5ex;
+  }
+  .madoko .pretty td.expander {
+    width: 100em;
+  }
+  body.madoko, .madoko .serif {
+    font-family: Cambria,"Times New Roman","Liberation Serif","Times",serif;
+  }
+  .madoko .sans-serif {
+    font-family: "Calibri", "Optima", sans-serif;
+  }
+  .madoko .symbol {
+    font-family: "Segoe UI Symbol", Symbola, serif;
+  }
+  body.madoko {
+    -webkit-text-size-adjust: 100%;       
+    text-rendering: optimizeLegibility;
+  }
+  body.madoko {
+    max-width: 88ex; 
+    margin: 1em auto;
+    padding: 0em 2em;
+  }
+  body.preview.madoko {
+    padding: 0em 1em;
+  }
+  .madoko p {
+    text-align: justify;
+  }
+  .madoko h1, .madoko h2, .madoko h3, .madoko h4 {
+    margin-top: 1.22em;
+    margin-bottom: 1ex;
+  }
+  .madoko h1+p, .madoko h2+p, .madoko h3+p, .madoko h4+p, .madoko h5+p  {
+    margin-top: 1ex;
+  }
+  .madoko h5, .madoko h6 {
+    margin-top: 1ex;
+    font-size: 1em;
+  }
+  .madoko h5 {
+    margin-bottom: 0.5ex;
+  }
+  .madoko h5 + p {
+    margin-top: 0.5ex;
+  }
+  .madoko h6 {
+    margin-bottom: 0pt;
+  }
+  .madoko h6 + p {
+    margin-top: 0pt;
+  }
+  .madoko pre, .madoko code, .madoko kbd, .madoko samp, .madoko tt,
+  .madoko .monospace, .madoko .token-indent, .madoko .reveal pre, .madoko .reveal code, .madoko .email {
+    font-family: Consolas,"Andale Mono WT","Andale Mono",Lucida Console,Monaco,monospace,monospace;
+    font-size: 0.85em;
+  }
+  .madoko pre code, .madoko .token-indent {
+    font-size: 0.95em;
+  }
+  .madoko pre code {
+    font-family: inherit !important;
+  }
+  .madoko ol.linenums li {
+    background-color: white;
+    list-style-type: decimal;
+  }
+  .madoko .remote {
+    background-color: #F0FFF0;
+  }
+  .madoko .remote + * {
+    margin-top: 0pt;
+  }
+  @media print {
+    body.madoko {
+      font-size: 10pt;
+    }
+    @page {
+      margin: 1in 1.5in;
+    }
+  }
+  @media only screen and (max-device-width:1024px) {
+    body.madoko {
+      padding: 0em 0.5em;
+    }
+    .madoko li {
+      text-align: left;
+    }
+  }
+  
+    </style>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/reveal.js/2.6.2/css/reveal.min.css"  class="link">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/reveal.js/2.6.2/css/theme/solarized.css"  class="link">
+  <script src="https://cdn.jsdelivr.net/reveal.js/2.6.2/lib/js/head.min.js"  class="script preview"></script>
+  <script src="https://cdn.jsdelivr.net/reveal.js/2.6.2/js/reveal.js"  class="script preview"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$']]},
+       TeX: { 
+         Macros: { mathid: ['\\mathit{#1\\hspace{0.1ex}}',1],
+                   mathkw: ['\\mathsf{#1}',1],
+                   mdmathindent: ['\\hspace{#1ex}',1],
+                   mathpre: ['#1',1],
+                 },
+  
+       }
+    });
+    MathJax.Hub.Register.StartupHook('TeX AMSmath Ready',function () { 
+      MathJax.InputJax.TeX.Definitions.environment['mdmathpre'] = ['AMSarray',null,null,null,'l','0em','0em'];
+    });
+  </script>
+  <script type="text/javascript" class="preview"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/reveal.js/2.6.2/css/theme/solarized.css" id="theme">    
+      <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/reveal.js/2.6.2/lib/js/html5shiv.js"></script>
+      <![endif]-->
+      <style>
+      body.madoko {
+        margin: 0pt;
+        padding: 0pt;
+        max-width: 100%;      
+      }
+      .madoko .reveal h1 {
+          font-size: 3.7em;
+      }
+      .madoko .reveal h2 {
+          font-size: 2.1em;
+      }
+      .reveal .authorblock .author {
+          font-size: 120%;
+          margin-bottom: 1ex;
+      }        
+      .reveal table {
+          margin-left: auto;
+          margin-right: auto;
+      }
+      .reveal pre table {
+        margin-left: 0pt;
+      }
+      .madoko .reveal pre.pretty {
+        padding-top: 0pt;
+        padding-bottom: 0pt;
+      }
+      .reveal li p {
+          text-align: left;
+      }
+      .reveal h2 {
+          margin-bottom: 0.7em;
+      }
+      .reveal section ul,
+      .reveal section ol {
+          margin-top: 0.35em;
+          margin-bottom: 0.35em;
+      }
+      .reveal section img.math-display {
+          padding: 1em;
+          box-shadow: none;
+          border: none;
+      }
+      .reveal section img.math-inline {
+          margin: 0pt;
+          padding: 0pt;
+          background-color: none;
+          box-shadow: none;
+          border: none;
+      }
+      .reveal section img {
+          box-shadow: none;
+          border: none;
+      }
+      .madoko .reveal pre {
+          border: 1px solid black;
+          word-wrap: normal;
+          background-color: white;
+          font-size: 0.7em;
+          padding: 0.7em;
+          line-height: 100%;
+          width: 100%;
+      }      
+      .reveal pre code, .reveal code {
+          padding: 0pt;
+      }
+      .reveal nav.toc {
+          line-height: 1em;
+          font-size: 60%;
+          overflow-y: auto;
+      }    
+      .reveal .tocitem {
+          text-align: left;
+      }
+      .reveal .toc>.tocblock .tocblock {
+          margin-left: 0.5em;
+      }   
+      .reveal .toc>.tocblock .tocblock .tocblock {
+          margin-left: 1em;
+      }
+      .reveal .bibliography {
+        height: 18em;
+        overflow-y: auto;
+        font-size: 0.8em;
+        line-height: 1.25;
+      }
+      .reveal section[data-smaller=""],
+      .reveal section[data-smaller="true"] {
+        font-size: 80%;
+        width: 110%;
+      }
+      .reveal .slides>section[data-smaller=""],
+      .reveal .slides>section[data-smaller="true"] {
+        left: -55%;
+      }
+      .reveal .details {
+        display: none;
+      }
+      .reveal[data-details=""] .details,
+      .reveal[data-details="true"] .details {
+        display: initial;
+      }
+      /* Display in the preview window */
+      html, body.madoko.preview, body.madoko.preview-full, .body.madoko {
+        height  : 100% !important;
+        width   : auto!important;
+        padding : 0pt !important;
+        margin  : 0pt !important;
+      }
+      body.madoko.preview, body.madoko.preview-full, .preview .body.madoko {
+        overflow: hidden !important;
+      }
+      body.preview .reveal .slides .fragment {
+        visibility: visible;
+        opacity: 0.5;
+      }
+      body.preview .reveal .slides .fragment.visible {
+        opacity: 1.0;
+      }
+      .preview .reveal div.notes,
+      .preview .reveal aside.notes {
+        display  : block;
+        position : absolute;
+        width    : 30%;
+        left     : 70%;
+        top      : -15%;
+        font-size: 50%;
+        border   : 1px solid black;
+        border-radius   : 10px;
+        background-color: white;
+      }
+      /* 'static' display in the preview window, unused for now */
+      body.preview.static div.reveal, 
+      body.preview.static div.ticreveal .slides, 
+      body.preview.static div.reveal section {
+        display: block !important;
+        position: relative !important;
+        width: auto !important;      
+      }
+      body.preview.static div.reveal section {
+        border: solid 1px black;
+        padding: 1em !important;
+        margin-top: 1em;
+        min-height: 15em;
+        top: 0pt;
+      }
+      body.madoko.preview.static section {
+        font-size: 75%;
+      }
+      body.madoko.preview.static {
+        padding: 0em 1em !important;
+      }
+      body.madoko.preview.static .reveal pre {
+        width: 95%;
+      }    
+      body.preview .reveal[data-details="false"] .details {
+        display: initial;
+        color: gray;
+      }
+      body.preview .reveal[data-long="false"] section[data-long] {
+        border-left: 2px black solid;
+      }
+      </style>
+      <script>    
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      window.revealConfig = {
+          controls: true,
+          progress: true,
+          history: true,
+          center: /^\s*(true|1)\s*$/i.test("true"),
+          slideNumber: /^\s*(true|1)\s*$/i.test("true"),
+          dependencies: [
+            { src: 'https://cdn.jsdelivr.net/reveal.js/2.6.2/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+            { src: 'https://cdn.jsdelivr.net/reveal.js/2.6.2/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+            { src: 'https://cdn.jsdelivr.net/reveal.js/2.6.2/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+          ],
+      };
+      function revealAddFragments() {
+        [].forEach.call(document.querySelectorAll( ".fragmented" ), function(elem0) {
+          var elem = (/^H\d$/.test(elem0.nodeName) ? elem0.parentNode : elem0);
+          [].forEach.call(elem.children, function(item) {
+            if (item==elem0) return;
+            if (item && !/\bfragment(ed)?\b/.test(item.className) && item.nodeType===1) {
+              item.className = item.className + " fragment";
+            }
+          });
+        });
+      }
+      function revealQuotedList(listType) {
+        //compatibility with Rmarkdown slides
+        [].forEach.call( document.querySelectorAll("blockquote>" + listType), function(ul) {
+          if (!/\bfragmented\b/.test(ul.className)) {
+            ul.className = ul.className + " fragmented";
+          }        
+          var quote = ul.parentNode;
+          if (quote.childElementCount===1) {
+            quote.parentNode.replaceChild(ul,quote);
+          }
+        });
+      }
+      function revealBuildToFragmented() {
+        [].forEach.call(document.querySelectorAll( ".build" ), function(elem) {
+          if (elem && !/\bfragmented\b/.test(elem.className) && elem.nodeType===1) {
+            elem.className = elem.className + " fragmented";
+          }
+        });
+      }
+      function revealDivNotesToAside() {
+        [].forEach.call(document.querySelectorAll("div.notes"), function(elem) {
+          var aside = document.createElement("ASIDE");
+          if (elem.id) aside.id = elem.id;
+          aside.className = elem.className;
+          [].forEach.call(elem.attributes, function(attr) {
+            aside.setAttribute( attr.name, attr.value );
+          });
+          aside.innerHTML = elem.innerHTML;
+          elem.parentNode.replaceChild(aside,elem);
+        });
+      }
+      function revealDataQuery() {
+        var reveal = document.querySelector(".reveal");
+        if (!reveal) return;
+        window.location.search.replace(/\bdata-(\w+)(?:=(\w+))?\b/g, function(matched,key,value) {
+          reveal.setAttribute("data-" + key, (value ? value : ""));
+          return matched;
+        });
+      }
+      function revealRemoveLong() {
+        // remove parts for 'long' presentation
+        if (/\bpreview(?![\w\-])/.test(document.body.className)) return;
+        var reveal = document.querySelector(".reveal");
+        if (!reveal) return;
+        var value = reveal.hasAttribute("data-long") ? reveal.getAttribute("data-long") : null;
+        if (value==null || value=="false" || value=="0") {
+          [].forEach.call( document.querySelectorAll("section[data-long]"), function(elem) {
+            elem.parentNode.removeChild(elem);
+          });
+        }
+      }
+      revealConfig.onLoad = function() {
+        revealConfig.getEmbeddedImages();
+        revealDataQuery();
+        revealRemoveLong();
+        revealQuotedList("ul");
+        revealQuotedList("ol");
+        revealBuildToFragmented();
+        revealDivNotesToAside();
+        revealAddFragments();
+      };
+      document.addEventListener("load",revealConfig.onLoad);    
+      document.addEventListener("DOMContentLoaded", function() {
+        if (typeof Reveal !== "undefined" && !Reveal.isReady()) {
+          revealConfig.onLoad();
+          Reveal.initialize(revealConfig);
+        }
+      });    
+      // add support for printing:
+      // use  ?print-pdf to get a pdf-printable version (in Chrome)
+      // use  ?print-paper to get a paper-printable version.
+      revealConfig.initPrint = function() {
+        var cssLink = null;
+        var bodyClass = null;
+        var cap = window.location.search.match(/\bprint-(\w+)\b/);
+        if (cap) {
+          bodyClass = cap[0];
+          cssLink = "https://cdn.jsdelivr.net/reveal.js/2.6.2/css/print/" + cap[1] + ".css";
+        }
+        if (cssLink) {
+          var link  = document.createElement( "link" );
+          link.rel  = "stylesheet";
+          link.type = "text/css";
+          link.href = cssLink;
+          var head = document.getElementsByTagName( 'head' )[0];
+          if (head) head.appendChild( link );
+        }
+        if (bodyClass) {
+          document.body.className = document.body.className + " " + bodyClass;
+        }
+      };
+      revealConfig.getEmbeddedImages = function() {
+        var images = {};
+        [].forEach.call( document.querySelectorAll("img[data-linkid]"), function(img) {
+          var linkid = img.getAttribute("data-linkid");
+          if (linkid) images["/" + linkid] = img.src;
+          var path = img.getAttribute("data-path");
+          if (path) images["/" + path] = img.src;
+        });     
+        [].forEach.call( document.querySelectorAll("section"), function(slide) {
+          var attrName = "data-background";
+          var image = slide.getAttribute(attrName);
+          if (!image) {
+            attrName = "data-background-image";
+            image = slide.getAttribute(attrName);
+          }
+          if (!image) return;
+          var cap = /^\s*!?\[([^\]]+)\]\s*$/.exec(image);
+          var href = images["/" + (cap ? cap[1] : image)];
+          if (!href) return;
+          if (attrName==="data-background" && /^data:/.test(href)) href = "url(" + href + ")";
+          slide.setAttribute(attrName, href);
+        });
+      };    
+      </script>
+  </head>
+<body class="madoko">
+
+<div class="body madoko" style="line-adjust:0">
+<div class="reveal" data-long="false" data-details="false" data-line="36" style="line-adjust:0">
+<div class="slides" data-line="36" style="line-adjust:0">
+
+<section class="titleblock align-center para-block" data-line="37" style="text-align:center;line-adjust:0">
+<div class="titleheader align-center" data-line="37" style="text-align:center;line-adjust:0">
+<h1 class="title para-block" data-line="37" style="font-weight:bold;margin-bottom:0.5ex;font-size:3em;line-adjust:0"><span data-line="37"></span>Dependent Verification of Functional Programs</h1></div>
+<div class="authors align-center" data-line="42" style="text-align:center;width:80%;line-adjust:0"><table class="authorrow columns block" data-line="42" style="margin-top:2ex;width:100%;line-adjust:0">
+<tbody><tr><td class="author column" data-line="42" style="text-align:center;font-size:x-large;line-adjust:0">
+<div class="authorname" data-line="42" style="font-size:1.4em;line-adjust:0"><span data-line="42"></span>Jean-Baptiste Tristan & K. Rustan M. Leino</div></td></tr></tbody></table></div></section><!-- This file was automatically generated from CombiningProofAndFP.mdk -->
+
+
+
+<section id="sec-functional-code-with-prepost-conditions" class="section section1" data-section-depth="1" data-line="43"><h2 id="heading-sec-functional-code-with-prepost-conditions" class="h1" data-heading-depth="1" style="display:block">Functional code with pre/post conditions</h2>
+<ul class="ul list-dash compact" data-line="45">
+<li class="li ul-li list-dash-li compact-li" data-line="45"><span data-line="45"></span>So far, our code and proofs were largely independent from each other
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="46"><span data-line="46"></span>On the one hand, we write our code
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="47"><span data-line="47"></span>On the other hand, we prove properties by writing proof scripts in lemmas
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="48"><span data-line="48"></span>It is possible to directly annotate a function with properties
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="49"><span data-line="49"></span>Preconditions: properties we expect to hold when the function is called
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="50"><span data-line="50"></span>Postconditions: properties we expect to hold when the function returns
+</li></ul>
+</section>
+<section id="sec-postconditions----1" class="section section1" data-section-depth="1" data-line="53"><h2 id="heading-sec-postconditions----1" class="h1" data-heading-depth="1" style="display:block">Postconditions &#8211; 1</h2>
+<ul class="ul list-dash loose" data-line="55">
+<li class="li ul-li list-dash-li loose-li" data-line="55">
+<p data-line="55"><span data-line="55"></span>A <span data-line="55"></span><em class="em-low1">postcondition</em><span data-line="55"></span> is a property we expect the function to have
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="56">
+<p data-line="56"><span data-line="56"></span>It is declared using the <span data-line="56"></span><code class="code code1">ensures</code><span data-line="56"></span> keyword, as with lemmas
+</p><!-- inline-dafny CombiningProofAndFP/A1 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="59" data-line-first="60" style="display:block"><code data-line="60">  <span style="color:blue">function</span> Append&lt;T&gt;(l1: List, l2: List): List
+    <span style="color:purple">ensures</span> Length(Append(l1, l2)) == Length(l1) + Length(l2)
+  {
+    <span style="color:blue">match</span> l1
+    <span style="color:blue">case</span> Nil =&gt; l2
+    <span style="color:blue">case</span> Cons(e, l) =&gt; Cons(e, Append(l, l2))
+  }</code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="69">
+<p data-line="69"><span data-line="69"></span>This defines the function and a postcondition
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="70">
+<p data-line="70"><span data-line="70"></span>Of course, Dafny needs to prove the postcondition
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="71">
+<p data-line="71"><span data-line="71"></span>When the function is called, the postcondition is implicitly added to Dafny<span data-line="71"></span>&#39;<span data-line="71"></span>s knowledge base (KB)
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="72">
+<p data-line="72"><span data-line="72"></span>How should we understand the body? Is it code? Is it a proof?
+</p></li></ul>
+</section>
+<section id="sec-postconditions----2" class="section section1" data-section-depth="1" data-line="74"><h2 id="heading-sec-postconditions----2" class="h1" data-heading-depth="1" style="display:block">Postconditions &#8211; 2</h2>
+<ul class="ul list-dash loose" data-line="76">
+<li class="li ul-li list-dash-li loose-li" data-line="76">
+<p data-line="76"><span data-line="76"></span>In a sense, it is both
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="77">
+<p data-line="77"><span data-line="77"></span>To be more precise, it really is code, but the verifier knows how to turn code into proofs
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="78">
+<p data-line="78"><span data-line="78"></span>You can also interpret it as such by ignoring the values
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="79">
+<p data-line="79"><span data-line="79"></span>The recursive call to <span data-line="79"></span><code class="code code1">Append</code><span data-line="79"></span> defines the function, but also serves as an induction hypothesis
+</p><!-- inline-dafny CombiningProofAndFP/A2 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="82" data-line-first="83" style="display:block"><code data-line="83">  <span style="color:blue">function</span> Append&lt;T&gt;(l1: List, l2: List): List
+    <span style="color:purple">ensures</span> Length(Append(l1, l2)) == Length(l1) + Length(l2)
+  {
+    <span style="color:blue">match</span> l1
+    <span style="color:blue">case</span> Nil =&gt; l2
+    <span style="color:blue">case</span> Cons(e, l) =&gt; Cons(e, Append(l, l2))
+  }</code></pre></li></ul>
+</section>
+<section id="sec-postconditions----3" class="section section1" data-section-depth="1" data-line="92"><h2 id="heading-sec-postconditions----3" class="h1" data-heading-depth="1" style="display:block">Postconditions &#8211; 3</h2>
+<ul class="ul list-dash compact" data-line="94">
+<li class="li ul-li list-dash-li compact-li" data-line="94"><span data-line="94"></span>What if the code isn<span data-line="94"></span>&#39;<span data-line="94"></span>t a good enough proof?
+</li></ul>
+<!-- inline-dafny CombiningProofAndFP/A3 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="97" data-line-first="98" style="display:block"><code data-line="98">  <span style="color:blue">function</span> Append&lt;T&gt;(l1: List, l2: List): List
+    <span style="color:purple">ensures</span> Length(Append(l1, l2)) == Length(l1) + Length(l2)
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> n: <span style="color:teal">nat</span> :: n % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; <span style="color:blue">exists</span> m: <span style="color:teal">nat</span> :: n == <span class="constant" style="color:purple">2</span> * m</code></pre></section>
+<section id="sec-postconditions----4" class="section section1" data-section-depth="1" data-line="103"><h2 id="heading-sec-postconditions----4" class="h1" data-heading-depth="1" style="display:block">Postconditions &#8211; 4</h2>
+<ul class="ul list-dash loose" data-line="105">
+<li class="li ul-li list-dash-li loose-li" data-line="105">
+<p data-line="105"><span data-line="105"></span>What if the code isn<span data-line="105"></span>&#39;<span data-line="105"></span>t a good enough proof?
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="106">
+<p data-line="106"><span data-line="106"></span>Answer 1: make the postcondition a lemma
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="107">
+<p data-line="107"><span data-line="107"></span>When the lemma is called, Dafny<span data-line="107"></span>&#39;<span data-line="107"></span>s KB is extended
+</p><!-- inline-dafny CombiningProofAndFP/A4 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="110" data-line-first="111" style="display:block"><code data-line="111">  <span style="color:blue">lemma</span> SomeProperty()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> n: <span style="color:teal">nat</span> :: n % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; <span style="color:blue">exists</span> m: <span style="color:teal">nat</span> :: n == <span class="constant" style="color:purple">2</span> * m
+
+  <span style="color:blue">function</span> Append&lt;T&gt;(l1: List, l2: List): List
+    <span style="color:purple">ensures</span> Length(Append(l1, l2)) == Length(l1) + Length(l2)
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> n: <span style="color:teal">nat</span> :: n % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; <span style="color:blue">exists</span> m: <span style="color:teal">nat</span> :: n == <span class="constant" style="color:purple">2</span> * m
+  {
+    SomeProperty();
+    <span style="color:blue">match</span> l1
+    <span style="color:blue">case</span> Nil =&gt; l2
+    <span style="color:blue">case</span> Cons(e, l) =&gt; Cons(e, Append(l, l2))
+  }</code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="125">
+<p data-line="125"><span data-line="125"></span>So far, the body of function had to be an expression, but it turns out we are also allowed to call lemmas from the proof language
+</p></li></ul>
+</section>
+<section id="sec-postconditions----5" class="section section1" data-section-depth="1" data-line="127"><h2 id="heading-sec-postconditions----5" class="h1" data-heading-depth="1" style="display:block">Postconditions &#8211; 5</h2>
+<ul class="ul list-dash loose" data-line="129">
+<li class="li ul-li list-dash-li loose-li" data-line="129">
+<p data-line="129"><span data-line="129"></span>What if the code isn<span data-line="129"></span>&#39;<span data-line="129"></span>t a good enough proof?
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="130">
+<p data-line="130"><span data-line="130"></span>Answer 2: inline proof scripts in the code
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="131">
+<p data-line="131"><span data-line="131"></span>Syntactically, proof script must precede value
+</p><!-- inline-dafny CombiningProofAndFP/A5 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="134" data-line-first="135" style="display:block"><code data-line="135">  <span style="color:blue">function</span> Append&lt;T&gt;(l1: List, l2: List): List
+    <span style="color:purple">ensures</span> Length(Append(l1, l2)) == Length(l1) + Length(l2)
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> n: <span style="color:teal">nat</span> :: n % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; <span style="color:blue">exists</span> m: <span style="color:teal">nat</span> :: n == <span class="constant" style="color:purple">2</span> * m
+  {
+    <span style="color:blue">assert</span> <span style="color:blue">forall</span> n: <span style="color:teal">nat</span> :: n % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; <span style="color:blue">exists</span> m: <span style="color:teal">nat</span> :: n == <span class="constant" style="color:purple">2</span> * m <span style="color:blue">by</span> {
+      <span style="color:blue">forall</span> n: <span style="color:teal">nat</span>
+        <span style="color:purple">ensures</span> n % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; <span style="color:blue">exists</span> m: <span style="color:teal">nat</span> :: n == <span class="constant" style="color:purple">2</span> * m
+      {
+        <span style="color:blue">if</span> n % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> {
+          <span style="color:blue">assert</span> n == <span class="constant" style="color:purple">2</span> * (n/<span class="constant" style="color:purple">2</span>);
+        }
+      }
+    }
+    <span style="color:blue">match</span> l1
+    <span style="color:blue">case</span> Nil =&gt; l2
+    <span style="color:blue">case</span> Cons(e, l) =&gt; Cons(e, Append(l, l2))
+  }</code></pre></li></ul>
+</section>
+<section id="sec-another-example----6" class="section section1" data-section-depth="1" data-line="154"><h2 id="heading-sec-another-example----6" class="h1" data-heading-depth="1" style="display:block">Another example &#8211; 6</h2><!-- inline-dafny CombiningProofAndFP/A6 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="157" data-line-first="158" style="display:block"><code data-line="158">  <span style="color:blue">function</span> LengthTr&#39;&lt;T&gt;(l: List, acc: <span style="color:teal">nat</span>): <span style="color:teal">nat</span>
+    <span style="color:purple">ensures</span> acc + Length(l) == LengthTr&#39;(l, acc)
+  {
+    <span style="color:blue">match</span> l
+    <span style="color:blue">case</span> Nil =&gt; acc
+    <span style="color:blue">case</span> Cons(_, tail) =&gt; LengthTr&#39;(tail, <span class="constant" style="color:purple">1</span> + acc)
+  }
+
+  <span style="color:blue">function</span> LengthTr&lt;T&gt;(l: List): <span style="color:teal">nat</span>
+    <span style="color:purple">ensures</span> Length(l) == LengthTr&#39;(l, <span class="constant" style="color:purple">0</span>)
+  {
+    LengthTr&#39;(l, <span class="constant" style="color:purple">0</span>)
+  }</code></pre></section>
+<section id="sec-lemmas-vs-postconditions----7" class="section section1" data-section-depth="1" data-line="173"><h2 id="heading-sec-lemmas-vs-postconditions----7" class="h1" data-heading-depth="1" style="display:block">Lemmas vs postconditions &#8211; 7</h2>
+<ul class="ul list-dash loose" data-line="175">
+<li class="li ul-li list-dash-li loose-li" data-line="175">
+<p data-line="175"><span data-line="175"></span>Should a property be declared (<span data-line="175"></span>&#8220;intrinsically&#8221;<span data-line="175"></span>) as a postcondition or (<span data-line="175"></span>&#8220;extrinsically&#8221;<span data-line="175"></span>) a lemma?
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="176">
+<p data-line="176"><span data-line="176"></span>The benefit of a postcondition is that it is automatically included in the KB: more automation
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="177">
+<p data-line="177"><span data-line="177"></span>However, some properties are really extrinsic
+</p>
+<ul class="ul list-dash compact" data-line="178">
+<li class="li ul-li list-dash-li compact-li" data-line="178"><span data-line="178"></span>Example: associativity
+</li></ul></li>
+<li class="li ul-li list-dash-li loose-li" data-line="179">
+<p data-line="179"><span data-line="179"></span>Quantification would have a high cost on verification
+</p>
+<ul class="ul list-dash compact" data-line="180">
+<li class="li ul-li list-dash-li compact-li" data-line="180"><span data-line="180"></span>In general: having a quantified postcondition is likely to be a problem
+</li></ul></li>
+<li class="li ul-li list-dash-li loose-li" data-line="181">
+<p data-line="181"><span data-line="181"></span>But you can<span data-line="181"></span>&#39;<span data-line="181"></span>t even do it because of termination
+</p><!-- inline-dafny CombiningProofAndFP/A7 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="184" data-line-first="185" style="display:block"><code data-line="185">  <span style="color:blue">function</span> Append&lt;T(!<span style="color:blue">new</span>)&gt;(l1: List, l2: List): List
+    <span style="color:purple">ensures</span> Length(Append(l1, l2)) == Length(l1) + Length(l2)
+    <span style="color:darkgreen">// ensures forall l3: List :: Append(Append(l1, l2), l3) == Append(l1, Append(l2, l3))</span></code></pre></li></ul>
+</section>
+<section id="sec-preconditions----8" class="section section1" data-section-depth="1" data-line="190"><h2 id="heading-sec-preconditions----8" class="h1" data-heading-depth="1" style="display:block">Preconditions &#8211; 8</h2>
+<ul class="ul list-dash loose" data-line="192">
+<li class="li ul-li list-dash-li loose-li" data-line="192">
+<p data-line="192"><span data-line="192"></span>A <span data-line="192"></span><em class="em-low1">precondition</em><span data-line="192"></span> is a property we require to be true when the function is called
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="193">
+<p data-line="193"><span data-line="193"></span>It is declared using the <span data-line="193"></span><code class="code code1">requires</code><span data-line="193"></span> keyword, as with lemmas
+</p><!-- inline-dafny CombiningProofAndFP/A8 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="196" data-line-first="197" style="display:block"><code data-line="197">  <span style="color:blue">function</span> At&lt;T&gt;(l: List, index: <span style="color:teal">nat</span>): T
+    <span style="color:purple">requires</span> index &lt; Length(l)
+  {
+    <span style="color:blue">if</span> index == <span class="constant" style="color:purple">0</span> <span style="color:blue">then</span> l.head <span style="color:blue">else</span> At(l.tail, index - <span class="constant" style="color:purple">1</span>)
+  }</code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="204">
+<p data-line="204"><span data-line="204"></span>This defines the function and a precondition
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="205">
+<p data-line="205"><span data-line="205"></span>To call the function, Dafny must prove precondition
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="206">
+<p data-line="206"><span data-line="206"></span>The precondition is added to Dafny<span data-line="206"></span>&#39;<span data-line="206"></span>s KB within the function
+</p></li></ul>
+</section>
+<section id="sec-preconditions----9" class="section section1" data-section-depth="1" data-line="209"><h2 id="heading-sec-preconditions----9" class="h1" data-heading-depth="1" style="display:block">Preconditions &#8211; 9</h2>
+<ul class="ul list-dash compact" data-line="211">
+<li class="li ul-li list-dash-li compact-li" data-line="211"><span data-line="211"></span>A function with a precondition is a <span data-line="211"></span><em class="em-star1">partial</em><span data-line="211"></span> function
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="212"><span data-line="212"></span>In contrast, a function without precondition is <span data-line="212"></span><em class="em-star1">total</em><span data-line="212"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="213"><span data-line="213"></span>Partial and Total functions do not have the same type
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="214"><span data-line="214"></span>A total function from type <span data-line="214"></span><code class="code code1">A</code><span data-line="214"></span> to <span data-line="214"></span><code class="code code1">B</code><span data-line="214"></span> is of type <span data-line="214"></span><code class="code code1">A -&gt; B</code><span data-line="214"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="215"><span data-line="215"></span>A partial function from type <span data-line="215"></span><code class="code code1">A</code><span data-line="215"></span> to <span data-line="215"></span><code class="code code1">B</code><span data-line="215"></span> is of type <span data-line="215"></span><code class="code code1">A --&gt; B</code><span data-line="215"></span>
+</li></ul>
+</section>
+<section id="sec-preconditions----10" class="section section1" data-section-depth="1" data-line="217"><h2 id="heading-sec-preconditions----10" class="h1" data-heading-depth="1" style="display:block">Preconditions &#8211; 10</h2>
+<ul class="ul list-dash loose" data-line="219">
+<li class="li ul-li list-dash-li loose-li" data-line="219">
+<p data-line="219"><span data-line="219"></span>Preconditions can make your code simpler and faster
+</p>
+<ul class="ul list-dash compact" data-line="220">
+<li class="li ul-li list-dash-li compact-li" data-line="220"><span data-line="220"></span>No need to waste time on testing for input values that you know cannot happen
+</li></ul>
+<!-- inline-dafny CombiningProofAndFP/A9 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="223" data-line-first="224" style="display:block"><code data-line="224">  <span style="color:blue">lemma</span> AtProp&lt;T(!<span style="color:blue">new</span>)&gt;(l: List, idx: <span style="color:teal">nat</span>)
+    <span style="color:purple">requires</span> idx &lt; Length(l)
+    <span style="color:purple">ensures</span> <span style="color:blue">exists</span> v: T :: At(l, idx) == v
+  {
+  }</code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="231">
+<p data-line="231"><span data-line="231"></span>But for every call, Dafny must prove the preconditions
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="232">
+<p data-line="232"><span data-line="232"></span>If it cannot, you might need to add to the KB of the caller
+</p></li></ul>
+</section>
+<section id="sec-preconditions-and-higher-order-functions" class="section section1" data-section-depth="1" data-line="234"><h2 id="heading-sec-preconditions-and-higher-order-functions" class="h1" data-heading-depth="1" style="display:block">Preconditions and higher-order functions</h2>
+<ul class="ul list-dash loose" data-line="236">
+<li class="li ul-li list-dash-li loose-li" data-line="236">
+<p data-line="236"><span data-line="236"></span>If a function argument is partial, you may need to use <span data-line="236"></span><em class="em-low1">its</em><span data-line="236"></span> <span data-line="236"></span><code class="code code1">requires</code><span data-line="236"></span> clause 
+</p><!-- inline-dafny CombiningProofAndFP/A9a -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="239" data-line-first="240" style="display:block"><code data-line="240">  <span style="color:blue">function</span> Hof&lt;U, V&gt;(f: U --&gt; V, a: U): V
+    <span style="color:purple">requires</span> f.<span style="color:purple">requires</span>(a)
+  {
+    f(a)
+  }</code></pre></li></ul>
+</section>
+<section id="sec-requires-function" class="section section1" data-section-depth="1" data-line="247"><h2 id="heading-sec-requires-function" class="h1" data-heading-depth="1" style="display:block">Requires function</h2>
+<ul class="ul list-dash compact" data-line="249">
+<li class="li ul-li list-dash-li compact-li" data-line="249"><span data-line="249"></span>The <span data-line="249"></span><code class="code code1">.requires</code><span data-line="249"></span> member is Boolean-valued total ghost function
+</li></ul>
+<!-- inline-dafny CombiningProofAndFP/A9a -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="252" data-line-first="253" style="display:block"><code data-line="253">  <span style="color:blue">function</span> Hof&lt;U, V&gt;(f: U --&gt; V, a: U): V
+    <span style="color:purple">requires</span> f.<span style="color:purple">requires</span>(a)
+  {
+    f(a)
+  }</code></pre></section>
+<section id="sec-should-you-mix-code-and-proof----1" class="section section1" data-section-depth="1" data-line="260"><h2 id="heading-sec-should-you-mix-code-and-proof----1" class="h1" data-heading-depth="1" style="display:block">Should you mix code and proof? &#8211; 1</h2>
+<ul class="ul list-dash compact" data-line="262">
+<li class="li ul-li list-dash-li compact-li" data-line="262"><span data-line="262"></span>When should you use a precondition?
+
+<ul class="ul list-dash compact" data-line="263">
+<li class="li ul-li list-dash-li compact-li" data-line="263"><span data-line="263"></span>If you would have thrown an exception anyway
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="264"><span data-line="264"></span>If it makes the code simpler, faster
+</li></ul></li>
+<li class="li ul-li list-dash-li compact-li" data-line="265"><span data-line="265"></span>When should you use a postcondition?
+
+<ul class="ul list-dash compact" data-line="266">
+<li class="li ul-li list-dash-li compact-li" data-line="266"><span data-line="266"></span>If essentially every caller will want it
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="267"><span data-line="267"></span>If it represents an invariant
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="268"><span data-line="268"></span>If it can be expressed without quantifiers
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="269"><span data-line="269"></span>If it correspond to important preconditions
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="270"><span data-line="270"></span>If postcondition verifies without proof
+</li></ul></li></ul>
+</section>
+<section id="sec-should-you-mix-code-and-proof----2" class="section section1" data-section-depth="1" data-line="273"><h2 id="heading-sec-should-you-mix-code-and-proof----2" class="h1" data-heading-depth="1" style="display:block">Should you mix code and proof? &#8211; 2</h2>
+<ul class="ul list-dash compact" data-line="275">
+<li class="li ul-li list-dash-li compact-li" data-line="275"><span data-line="275"></span>Pre/post conditions come at a cost
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="276"><span data-line="276"></span>To call a function, you must establish preconditions
+
+<ul class="ul list-dash compact" data-line="277">
+<li class="li ul-li list-dash-li compact-li" data-line="277"><span data-line="277"></span>Might require some convincing
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="278"><span data-line="278"></span>More facts in Dafny<span data-line="278"></span>&#39;<span data-line="278"></span>s knowledge base
+</li></ul></li>
+<li class="li ul-li list-dash-li compact-li" data-line="279"><span data-line="279"></span>A function call establishes postconditions
+
+<ul class="ul list-dash compact" data-line="280">
+<li class="li ul-li list-dash-li compact-li" data-line="280"><span data-line="280"></span>More facts in Dafny<span data-line="280"></span>&#39;<span data-line="280"></span>s knowledge base
+</li></ul></li>
+<li class="li ul-li list-dash-li compact-li" data-line="281"><span data-line="281"></span>Remember: it is paramount to keep KB under control
+</li></ul>
+</section>
+<section id="sec-should-you-mix-code-and-proof----3" class="section section1" data-section-depth="1" data-line="284"><h2 id="heading-sec-should-you-mix-code-and-proof----3" class="h1" data-heading-depth="1" style="display:block">Should you mix code and proof? &#8211; 3</h2>
+<ul class="ul list-dash compact" data-line="286">
+<li class="li ul-li list-dash-li compact-li" data-line="286"><span data-line="286"></span>Don<span data-line="286"></span>&#39;<span data-line="286"></span>t be dogmatic
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="287"><span data-line="287"></span>If you never use pre/post conditions
+
+<ul class="ul list-dash compact" data-line="288">
+<li class="li ul-li list-dash-li compact-li" data-line="288"><span data-line="288"></span>Your code might be slower than necessary
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="289"><span data-line="289"></span>Your code might be more complicated that necessary
+</li></ul></li>
+<li class="li ul-li list-dash-li compact-li" data-line="290"><span data-line="290"></span>If you try to always use pre/post conditions
+
+<ul class="ul list-dash compact" data-line="291">
+<li class="li ul-li list-dash-li compact-li" data-line="291"><span data-line="291"></span>The verification might be less stable
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="292"><span data-line="292"></span>The verification might get in the way of the code
+</li></ul></li>
+<li class="li ul-li list-dash-li compact-li" data-line="293"><span data-line="293"></span>Advice: only use pre/post conditions when there is a clear payoff
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="294"><span data-line="294"></span>Dafny<span data-line="294"></span>&#39;<span data-line="294"></span>s strength is that it supports both well, so make the most of it!
+</li></ul>
+</section>
+<section id="sec-subset-types----1" class="section section1" data-section-depth="1" data-line="297"><h2 id="heading-sec-subset-types----1" class="h1" data-heading-depth="1" style="display:block">Subset types &#8211; 1</h2>
+<ul class="ul list-dash loose" data-line="299">
+<li class="li ul-li list-dash-li loose-li" data-line="299">
+<p data-line="299"><span data-line="299"></span>You can attach a predicate to a value
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="300">
+<p data-line="300"><span data-line="300"></span>Allows you not to constantly require and ensure basic properties
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="301">
+<p data-line="301"><span data-line="301"></span>The predicate must be proved for any expression of that type
+</p><!-- inline-dafny CombiningProofAndFP/A10 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="304" data-line-first="305" style="display:block"><code data-line="305">  <span style="color:blue">type</span> MyNat = n: <span style="color:teal">int</span> | <span class="constant" style="color:purple">0</span> &lt;= n</code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="308">
+<p data-line="308"><span data-line="308"></span><code class="code code1">MyNat</code><span data-line="308"></span> is called a <span data-line="308"></span><em class="em-low1">subset type</em><span data-line="308"></span>, because its values form of subset of its base type, <span data-line="308"></span><code class="code code1">int</code><span data-line="308"></span>
+</p></li></ul>
+</section>
+<section id="sec-subset-types----2" class="section section1" data-section-depth="1" data-line="310"><h2 id="heading-sec-subset-types----2" class="h1" data-heading-depth="1" style="display:block">Subset types &#8211; 2</h2>
+<ul class="ul list-dash loose" data-line="312">
+<li class="li ul-li list-dash-li loose-li" data-line="312">
+<p data-line="312"><span data-line="312"></span>Dafny provides a way to guarantee that a subset type is not empty
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="313">
+<p data-line="313"><span data-line="313"></span>It is done using a <span data-line="313"></span><code class="code code1">witness</code><span data-line="313"></span> clause
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="314">
+<p data-line="314"><span data-line="314"></span>In the <span data-line="314"></span><code class="code code1">witness</code><span data-line="314"></span> clause, you must provide an example of a value that satisfies the predicate
+</p><!-- inline-dafny CombiningProofAndFP/A11 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="317" data-line-first="318" style="display:block"><code data-line="318">  <span style="color:blue">type</span> MyNat = n: <span style="color:teal">int</span> | <span class="constant" style="color:purple">0</span> &lt;= n <span style="color:purple">witness</span> <span class="constant" style="color:purple">4</span></code></pre></li></ul>
+</section>
+<section id="sec-subset-types----tip" class="section section1" data-section-depth="1" data-line="321"><h2 id="heading-sec-subset-types----tip" class="h1" data-heading-depth="1" style="display:block">Subset types &#8211; tip</h2>
+<ul class="ul list-dash loose" data-line="323">
+<li class="li ul-li list-dash-li loose-li" data-line="323">
+<p data-line="323"><span data-line="323"></span>Always type variables whose values might contain a subset type
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="324">
+<p data-line="324"><span data-line="324"></span>For example, if <span data-line="324"></span><code class="code code1">x</code><span data-line="324"></span> and <span data-line="324"></span><code class="code code1">y</code><span data-line="324"></span> are meant to be natural numbers
+</p><!-- inline-dafny CombiningProofAndFP/A12 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="327" data-line-first="328" style="display:block"><code data-line="328">  <span style="color:blue">method</span> m(z: <span style="color:teal">nat</span>) {
+    <span style="color:blue">var</span> x := z + <span class="constant" style="color:purple">3</span>; <span style="color:darkgreen">// No</span>
+    <span style="color:blue">var</span> y: <span style="color:teal">nat</span> := z + <span class="constant" style="color:purple">3</span>; <span style="color:darkgreen">// Yes</span>
+  }</code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="334">
+<p data-line="334"><span data-line="334"></span>Not so important for <span data-line="334"></span><code class="code code1">nat</code><span data-line="334"></span>, but is often a good idea for more complicated subset types
+</p></li></ul>
+</section>
+<section id="sec-subset-types----example" class="section section1" data-section-depth="1" data-line="336"><h2 id="heading-sec-subset-types----example" class="h1" data-heading-depth="1" style="display:block">Subset types &#8211; example</h2><!-- inline-dafny CombiningProofAndFP/A13 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="339" data-line-first="340" style="display:block"><code data-line="340">  <span style="color:blue">ghost</span> <span style="color:blue">predicate</span> Associative&lt;T(!<span style="color:blue">new</span>)&gt;(BinOp: (T, T) -&gt; T) {
+    <span style="color:blue">forall</span> x: T, y: T, z: T :: BinOp(BinOp(x, y), z) == BinOp(x, BinOp(y, z))
+  }
+
+  <span style="color:blue">ghost</span> <span style="color:blue">predicate</span> Identity&lt;T(!<span style="color:blue">new</span>)&gt;(BinOp: (T, T) -&gt; T, elt: T) {
+    <span style="color:blue">forall</span> x: T :: BinOp(x, elt) == x
+  }
+
+  <span style="color:blue">ghost</span> <span style="color:blue">predicate</span> Inverse&lt;T(!<span style="color:blue">new</span>)&gt;(BinOp: (T, T) -&gt; T, elt: T) {
+    <span style="color:blue">forall</span> x: T :: <span style="color:blue">exists</span> y: T :: BinOp(x, y) == elt &amp;&amp; BinOp(y, x) == elt 
+  }
+
+  <span style="color:blue">type</span> Group&lt;!T(!<span style="color:blue">new</span>)&gt; = S: ((T, T) -&gt; T, T) | 
+      &amp;&amp; Associative(S.<span class="constant" style="color:purple">0</span>) 
+      &amp;&amp; Identity(S.<span class="constant" style="color:purple">0</span>, S.<span class="constant" style="color:purple">1</span>)  
+      &amp;&amp; Inverse(S.<span class="constant" style="color:purple">0</span>, S.<span class="constant" style="color:purple">1</span>)
+      <span style="color:purple">witness</span> *</code></pre>
+<ul class="ul list-dash compact" data-line="359">
+<li class="li ul-li list-dash-li compact-li" data-line="359"><span data-line="359"></span>Ignore the <span data-line="359"></span><code class="code code1">!</code><span data-line="359"></span> and <span data-line="359"></span><code class="code code1">!new</code><span data-line="359"></span> for now
+</li></ul></section></div></div><span data-line=""></span></div>
+</body>
+<script type="text/javascript">
+  Reveal.initialize({
+          history: true,
+          transition: "none",
+          width: 1600,
+            height: 900,
+          center: false,
+          controls: false,
+             progress: false,
+          slideNumber: true
+          });
+  Reveal.configure({
+          history: true,
+          transition: "none",
+          width: 1600,
+            height: 900,
+          center: false,
+          controls: false,
+             progress: false,
+          slideNumber: true
+     });
+</script>
+<script>
+    // initialize printing
+    revealConfig.initPrint();
+    // initialize background embedded images
+    revealConfig.getEmbeddedImages();
+    </script>
+</html>

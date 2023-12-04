@@ -1,0 +1,1860 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta name="generator" content="Madoko, version 1.2.3" />
+  <meta name="viewport" content="initial-scale=1.0" />
+  <meta name="author" content="Jean-Baptiste Tristan \&amp, K. Rustan M. Leino" />
+  <title>Structured Proofs</title>
+  <style type="text/css"  class="link">
+  /*# sourceURL=madoko.css */
+  
+  .madoko .toc>.tocblock .tocblock .tocblock {
+    margin-left: 2.25em;
+  }
+  .madoko .toc>.tocblock .tocblock {
+    margin-left: 1.5em;
+  }
+  .madoko .toc-contents>.tocblock>.tocitem {
+    font-weight: bold;
+  }
+  .madoko .toc {
+    margin-top: 1em;
+  }
+  .madoko p.para-continue {
+    margin-bottom: 0pt;
+  }
+  .madoko .para-block+p {
+    margin-top: 0pt;
+  }
+  .madoko ul.para-block, .madoko ol.para-block {
+    margin-top: 0pt;
+    margin-bottom: 0pt;
+  }
+  .madoko ul.para-end, .madoko ol.para-end {
+    margin-bottom: 1em;
+  }
+  .madoko dl {
+    margin-left: 0em;
+  }
+  .madoko blockquote {
+    font-style: italic;
+  }
+  .madoko a.localref {
+    text-decoration: none;
+  }
+  .madoko a.localref:hover {
+    text-decoration: underline;
+  }
+  .madoko .footnotes {
+    font-size: smaller;
+    margin-top: 2em;
+  }
+  .madoko .footnotes hr {
+    width: 50%;
+    text-align: left;
+  }
+  .madoko .footnote {
+    margin-left: 1em;
+  }
+  .madoko .footnote-before {
+    margin-left: -1em;
+    width: 1em;
+    display: inline-block;
+  }
+  .madoko .align-center, .madoko .align-center>p {
+    text-align: center !important;
+  }
+  .madoko .align-center pre {
+    text-align: left;
+  }
+  .madoko .align-center>* {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .madoko .align-left, .madoko .align-left>p {
+    text-align: left !important;
+  }
+  .madoko .align-left>* {
+    margin-left: 0pt !important;
+    margin-right: auto !important;
+  }
+  .madoko .align-right, .madoko .align-right>p {
+    text-align: right !important;
+  }
+  .madoko .align-right>* {
+    margin-left: auto !important;
+    margin-right: 0pt !important;
+  }
+  .madoko .align-center>table,
+  .madoko .align-left>table,
+  .madoko .align-right>table {
+    text-align: left !important;
+  }
+  .madoko .equation-before {
+    float: right;
+  }
+  .madoko .bibitem {
+    font-size: smaller;
+  }
+  .madoko .bibsearch {
+    font-size: x-small;
+    text-decoration:none;
+    color: black;
+    font-family: "Segoe UI Symbol", Symbola, serif;
+  }
+  .madoko .block, .madoko .figure, .madoko .bibitem, .madoko .equation, .madoko div.math {
+    margin-top: 1ex;
+    margin-bottom: 1ex;
+  }
+  .madoko .figure {
+    padding: 0.5em;
+    margin-left: 0pt;
+    margin-right: 0pt;
+  }
+  .madoko .hidden {
+    display: none;
+  }
+  .madoko .invisible {
+    visibility: hidden;
+  }
+  .madoko.preview .invisible {
+    visibility: visible;
+    opacity: 0.5;
+  }
+  .madoko code.code, .madoko span.code {
+    white-space: pre-wrap;
+  }
+  .madoko hr, hr.madoko {
+    border: none;
+    border-bottom: black solid 1px;
+    margin-bottom: 0.5ex;
+  }
+  .madoko .framed>*:first-child {
+    margin-top: 0pt;
+  }
+  .madoko .framed>*:last-child {
+    margin-bottom: 0pt;
+  }
+  .madoko ul.list-style-type-dash {
+      list-style-type: none !important;
+  }
+  .madoko ul.list-style-type-dash > li:before {
+      content: "\2013";
+      position: absolute;
+      margin-left: -1em;
+  }
+  .madoko table.madoko {
+    border-collapse: collapse;
+  }
+  .madoko td, .madoko th {
+    padding: 0ex 0.5ex;
+    margin: 0pt;
+    vertical-align: top;
+  }
+  .madoko .cell-border-left {
+    border-left: 1px solid black;
+  }
+  .madoko .cell-border-right {
+    border-right: 1px solid black;
+  }
+  .madoko thead>tr:first-child>.cell-line,
+  .madoko tbody:first-child>tr:first-child>.cell-line {
+    border-top: 1px solid black;
+    border-bottom: none;
+  }
+  .madoko .cell-line, .madoko .cell-double-line {
+    border-bottom: 1px solid black;
+    border-top: none;
+  }
+  .madoko .cell-double-line {
+    border-top: 1px solid black;
+    padding-top: 1.5px !important;
+  }
+  .madoko .input-mathpre .MathJax_Display {
+    text-align: left !important;
+  }
+  .madoko div.input-mathpre {
+    text-align: left;
+    margin-top: 1.5ex;
+    margin-bottom: 1ex;
+  }
+  .madoko .math-rendering {
+    text-align: left;
+    white-space: pre;
+    color: gray;
+  }
+  .madoko .mathdisplay {
+    text-align: center;
+  }
+  .madoko span.math-rendering {
+    display:inline-block;
+    width:8em;
+    overflow-x:auto;
+    font-size:70%;
+  }
+  .madoko span.math-rendering::-webkit-scrollbar {
+    width:4px;
+  }
+  .madoko .pretty table {
+    border-collapse: collapse;
+  }
+  .madoko .pretty td {
+    padding: 0em;
+  }
+  .madoko .pretty td.empty {
+    min-width: 1.5ex;
+  }
+  .madoko .pretty td.expander {
+    width: 100em;
+  }
+  body.madoko, .madoko .serif {
+    font-family: Cambria,"Times New Roman","Liberation Serif","Times",serif;
+  }
+  .madoko .sans-serif {
+    font-family: "Calibri", "Optima", sans-serif;
+  }
+  .madoko .symbol {
+    font-family: "Segoe UI Symbol", Symbola, serif;
+  }
+  body.madoko {
+    -webkit-text-size-adjust: 100%;       
+    text-rendering: optimizeLegibility;
+  }
+  body.madoko {
+    max-width: 88ex; 
+    margin: 1em auto;
+    padding: 0em 2em;
+  }
+  body.preview.madoko {
+    padding: 0em 1em;
+  }
+  .madoko p {
+    text-align: justify;
+  }
+  .madoko h1, .madoko h2, .madoko h3, .madoko h4 {
+    margin-top: 1.22em;
+    margin-bottom: 1ex;
+  }
+  .madoko h1+p, .madoko h2+p, .madoko h3+p, .madoko h4+p, .madoko h5+p  {
+    margin-top: 1ex;
+  }
+  .madoko h5, .madoko h6 {
+    margin-top: 1ex;
+    font-size: 1em;
+  }
+  .madoko h5 {
+    margin-bottom: 0.5ex;
+  }
+  .madoko h5 + p {
+    margin-top: 0.5ex;
+  }
+  .madoko h6 {
+    margin-bottom: 0pt;
+  }
+  .madoko h6 + p {
+    margin-top: 0pt;
+  }
+  .madoko pre, .madoko code, .madoko kbd, .madoko samp, .madoko tt,
+  .madoko .monospace, .madoko .token-indent, .madoko .reveal pre, .madoko .reveal code, .madoko .email {
+    font-family: Consolas,"Andale Mono WT","Andale Mono",Lucida Console,Monaco,monospace,monospace;
+    font-size: 0.85em;
+  }
+  .madoko pre code, .madoko .token-indent {
+    font-size: 0.95em;
+  }
+  .madoko pre code {
+    font-family: inherit !important;
+  }
+  .madoko ol.linenums li {
+    background-color: white;
+    list-style-type: decimal;
+  }
+  .madoko .remote {
+    background-color: #F0FFF0;
+  }
+  .madoko .remote + * {
+    margin-top: 0pt;
+  }
+  @media print {
+    body.madoko {
+      font-size: 10pt;
+    }
+    @page {
+      margin: 1in 1.5in;
+    }
+  }
+  @media only screen and (max-device-width:1024px) {
+    body.madoko {
+      padding: 0em 0.5em;
+    }
+    .madoko li {
+      text-align: left;
+    }
+  }
+  
+    </style>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/reveal.js/2.6.2/css/reveal.min.css"  class="link">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/reveal.js/2.6.2/css/theme/solarized.css"  class="link">
+  <script src="https://cdn.jsdelivr.net/reveal.js/2.6.2/lib/js/head.min.js"  class="script preview"></script>
+  <script src="https://cdn.jsdelivr.net/reveal.js/2.6.2/js/reveal.js"  class="script preview"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$']]},
+       TeX: { 
+         Macros: { mathid: ['\\mathit{#1\\hspace{0.1ex}}',1],
+                   mathkw: ['\\mathsf{#1}',1],
+                   mdmathindent: ['\\hspace{#1ex}',1],
+                   mathpre: ['#1',1],
+                 },
+  
+       }
+    });
+    MathJax.Hub.Register.StartupHook('TeX AMSmath Ready',function () { 
+      MathJax.InputJax.TeX.Definitions.environment['mdmathpre'] = ['AMSarray',null,null,null,'l','0em','0em'];
+    });
+  </script>
+  <script type="text/javascript" class="preview"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/reveal.js/2.6.2/css/theme/solarized.css" id="theme">    
+      <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/reveal.js/2.6.2/lib/js/html5shiv.js"></script>
+      <![endif]-->
+      <style>
+      body.madoko {
+        margin: 0pt;
+        padding: 0pt;
+        max-width: 100%;      
+      }
+      .madoko .reveal h1 {
+          font-size: 3.7em;
+      }
+      .madoko .reveal h2 {
+          font-size: 2.1em;
+      }
+      .reveal .authorblock .author {
+          font-size: 120%;
+          margin-bottom: 1ex;
+      }        
+      .reveal table {
+          margin-left: auto;
+          margin-right: auto;
+      }
+      .reveal pre table {
+        margin-left: 0pt;
+      }
+      .madoko .reveal pre.pretty {
+        padding-top: 0pt;
+        padding-bottom: 0pt;
+      }
+      .reveal li p {
+          text-align: left;
+      }
+      .reveal h2 {
+          margin-bottom: 0.7em;
+      }
+      .reveal section ul,
+      .reveal section ol {
+          margin-top: 0.35em;
+          margin-bottom: 0.35em;
+      }
+      .reveal section img.math-display {
+          padding: 1em;
+          box-shadow: none;
+          border: none;
+      }
+      .reveal section img.math-inline {
+          margin: 0pt;
+          padding: 0pt;
+          background-color: none;
+          box-shadow: none;
+          border: none;
+      }
+      .reveal section img {
+          box-shadow: none;
+          border: none;
+      }
+      .madoko .reveal pre {
+          border: 1px solid black;
+          word-wrap: normal;
+          background-color: white;
+          font-size: 0.7em;
+          padding: 0.7em;
+          line-height: 100%;
+          width: 100%;
+      }      
+      .reveal pre code, .reveal code {
+          padding: 0pt;
+      }
+      .reveal nav.toc {
+          line-height: 1em;
+          font-size: 60%;
+          overflow-y: auto;
+      }    
+      .reveal .tocitem {
+          text-align: left;
+      }
+      .reveal .toc>.tocblock .tocblock {
+          margin-left: 0.5em;
+      }   
+      .reveal .toc>.tocblock .tocblock .tocblock {
+          margin-left: 1em;
+      }
+      .reveal .bibliography {
+        height: 18em;
+        overflow-y: auto;
+        font-size: 0.8em;
+        line-height: 1.25;
+      }
+      .reveal section[data-smaller=""],
+      .reveal section[data-smaller="true"] {
+        font-size: 80%;
+        width: 110%;
+      }
+      .reveal .slides>section[data-smaller=""],
+      .reveal .slides>section[data-smaller="true"] {
+        left: -55%;
+      }
+      .reveal .details {
+        display: none;
+      }
+      .reveal[data-details=""] .details,
+      .reveal[data-details="true"] .details {
+        display: initial;
+      }
+      /* Display in the preview window */
+      html, body.madoko.preview, body.madoko.preview-full, .body.madoko {
+        height  : 100% !important;
+        width   : auto!important;
+        padding : 0pt !important;
+        margin  : 0pt !important;
+      }
+      body.madoko.preview, body.madoko.preview-full, .preview .body.madoko {
+        overflow: hidden !important;
+      }
+      body.preview .reveal .slides .fragment {
+        visibility: visible;
+        opacity: 0.5;
+      }
+      body.preview .reveal .slides .fragment.visible {
+        opacity: 1.0;
+      }
+      .preview .reveal div.notes,
+      .preview .reveal aside.notes {
+        display  : block;
+        position : absolute;
+        width    : 30%;
+        left     : 70%;
+        top      : -15%;
+        font-size: 50%;
+        border   : 1px solid black;
+        border-radius   : 10px;
+        background-color: white;
+      }
+      /* 'static' display in the preview window, unused for now */
+      body.preview.static div.reveal, 
+      body.preview.static div.ticreveal .slides, 
+      body.preview.static div.reveal section {
+        display: block !important;
+        position: relative !important;
+        width: auto !important;      
+      }
+      body.preview.static div.reveal section {
+        border: solid 1px black;
+        padding: 1em !important;
+        margin-top: 1em;
+        min-height: 15em;
+        top: 0pt;
+      }
+      body.madoko.preview.static section {
+        font-size: 75%;
+      }
+      body.madoko.preview.static {
+        padding: 0em 1em !important;
+      }
+      body.madoko.preview.static .reveal pre {
+        width: 95%;
+      }    
+      body.preview .reveal[data-details="false"] .details {
+        display: initial;
+        color: gray;
+      }
+      body.preview .reveal[data-long="false"] section[data-long] {
+        border-left: 2px black solid;
+      }
+      </style>
+      <script>    
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      window.revealConfig = {
+          controls: true,
+          progress: true,
+          history: true,
+          center: /^\s*(true|1)\s*$/i.test("true"),
+          slideNumber: /^\s*(true|1)\s*$/i.test("true"),
+          dependencies: [
+            { src: 'https://cdn.jsdelivr.net/reveal.js/2.6.2/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+            { src: 'https://cdn.jsdelivr.net/reveal.js/2.6.2/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+            { src: 'https://cdn.jsdelivr.net/reveal.js/2.6.2/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+          ],
+      };
+      function revealAddFragments() {
+        [].forEach.call(document.querySelectorAll( ".fragmented" ), function(elem0) {
+          var elem = (/^H\d$/.test(elem0.nodeName) ? elem0.parentNode : elem0);
+          [].forEach.call(elem.children, function(item) {
+            if (item==elem0) return;
+            if (item && !/\bfragment(ed)?\b/.test(item.className) && item.nodeType===1) {
+              item.className = item.className + " fragment";
+            }
+          });
+        });
+      }
+      function revealQuotedList(listType) {
+        //compatibility with Rmarkdown slides
+        [].forEach.call( document.querySelectorAll("blockquote>" + listType), function(ul) {
+          if (!/\bfragmented\b/.test(ul.className)) {
+            ul.className = ul.className + " fragmented";
+          }        
+          var quote = ul.parentNode;
+          if (quote.childElementCount===1) {
+            quote.parentNode.replaceChild(ul,quote);
+          }
+        });
+      }
+      function revealBuildToFragmented() {
+        [].forEach.call(document.querySelectorAll( ".build" ), function(elem) {
+          if (elem && !/\bfragmented\b/.test(elem.className) && elem.nodeType===1) {
+            elem.className = elem.className + " fragmented";
+          }
+        });
+      }
+      function revealDivNotesToAside() {
+        [].forEach.call(document.querySelectorAll("div.notes"), function(elem) {
+          var aside = document.createElement("ASIDE");
+          if (elem.id) aside.id = elem.id;
+          aside.className = elem.className;
+          [].forEach.call(elem.attributes, function(attr) {
+            aside.setAttribute( attr.name, attr.value );
+          });
+          aside.innerHTML = elem.innerHTML;
+          elem.parentNode.replaceChild(aside,elem);
+        });
+      }
+      function revealDataQuery() {
+        var reveal = document.querySelector(".reveal");
+        if (!reveal) return;
+        window.location.search.replace(/\bdata-(\w+)(?:=(\w+))?\b/g, function(matched,key,value) {
+          reveal.setAttribute("data-" + key, (value ? value : ""));
+          return matched;
+        });
+      }
+      function revealRemoveLong() {
+        // remove parts for 'long' presentation
+        if (/\bpreview(?![\w\-])/.test(document.body.className)) return;
+        var reveal = document.querySelector(".reveal");
+        if (!reveal) return;
+        var value = reveal.hasAttribute("data-long") ? reveal.getAttribute("data-long") : null;
+        if (value==null || value=="false" || value=="0") {
+          [].forEach.call( document.querySelectorAll("section[data-long]"), function(elem) {
+            elem.parentNode.removeChild(elem);
+          });
+        }
+      }
+      revealConfig.onLoad = function() {
+        revealConfig.getEmbeddedImages();
+        revealDataQuery();
+        revealRemoveLong();
+        revealQuotedList("ul");
+        revealQuotedList("ol");
+        revealBuildToFragmented();
+        revealDivNotesToAside();
+        revealAddFragments();
+      };
+      document.addEventListener("load",revealConfig.onLoad);    
+      document.addEventListener("DOMContentLoaded", function() {
+        if (typeof Reveal !== "undefined" && !Reveal.isReady()) {
+          revealConfig.onLoad();
+          Reveal.initialize(revealConfig);
+        }
+      });    
+      // add support for printing:
+      // use  ?print-pdf to get a pdf-printable version (in Chrome)
+      // use  ?print-paper to get a paper-printable version.
+      revealConfig.initPrint = function() {
+        var cssLink = null;
+        var bodyClass = null;
+        var cap = window.location.search.match(/\bprint-(\w+)\b/);
+        if (cap) {
+          bodyClass = cap[0];
+          cssLink = "https://cdn.jsdelivr.net/reveal.js/2.6.2/css/print/" + cap[1] + ".css";
+        }
+        if (cssLink) {
+          var link  = document.createElement( "link" );
+          link.rel  = "stylesheet";
+          link.type = "text/css";
+          link.href = cssLink;
+          var head = document.getElementsByTagName( 'head' )[0];
+          if (head) head.appendChild( link );
+        }
+        if (bodyClass) {
+          document.body.className = document.body.className + " " + bodyClass;
+        }
+      };
+      revealConfig.getEmbeddedImages = function() {
+        var images = {};
+        [].forEach.call( document.querySelectorAll("img[data-linkid]"), function(img) {
+          var linkid = img.getAttribute("data-linkid");
+          if (linkid) images["/" + linkid] = img.src;
+          var path = img.getAttribute("data-path");
+          if (path) images["/" + path] = img.src;
+        });     
+        [].forEach.call( document.querySelectorAll("section"), function(slide) {
+          var attrName = "data-background";
+          var image = slide.getAttribute(attrName);
+          if (!image) {
+            attrName = "data-background-image";
+            image = slide.getAttribute(attrName);
+          }
+          if (!image) return;
+          var cap = /^\s*!?\[([^\]]+)\]\s*$/.exec(image);
+          var href = images["/" + (cap ? cap[1] : image)];
+          if (!href) return;
+          if (attrName==="data-background" && /^data:/.test(href)) href = "url(" + href + ")";
+          slide.setAttribute(attrName, href);
+        });
+      };    
+      </script>
+  </head>
+<body class="madoko">
+
+<div class="body madoko" style="line-adjust:0">
+<div class="reveal" data-long="false" data-details="false" data-line="36" style="line-adjust:0">
+<div class="slides" data-line="36" style="line-adjust:0">
+
+<section class="titleblock align-center para-block" data-line="37" style="text-align:center;line-adjust:0">
+<div class="titleheader align-center" data-line="37" style="text-align:center;line-adjust:0">
+<h1 class="title para-block" data-line="37" style="font-weight:bold;margin-bottom:0.5ex;font-size:3em;line-adjust:0"><span data-line="37"></span>Structured Proofs</h1></div>
+<div class="authors align-center" data-line="42" style="text-align:center;width:80%;line-adjust:0"><table class="authorrow columns block" data-line="42" style="margin-top:2ex;width:100%;line-adjust:0">
+<tbody><tr><td class="author column" data-line="42" style="text-align:center;font-size:x-large;line-adjust:0">
+<div class="authorname" data-line="42" style="font-size:1.4em;line-adjust:0"><span data-line="42"></span>Jean-Baptiste Tristan & K. Rustan M. Leino</div></td></tr></tbody></table></div></section><!-- This file was automatically generated from CedarProvingByConvincing.mdk -->
+
+
+
+<section id="sec-recall" class="section section1" data-section-depth="1" data-line="43"><h2 id="heading-sec-recall" class="h1" data-heading-depth="1" style="display:block">Recall</h2>
+<ul class="ul list-dash compact" data-line="45">
+<li class="li ul-li list-dash-li compact-li" data-line="45"><span data-line="45"></span>A Dafny proposition is a Boolean-valued expression, not always computable
+
+<ul class="ul list-dash compact" data-line="46">
+<li class="li ul-li list-dash-li compact-li" data-line="46"><span data-line="46"></span>Expressiveness similar to that of higher-order logic
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="47"><span data-line="47"></span>Rich enough for mathematics
+</li></ul></li>
+<li class="li ul-li list-dash-li compact-li" data-line="48"><span data-line="48"></span>A Dafny proof is a sequence of statements (tactics)
+
+<ul class="ul list-dash compact" data-line="49">
+<li class="li ul-li list-dash-li compact-li" data-line="49"><span data-line="49"></span><code class="code code1">assume </code><span data-line="49"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="50"><span data-line="50"></span><code class="code code1">assert</code><span data-line="50"></span> 
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="51"><span data-line="51"></span>call 
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="52"><span data-line="52"></span>Skolemization <span data-line="52"></span>&#160;<span data-line="52"></span>&#160;<span data-line="52"></span>&#160;<span data-line="52"></span> <span data-line="52"></span><code class="code code1">:|</code><span data-line="52"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="53"><span data-line="53"></span>assignment    <span data-line="53"></span>&#160;<span data-line="53"></span>&#160;<span data-line="53"></span>&#160;<span data-line="53"></span> <span data-line="53"></span><code class="code code1">:=</code><span data-line="53"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="54"><span data-line="54"></span>conditional   <span data-line="54"></span>&#160;<span data-line="54"></span>&#160;<span data-line="54"></span>&#160;<span data-line="54"></span> <span data-line="54"></span><code class="code code1">if</code><span data-line="54"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="55"><span data-line="55"></span><code class="code code1">forall</code><span data-line="55"></span> 
+</li></ul></li>
+<li class="li ul-li list-dash-li compact-li" data-line="56"><span data-line="56"></span>With these statements, one can write proofs in a style similar to informal mathematics
+</li></ul>
+</section>
+<section id="sec-proofs-that-convince" class="section section1" data-section-depth="1" data-line="58"><h2 id="heading-sec-proofs-that-convince" class="h1" data-heading-depth="1" style="display:block">Proofs that convince</h2>
+<ul class="ul list-dash compact" data-line="60">
+<li class="li ul-li list-dash-li compact-li" data-line="60"><span data-line="60"></span>There are well-defined rules for what constitutes a valid proof
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="61"><span data-line="61"></span>We can use these rules to construct a detailed proof
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="62"><span data-line="62"></span><strong class="strong-star2">If your proof is valid and detailed enough, Dafny will accept it</strong><span data-line="62"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="63"><span data-line="63"></span>Dafny<span data-line="63"></span>&#39;<span data-line="63"></span>s deduction system can simulate: 
+
+<ul class="ul list-dash compact" data-line="64">
+<li class="li ul-li list-dash-li compact-li" data-line="64"><span data-line="64"></span>The Hilbert-Frege proof system 
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="65"><span data-line="65"></span>Natural deduction 
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="66"><span data-line="66"></span>Sequent calculus 
+</li></ul></li></ul>
+</section>
+<section id="sec-summary" class="section section1" data-section-depth="1" data-line="68"><h2 id="heading-sec-summary" class="h1" data-heading-depth="1" style="display:block">Summary</h2>
+<ul class="ul list-dash compact" data-line="70">
+<li class="li ul-li list-dash-li compact-li" data-line="70"><span data-line="70"></span>A model of the proof state 
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="71"><span data-line="71"></span>A proof semantics for statements 
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="72"><span data-line="72"></span>Structuring proofs
+
+<ul class="ul list-dash compact" data-line="73">
+<li class="li ul-li list-dash-li compact-li" data-line="73"><span data-line="73"></span>How to prove
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="74"><span data-line="74"></span>How to use 
+</li></ul></li>
+<li class="li ul-li list-dash-li compact-li" data-line="75"><span data-line="75"></span>Detailed example
+
+<ul class="ul list-dash compact" data-line="76">
+<li class="li ul-li list-dash-li compact-li" data-line="76"><span data-line="76"></span>Procedural 
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="77"><span data-line="77"></span>Declarative
+</li></ul></li>
+<li class="li ul-li list-dash-li compact-li" data-line="78"><span data-line="78"></span>Poincare principle
+</li></ul>
+</section>
+<section id="sec-lemmas-and-proofs" class="section section1" data-section-depth="1" data-line="80"><h2 id="heading-sec-lemmas-and-proofs" class="h1" data-heading-depth="1" style="display:block">Lemmas and proofs</h2>
+<ul class="ul list-dash loose" data-line="82">
+<li class="li ul-li list-dash-li loose-li" data-line="82">
+<p data-line="82"><span data-line="82"></span>Recall that a lemma can be understood as a set of propositions 
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="83">
+<p data-line="83"><span data-line="83"></span>When a proof is not provided, these propositions are axioms 
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="84">
+<p data-line="84"><span data-line="84"></span>When a proof is provided, the lemma can be understood as a <span data-line="84"></span><em class="em-star1">proof challenge</em><span data-line="84"></span>
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="85">
+<p data-line="85"><span data-line="85"></span>Example:
+</p><!-- inline-dafny BasicAutomation/Begin0 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="88" data-line-first="89" style="display:block"><code data-line="89">  <span style="color:blue">lemma</span> Example(x: <span style="color:teal">int</span>) 
+    <span style="color:purple">requires</span> x % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> 
+    <span style="color:purple">ensures</span> <span class="constant" style="color:purple">2</span> * (x / <span class="constant" style="color:purple">2</span>) == x</code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="94">
+<p data-line="94"><span data-line="94"></span>Assuming (hypothesis):
+</p>
+<ul class="ul list-dash compact" data-line="95">
+<li class="li ul-li list-dash-li compact-li" data-line="95"><span data-line="95"></span>We have some fixed but arbitrary <span data-line="95"></span><code class="code code1">x</code><span data-line="95"></span> of type <span data-line="95"></span><code class="code code1">int</code><span data-line="95"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="96"><span data-line="96"></span><code class="code code1">x % 2 == 0</code><span data-line="96"></span> holds 
+</li></ul></li>
+<li class="li ul-li list-dash-li loose-li" data-line="97">
+<p data-line="97"><span data-line="97"></span>Prove (goal): 
+</p>
+<ul class="ul list-dash compact" data-line="98">
+<li class="li ul-li list-dash-li compact-li" data-line="98"><span data-line="98"></span><code class="code code1">2 * (x / 2) == x</code><span data-line="98"></span>
+</li></ul>
+</li></ul>
+</section>
+<section id="sec-a-notation-for-lemmas" class="section section1" data-section-depth="1" data-line="100"><h2 id="heading-sec-a-notation-for-lemmas" class="h1" data-heading-depth="1" style="display:block">A notation for lemmas</h2>
+<ul class="ul list-dash compact" data-line="102">
+<li class="li ul-li list-dash-li compact-li" data-line="102"><span data-line="102"></span>We can summarize this proof challenge with the following notation:
+
+<ul class="ul list-dash compact" data-line="103">
+<li class="li ul-li list-dash-li compact-li" data-line="103"><span data-line="103"></span><code class="code code1">x: int, x % 2 == 0 |- 2 * (x / 2) == x</code><span data-line="103"></span>
+</li></ul></li>
+<li class="li ul-li list-dash-li compact-li" data-line="104"><span data-line="104"></span>Where: 
+
+<ul class="ul list-dash compact" data-line="105">
+<li class="li ul-li list-dash-li compact-li" data-line="105"><span data-line="105"></span>The facts left of <span data-line="105"></span><code class="code code1">|-</code><span data-line="105"></span> are hypothesis
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="106"><span data-line="106"></span>The fact right of <span data-line="106"></span><code class="code code1">|-</code><span data-line="106"></span> is the goal
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="107"><span data-line="107"></span>We read <span data-line="107"></span><code class="code code1">|-</code><span data-line="107"></span> as <span data-line="107"></span>&#8220;prove&#8221;<span data-line="107"></span>
+</li></ul></li></ul>
+</section>
+<section id="sec-proof-challenges-and-automated-theorem-proving" class="section section1" data-section-depth="1" data-line="109"><h2 id="heading-sec-proof-challenges-and-automated-theorem-proving" class="h1" data-heading-depth="1" style="display:block">Proof challenges and automated theorem proving</h2>
+<ul class="ul list-dash loose" data-line="111">
+<li class="li ul-li list-dash-li loose-li" data-line="111">
+<p data-line="111"><span data-line="111"></span>At a high level, Dafny verifies a lemma by challenging an automated theorem prover (ATP)
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="112">
+<p data-line="112"><span data-line="112"></span>Recall that a proof script is a sequence of statements and consider the simplest possible proof: the empty sequence 
+</p><!-- inline-dafny BasicAutomation/Begin1 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="115" data-line-first="116" style="display:block"><code data-line="116">  <span style="color:blue">lemma</span> Example(x: <span style="color:teal">int</span>) 
+    <span style="color:purple">requires</span> x % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> 
+    <span style="color:purple">ensures</span> <span class="constant" style="color:purple">2</span> * (x / <span class="constant" style="color:purple">2</span>) == x
+  {
+  }</code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="123">
+<p data-line="123"><span data-line="123"></span>In this case, the proof challenge is simply derived from the lemma itself:
+</p>
+<ul class="ul list-dash compact" data-line="124">
+<li class="li ul-li list-dash-li compact-li" data-line="124"><span data-line="124"></span><code class="code code1">x: int, x % 2 == 0 |- 2 * (x / 2) == x</code><span data-line="124"></span>
+</li></ul></li>
+<li class="li ul-li list-dash-li loose-li" data-line="125">
+<p data-line="125"><span data-line="125"></span>It so happens that, in this example, the ATP will meet the challenge
+</p></li></ul>
+</section>
+<section id="sec-from-lemma-and-proof-to-challenges" class="section section1" data-section-depth="1" data-line="127"><h2 id="heading-sec-from-lemma-and-proof-to-challenges" class="h1" data-heading-depth="1" style="display:block">From lemma and proof to challenges</h2>
+<ul class="ul list-dash compact" data-line="129">
+<li class="li ul-li list-dash-li compact-li" data-line="129"><span data-line="129"></span>In general, the proof script that follows a lemma affects what challenges will be thrown at the ATP 
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="130"><span data-line="130"></span>This raises two questions: 
+
+<ul class="ul list-dash compact" data-line="131">
+<li class="li ul-li list-dash-li compact-li" data-line="131"><span data-line="131"></span>What proof challenges can the ATP meet? 
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="132"><span data-line="132"></span>How does Dafny generate proof challenges from a lemma and a proof script? 
+</li></ul></li></ul>
+</section>
+<section id="sec-automated-theorem-proving" class="section section1" data-section-depth="1" data-line="134"><h2 id="heading-sec-automated-theorem-proving" class="h1" data-heading-depth="1" style="display:block">Automated theorem proving</h2>
+<ul class="ul list-dash compact" data-line="136">
+<li class="li ul-li list-dash-li compact-li" data-line="136"><span data-line="136"></span>Perhaps surprisingly, we will work under the assumption that the ATP is largely a black box 
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="137"><span data-line="137"></span>This is a good assumption to make:
+
+<ul class="ul list-dash compact" data-line="138">
+<li class="li ul-li list-dash-li compact-li" data-line="138"><span data-line="138"></span>What challenges an ATP can meet is difficult to characterize 
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="139"><span data-line="139"></span>You may want to use different configurations of an ATP 
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="140"><span data-line="140"></span>You may want to use different ATPs
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="141"><span data-line="141"></span>ATPs have a discontinuous behavior: small changes to a proof challenge can result in different outcomes 
+</li></ul></li>
+<li class="li ul-li list-dash-li compact-li" data-line="142"><span data-line="142"></span>So, what should you know about the ATP? 
+</li></ul>
+</section>
+<section id="sec-the-trivial-challenge" class="section section1" data-section-depth="1" data-line="144"><h2 id="heading-sec-the-trivial-challenge" class="h1" data-heading-depth="1" style="display:block">The trivial challenge</h2>
+<ul class="ul list-dash loose" data-line="146">
+<li class="li ul-li list-dash-li loose-li" data-line="146">
+<p data-line="146"><span data-line="146"></span>One challenge that any ATP should meet is to prove that something we are assuming holds 
+</p><!-- inline-dafny BasicAutomation/A0 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="149" data-line-first="150" style="display:block"><code data-line="150">  <span style="color:blue">lemma</span> AndIntro&lt;T1, T2, T3, T4&gt;(x1: T1, x2: <span style="color:teal">int</span>, x3: <span style="color:teal">int</span> -&gt; T4, P: <span style="color:teal">bool</span>, Q: T1 -&gt; <span style="color:teal">bool</span>)
+    <span style="color:purple">requires</span> Q(x1)
+    <span style="color:purple">requires</span> P
+    <span style="color:purple">ensures</span> P
+  {}</code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="157">
+<p data-line="157"><span data-line="157"></span>Several important notes:
+</p>
+<ul class="ul list-dash compact" data-line="158">
+<li class="li ul-li list-dash-li compact-li" data-line="158"><span data-line="158"></span>Because any proposition/predicate is bool-valued, <span data-line="158"></span><code class="code code1">P</code><span data-line="158"></span>, <span data-line="158"></span><code class="code code1">Q</code><span data-line="158"></span>, and <span data-line="158"></span><code class="code code1">R</code><span data-line="158"></span> could stand for any propositions/predicates
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="159"><span data-line="159"></span>Could be generalized to any finite number of type parameters (in any order)
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="160"><span data-line="160"></span>Could be generalize to any finite number of typed parameters (in any order)
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="161"><span data-line="161"></span>This could be generalized to any finite number of requires (in any order): all we need is that <span data-line="161"></span><code class="code code1">P</code><span data-line="161"></span> is assumed 
+</li></ul>
+</li></ul>
+</section>
+<section id="sec-the-essence-of-a-challenge" class="section section1" data-section-depth="1" data-line="163"><h2 id="heading-sec-the-essence-of-a-challenge" class="h1" data-heading-depth="1" style="display:block">The essence of a challenge</h2>
+<ul class="ul list-dash loose" data-line="165">
+<li class="li ul-li list-dash-li loose-li" data-line="165">
+<p data-line="165"><span data-line="165"></span>The essence of this challenge can be summarized as: 
+</p>
+<ul class="ul list-dash compact" data-line="166">
+<li class="li ul-li list-dash-li compact-li" data-line="166"><span data-line="166"></span>If a propostion <span data-line="166"></span><code class="code code1">P</code><span data-line="166"></span> is in the list of propositions you assume to hold, then it holds 
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="167"><span data-line="167"></span>Regardless of the rest of the hypotheses 
+</li></ul></li>
+<li class="li ul-li list-dash-li loose-li" data-line="168">
+<p data-line="168"><span data-line="168"></span>We use a frugal notation to capture the essence of the challenge
+</p>
+<pre class="para-block serif pretty pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="170" data-line-first="171" style="display:block;font-size:100%"><code data-line="171"><table class="block" data-line="171">
+<tbody><tr><td class='colspan1 expander'><span class="code-escaped">&#915;</span>, <span style="font-style:italic">P</span> <span class="code-escaped">&#x22A2;</span> <span style="font-style:italic">P</span></td></tr></tbody></table></code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="174">
+<p data-line="174"><span data-line="174"></span>Where:
+</p>
+<ul class="ul list-dash compact" data-line="175">
+<li class="li ul-li list-dash-li compact-li" data-line="175"><span data-line="175"></span>&#915;<span data-line="175"></span>  (read <span data-line="175"></span>&#8220;gamma&#8221;<span data-line="175"></span>) is a list of type parameters, typed parameters, and propositions 
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="176"><span data-line="176"></span>The order of elements of the list is irrelevant, so we add <span data-line="176"></span><code class="code code1">P</code><span data-line="176"></span> to the end for convenience of notation 
+</li></ul>
+</li></ul>
+</section>
+<section id="sec-basic-challenges--conjunction" class="section section1" data-section-depth="1" data-line="178"><h2 id="heading-sec-basic-challenges--conjunction" class="h1" data-heading-depth="1" style="display:block">Basic challenges: conjunction</h2>
+<ul class="ul list-dash loose" data-line="180">
+<li class="li ul-li list-dash-li loose-li" data-line="180">
+<p data-line="180"><span data-line="180"></span>Proving a conjunction
+</p>
+<pre class="para-block serif pretty pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="182" data-line-first="183" style="display:block;font-size:100%"><code data-line="183"><table class="block" data-line="183">
+<tbody><tr><td class='colspan1 expander'><span class="code-escaped">&#915;</span>, <span style="font-style:italic">P</span>, <span style="font-style:italic">Q</span> <span class="code-escaped">&#x22A2;</span> <span style="font-style:italic">P</span> &amp;&amp; <span style="font-style:italic">Q</span></td></tr></tbody></table></code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="186">
+<p data-line="186"><span data-line="186"></span>Using a conjunction
+</p>
+<pre class="para-block serif pretty pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="188" data-line-first="189" style="display:block;font-size:100%"><code data-line="189"><table class="block" data-line="189">
+<tbody><tr><td class='colspan1 expander'><span class="code-escaped">&#915;</span>, <span style="font-style:italic">P</span> &amp;&amp; <span style="font-style:italic">Q</span> <span class="code-escaped">&#x22A2;</span> <span style="font-style:italic">P</span></td></tr></tbody></table></code></pre>
+<pre class="para-block serif pretty pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="192" data-line-first="193" style="display:block;font-size:100%"><code data-line="193"><table class="block" data-line="193">
+<tbody><tr><td class='colspan1 expander'><span class="code-escaped">&#915;</span>, <span style="font-style:italic">P</span> &amp;&amp; <span style="font-style:italic">Q</span> <span class="code-escaped">&#x22A2;</span> <span style="font-style:italic">Q</span></td></tr></tbody></table></code></pre></li></ul>
+</section>
+<section id="sec-basic-challenges--disjunction" class="section section1" data-section-depth="1" data-line="196"><h2 id="heading-sec-basic-challenges--disjunction" class="h1" data-heading-depth="1" style="display:block">Basic challenges: disjunction</h2>
+<ul class="ul list-dash loose" data-line="198">
+<li class="li ul-li list-dash-li loose-li" data-line="198">
+<p data-line="198"><span data-line="198"></span>Proving a disjunction 
+</p>
+<pre class="para-block serif pretty pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="200" data-line-first="201" style="display:block;font-size:100%"><code data-line="201"><table class="block" data-line="201">
+<tbody><tr><td class='colspan1 expander'><span class="code-escaped">&#915;</span>, <span style="font-style:italic">P</span> <span class="code-escaped">&#x22A2;</span> <span style="font-style:italic">P</span> || <span style="font-style:italic">Q</span></td></tr></tbody></table></code></pre>
+<pre class="para-block serif pretty pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="204" data-line-first="205" style="display:block;font-size:100%"><code data-line="205"><table class="block" data-line="205">
+<tbody><tr><td class='colspan1 expander'><span class="code-escaped">&#915;</span>, <span style="font-style:italic">Q</span> <span class="code-escaped">&#x22A2;</span> <span style="font-style:italic">P</span> || <span style="font-style:italic">Q</span></td></tr></tbody></table></code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="208">
+<p data-line="208"><span data-line="208"></span>Using a disjunction
+</p>
+<pre class="para-block serif pretty pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="210" data-line-first="211" style="display:block;font-size:100%"><code data-line="211"><table class="block" data-line="211">
+<tbody><tr><td class='colspan1 expander'><span class="code-escaped">&#915;</span>, <span style="font-style:italic">P</span> || <span style="font-style:italic">Q</span>, <span style="font-style:italic">P</span> ==&gt; <span style="font-style:italic">R</span>, <span style="font-style:italic">Q</span> ==&gt; <span style="font-style:italic">R</span> <span class="code-escaped">&#x22A2;</span> <span style="font-style:italic">R</span></td></tr></tbody></table></code></pre></li></ul>
+</section>
+<section id="sec-basic-challenges--negation" class="section section1" data-section-depth="1" data-line="214"><h2 id="heading-sec-basic-challenges--negation" class="h1" data-heading-depth="1" style="display:block">Basic challenges: negation</h2>
+<ul class="ul list-dash loose" data-line="216">
+<li class="li ul-li list-dash-li loose-li" data-line="216">
+<p data-line="216"><span data-line="216"></span>Proving a negation 
+</p>
+<pre class="para-block serif pretty pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="218" data-line-first="219" style="display:block;font-size:100%"><code data-line="219"><table class="block" data-line="219">
+<tbody><tr><td class='colspan1 expander'><span class="code-escaped">&#915;</span>, <span style="font-style:italic">P</span> ==&gt; <span class="sans-serif">false</span> <span class="code-escaped">&#x22A2;</span> !<span style="font-style:italic">P</span></td></tr></tbody></table></code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="222">
+<p data-line="222"><span data-line="222"></span>Using a negation 
+</p>
+<pre class="para-block serif pretty pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="224" data-line-first="225" style="display:block;font-size:100%"><code data-line="225"><table class="block" data-line="225">
+<tbody><tr><td class='colspan1 expander'><span class="code-escaped">&#915;</span>, <span style="font-style:italic">P</span>, !<span style="font-style:italic">P</span> <span class="code-escaped">&#x22A2;</span> <span class="sans-serif">false</span></td></tr></tbody></table></code></pre></li></ul>
+</section>
+<section id="sec-basic-challenges--false" class="section section1" data-section-depth="1" data-line="228"><h2 id="heading-sec-basic-challenges--false" class="h1" data-heading-depth="1" style="display:block">Basic challenges: false</h2>
+<ul class="ul list-dash loose" data-line="230">
+<li class="li ul-li list-dash-li loose-li" data-line="230">
+<p data-line="230"><span data-line="230"></span>If you assume something that is <span data-line="230"></span><code class="code code1">false</code><span data-line="230"></span>, anything can be concluded
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="231">
+<p data-line="231"><span data-line="231"></span>This is particularly useful to construct proofs incrementally
+</p>
+<pre class="para-block serif pretty pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="233" data-line-first="234" style="display:block;font-size:100%"><code data-line="234"><table class="block" data-line="234">
+<tbody><tr><td class='colspan1 expander'><span class="code-escaped">&#915;</span>, <span class="sans-serif">false</span> <span class="code-escaped">&#x22A2;</span> <span style="font-style:italic">P</span></td></tr></tbody></table></code></pre></li></ul>
+</section>
+<section id="sec-basic-challenges--equivalence" class="section section1" data-section-depth="1" data-line="237"><h2 id="heading-sec-basic-challenges--equivalence" class="h1" data-heading-depth="1" style="display:block">Basic challenges: equivalence</h2>
+<ul class="ul list-dash loose" data-line="239">
+<li class="li ul-li list-dash-li loose-li" data-line="239">
+<p data-line="239"><span data-line="239"></span>Proving an equivalence
+</p>
+<pre class="para-block serif pretty pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="241" data-line-first="242" style="display:block;font-size:100%"><code data-line="242"><table class="block" data-line="242">
+<tbody><tr><td class='colspan1 expander'><span class="code-escaped">&#915;</span>, <span style="font-style:italic">P</span> ==&gt; <span style="font-style:italic">Q</span>, <span style="font-style:italic">Q</span> ==&gt; <span style="font-style:italic">P</span> <span class="code-escaped">&#x22A2;</span> <span style="font-style:italic">P</span> &lt;==&gt; <span style="font-style:italic">Q</span></td></tr></tbody></table></code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="245">
+<p data-line="245"><span data-line="245"></span>Using a equivalence
+</p>
+<pre class="para-block serif pretty pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="247" data-line-first="248" style="display:block;font-size:100%"><code data-line="248"><table class="block" data-line="248">
+<tbody><tr><td class='colspan1 expander'><span class="code-escaped">&#915;</span>, <span style="font-style:italic">P</span> &lt;==&gt; <span style="font-style:italic">Q</span> <span class="code-escaped">&#x22A2;</span> <span style="font-style:italic">P</span> ==&gt; <span style="font-style:italic">Q</span></td></tr></tbody></table></code></pre>
+<pre class="para-block serif pretty pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="251" data-line-first="252" style="display:block;font-size:100%"><code data-line="252"><table class="block" data-line="252">
+<tbody><tr><td class='colspan1 expander'><span class="code-escaped">&#915;</span>, <span style="font-style:italic">P</span> &lt;==&gt; <span style="font-style:italic">Q</span> <span class="code-escaped">&#x22A2;</span> <span style="font-style:italic">Q</span> ==&gt; <span style="font-style:italic">P</span></td></tr></tbody></table></code></pre></li></ul>
+</section>
+<section id="sec-basic-challenges--existential-quantifier" class="section section1" data-section-depth="1" data-line="255"><h2 id="heading-sec-basic-challenges--existential-quantifier" class="h1" data-heading-depth="1" style="display:block">Basic challenges: existential quantifier</h2>
+<ul class="ul list-dash loose" data-line="257">
+<li class="li ul-li list-dash-li loose-li" data-line="257">
+<p data-line="257"><span data-line="257"></span>Proving an existential quantifier 
+</p>
+<pre class="para-block serif pretty pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="259" data-line-first="260" style="display:block;font-size:100%"><code data-line="260"><table class="block" data-line="260">
+<tbody><tr><td class='colspan1 expander'><span class="code-escaped">&#915;</span>, <span style="font-style:italic">T</span>, <span style="font-style:italic">k</span>: <span style="font-style:italic">T</span>, <span style="font-style:italic">P</span>(<span style="font-style:italic">k</span>) <span class="code-escaped">&#x22A2;</span> <span class="sans-serif">exists</span> <span style="font-style:italic">c</span>: <span style="font-style:italic">T</span> :: <span style="font-style:italic">P</span>(<span style="font-style:italic">c</span>)</td></tr></tbody></table></code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="263">
+<p data-line="263"><span data-line="263"></span>Using an existential quantifier 
+</p>
+<pre class="para-block serif pretty pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="265" data-line-first="266" style="display:block;font-size:100%"><code data-line="266"><table class="block" data-line="266">
+<tbody><tr><td class='colspan1 expander'><span class="code-escaped">&#915;</span>, <span style="font-style:italic">T</span>, <span style="font-style:italic">c</span>: <span style="font-style:italic">T</span>, <span style="font-style:italic">P</span>(<span style="font-style:italic">c</span>), (<span class="sans-serif">exists</span> <span style="font-style:italic">x</span>: <span style="font-style:italic">T</span> :: <span style="font-style:italic">P</span>(<span style="font-style:italic">x</span>)) ==&gt; <span style="font-style:italic">Q</span> <span class="code-escaped">&#x22A2;</span> <span style="font-style:italic">Q</span></td></tr></tbody></table></code></pre></li></ul>
+</section>
+<section id="sec-basic-challenges--universal-quantifier" class="section section1" data-section-depth="1" data-line="269"><h2 id="heading-sec-basic-challenges--universal-quantifier" class="h1" data-heading-depth="1" style="display:block">Basic challenges: universal quantifier</h2>
+<pre class="para-block serif pretty pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="271" data-line-first="272" style="display:block;font-size:100%"><code data-line="272"><table class="block" data-line="272">
+<tbody><tr><td class='colspan1 empty'>&nbsp;</td><td class='colspan1 expander'><span class="code-escaped">&#915;</span>, <span style="font-style:italic">T</span>, <span class="sans-serif">forall</span> <span style="font-style:italic">x</span>: <span style="font-style:italic">T</span> :: <span style="font-style:italic">P</span>(<span style="font-style:italic">x</span>), <span style="font-style:italic">c</span>: <span style="font-style:italic">T</span> <span class="code-escaped">&#x22A2;</span> <span style="font-style:italic">P</span>(<span style="font-style:italic">c</span>)</td></tr></tbody></table></code></pre></section>
+<section id="sec-from-proofs-to-challenges" class="section section1" data-section-depth="1" data-line="275"><h2 id="heading-sec-from-proofs-to-challenges" class="h1" data-heading-depth="1" style="display:block">From proofs to challenges</h2>
+<ul class="ul list-dash loose" data-line="277">
+<li class="li ul-li list-dash-li loose-li" data-line="277">
+<p data-line="277"><span data-line="277"></span>How does Dafny generate proof challenges from a lemma and a proof script? 
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="278">
+<p data-line="278"><span data-line="278"></span>This question could be answered precisely, but we will not! 
+</p>
+<ul class="ul list-dash compact" data-line="279">
+<li class="li ul-li list-dash-li compact-li" data-line="279"><span data-line="279"></span>Understanding how Dafny uses your proof is not the best way to come up with it
+</li></ul></li>
+<li class="li ul-li list-dash-li loose-li" data-line="280">
+<p data-line="280"><span data-line="280"></span>Instead, we would like to capture the idea that writing a proof is a linear process 
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="281">
+<p data-line="281"><span data-line="281"></span>As a first approximation, you can think of a statement as something that modifies the proof challenge 
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="282">
+<p data-line="282"><span data-line="282"></span>Then, the goal of the proof script is: 
+</p><!-- inline-dafny ProofMethod/A0 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="285" data-line-first="286" style="display:block"><code data-line="286">  <span style="color:blue">lemma</span> Example&lt;T&gt;(x: T) 
+    <span style="color:purple">requires</span> P(x) 
+    <span style="color:purple">ensures</span> Q(x) 
+  { 
+    <span style="color:darkgreen">// T, x: T, P(x) |- Q(x)</span>
+
+    <span style="color:darkgreen">// ...</span>
+
+    <span style="color:darkgreen">// T, x: T, P(x), Q(x) |- Q(x)</span>
+  }</code></pre></li></ul>
+</section>
+<section id="sec-proof-semantics--assert" class="section section1" data-section-depth="1" data-line="298"><h2 id="heading-sec-proof-semantics--assert" class="h1" data-heading-depth="1" style="display:block">Proof semantics: assert</h2><!-- inline-dafny ProofMethod/Assert -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="301" data-line-first="302" style="display:block"><code data-line="302">  <span style="color:blue">lemma</span> Example&lt;T&gt;(x: T)
+    <span style="color:purple">requires</span> P(x)
+    <span style="color:purple">ensures</span> Q(x)
+  {
+    <span style="color:darkgreen">// T, x: T, P(x) |- Q(x)</span>
+    <span style="color:blue">assert</span> R(x) <span style="color:blue">by</span> {
+      <span style="color:darkgreen">// T, x: T, P(x) |- R(x)</span>
+    } 
+    <span style="color:darkgreen">// T, x: T, P(x), R(x) |- Q(x)</span>
+  }</code></pre></section>
+<section id="sec-proof-semantics--assume" class="section section1" data-section-depth="1" data-line="314"><h2 id="heading-sec-proof-semantics--assume" class="h1" data-heading-depth="1" style="display:block">Proof semantics: assume</h2><!-- inline-dafny ProofMethod/Assume -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="317" data-line-first="318" style="display:block"><code data-line="318">  <span style="color:blue">lemma</span> Conclusion&lt;T&gt;(x: T)
+    <span style="color:purple">requires</span> P(x)
+    <span style="color:purple">ensures</span> Q(x)
+  {
+    <span style="color:darkgreen">// T, x: T, P(x) |- Q(x)</span>
+    <span style="color:blue">assume</span> R(x);
+    <span style="color:darkgreen">// T, x: T, P(x), R(x) |- Q(x)</span>
+  }</code></pre></section>
+<section id="sec-proof-semantics--lemma-call----1" class="section section1" data-section-depth="1" data-line="328"><h2 id="heading-sec-proof-semantics--lemma-call----1" class="h1" data-heading-depth="1" style="display:block">Proof semantics: lemma call &#8211; 1</h2><!-- inline-dafny ProofMethod/Call1 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="331" data-line-first="332" style="display:block"><code data-line="332">  <span style="color:blue">lemma</span> Premise&lt;T&gt;(x: T)
+    <span style="color:purple">requires</span> P(x)
+    <span style="color:purple">ensures</span> R(x)
+
+  <span style="color:blue">lemma</span> Conclusion&lt;T&gt;(x: T)
+    <span style="color:purple">requires</span> P(x)
+    <span style="color:purple">ensures</span> Q(x)
+  {
+    <span style="color:darkgreen">// T, x: T, P(x) |- Q(x)</span>
+    Premise&lt;T&gt;(x); <span style="color:darkgreen">// T, x: T, P(x) |- P(x)</span>
+    <span style="color:darkgreen">// T, x: T, P(x), R(x) |- Q(x)</span>
+  }</code></pre></section>
+<section id="sec-proof-semantics--lemma-call----2" class="section section1" data-section-depth="1" data-line="346"><h2 id="heading-sec-proof-semantics--lemma-call----2" class="h1" data-heading-depth="1" style="display:block">Proof semantics: lemma call &#8211; 2</h2><!-- inline-dafny ProofMethod/Call2 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="349" data-line-first="350" style="display:block"><code data-line="350">  <span style="color:blue">lemma</span> Premise&lt;T&gt;(x: T)
+    <span style="color:purple">ensures</span> P(x) ==&gt; R(x)
+
+  <span style="color:blue">lemma</span> Conclusion&lt;T&gt;(x: T)
+    <span style="color:purple">requires</span> P(x)
+    <span style="color:purple">ensures</span> Q(x)
+  {
+    <span style="color:darkgreen">// T, x: T, P(x) |- Q(x)</span>
+    Premise&lt;T&gt;(x);
+    <span style="color:darkgreen">// T, x: T, P(x), P(x) ==&gt; R(x) |- Q(x)</span>
+  }</code></pre></section>
+<section id="sec-proof-semantics--lemma-call----3" class="section section1" data-section-depth="1" data-line="363"><h2 id="heading-sec-proof-semantics--lemma-call----3" class="h1" data-heading-depth="1" style="display:block">Proof semantics: lemma call &#8211; 3</h2><!-- inline-dafny ProofMethod/Call3 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="366" data-line-first="367" style="display:block"><code data-line="367">  <span style="color:blue">lemma</span> Premise&lt;T&gt;()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> x: T :: P(x) ==&gt; R(x)
+
+  <span style="color:blue">lemma</span> Conclusion&lt;T&gt;(x: T)
+    <span style="color:purple">requires</span> P(x)
+    <span style="color:purple">ensures</span> Q(x)
+  {
+    <span style="color:darkgreen">// T, x: T, P(x) |- Q(x)</span>
+    Premise&lt;T&gt;();
+    <span style="color:darkgreen">// T, x: T, P(x), forall x: T :: P(x) ==&gt; R(x) |- Q(x)</span>
+  }</code></pre></section>
+<section id="sec-proof-semantics--conditional-statement----1" class="section section1" data-section-depth="1" data-line="380"><h2 id="heading-sec-proof-semantics--conditional-statement----1" class="h1" data-heading-depth="1" style="display:block">Proof semantics: conditional statement &#8211; 1</h2><!-- inline-dafny ProofMethod/If1 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="383" data-line-first="384" style="display:block"><code data-line="384">  <span style="color:blue">lemma</span> Conclusion&lt;T&gt;(x: T)
+    <span style="color:purple">requires</span> P(x)
+    <span style="color:purple">ensures</span> Q(x)
+  {
+    <span style="color:darkgreen">// T, x: T, P(x) |- Q(x)</span>
+    <span style="color:blue">if</span> R(x) {
+      <span style="color:darkgreen">// T, x: T, P(x), R(x) |- S(x)</span>
+    }
+    <span style="color:darkgreen">// T, x: T, P(x), R(x) ==&gt; S(x) |- Q(x)</span>
+  }</code></pre></section>
+<section id="sec-proof-semantics--conditional-statement----2" class="section section1" data-section-depth="1" data-line="396"><h2 id="heading-sec-proof-semantics--conditional-statement----2" class="h1" data-heading-depth="1" style="display:block">Proof semantics: conditional statement &#8211; 2</h2><!-- inline-dafny ProofMethod/If2 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="399" data-line-first="400" style="display:block"><code data-line="400">  <span style="color:blue">lemma</span> Premise&lt;T&gt;(x: T)
+    <span style="color:purple">requires</span> P(x)
+    <span style="color:purple">ensures</span> R(x)
+
+  <span style="color:blue">lemma</span> Conclusion&lt;T&gt;(x: T)
+    <span style="color:purple">ensures</span> P(x) ==&gt; Q(x)
+  {
+    <span style="color:darkgreen">// T , x: T |- P(x) ==&gt; Q(x)</span>
+    <span style="color:blue">if</span> P(x) {
+      Premise(x); <span style="color:darkgreen">// T, x: T, P(x) |- P(x)</span>
+      <span style="color:darkgreen">// T, x: T, P(x) |- Q(x)</span>
+    }
+    <span style="color:darkgreen">// T, x: T, P(x) ==&gt; R(x) |- P(x) ==&gt; Q(x)</span>
+  }</code></pre></section>
+<section id="sec-proof-semantics--forall-statement" class="section section1" data-section-depth="1" data-line="416"><h2 id="heading-sec-proof-semantics--forall-statement" class="h1" data-heading-depth="1" style="display:block">Proof semantics: forall statement</h2><!-- inline-dafny ProofMethod/Forall -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="419" data-line-first="420" style="display:block"><code data-line="420">  <span style="color:blue">lemma</span> Conclusion&lt;T&gt;(x: T)
+    <span style="color:purple">requires</span> P(x)
+    <span style="color:purple">ensures</span> Q(x)
+  {
+    <span style="color:darkgreen">// T, x: T, P(x) |- Q(x)</span>
+    <span style="color:blue">forall</span> x: T
+      <span style="color:purple">ensures</span> R(x)
+    {
+      <span style="color:darkgreen">// T , x: T, P(x) |- R(x)</span>
+    }
+    <span style="color:darkgreen">// T, x: T, P(x), forall x: T :: R(x) |- Q(x)</span>
+  }</code></pre></section>
+<section id="sec-proof-semantics--variable-choice" class="section section1" data-section-depth="1" data-line="434"><h2 id="heading-sec-proof-semantics--variable-choice" class="h1" data-heading-depth="1" style="display:block">Proof semantics: variable choice</h2><!-- inline-dafny ProofMethod/Choice -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="437" data-line-first="438" style="display:block"><code data-line="438">  <span style="color:blue">lemma</span> Conclusion&lt;T&gt;()
+    <span style="color:purple">requires</span> <span style="color:blue">exists</span> y: T :: P(y)
+    <span style="color:purple">ensures</span> A
+  {
+    <span style="color:darkgreen">// T, exists x: T :: P(x) |- A</span>
+    <span style="color:blue">var</span> y: T :| P(y); 
+    <span style="color:darkgreen">// T, y: T, P(y) |- A</span>
+  }</code></pre></section>
+<section id="sec-proof-semantics--variable-assigment" class="section section1" data-section-depth="1" data-line="448"><h2 id="heading-sec-proof-semantics--variable-assigment" class="h1" data-heading-depth="1" style="display:block">Proof semantics: variable assigment</h2><!-- inline-dafny ProofMethod/Assignment -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="451" data-line-first="452" style="display:block"><code data-line="452">  <span style="color:blue">lemma</span> Conclusion&lt;T&gt;(x: T)
+    <span style="color:purple">ensures</span> A
+  {
+    <span style="color:darkgreen">// T, x: T |- A</span>
+    <span style="color:blue">var</span> y: T := x; 
+    <span style="color:darkgreen">// T, x: T, y: T, y == x |- A</span>
+  }</code></pre></section>
+<section id="sec-example" class="section section1" data-section-depth="1" data-line="462"><h2 id="heading-sec-example" class="h1" data-heading-depth="1" style="display:block">Example</h2><!-- inline-dafny ProofMethod/B3 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="465" data-line-first="466" style="display:block"><code data-line="466">  <span style="color:blue">lemma</span> Premise&lt;T&gt;(x: T)
+    <span style="color:purple">requires</span> P(x)
+    <span style="color:purple">ensures</span> Q(x)
+
+  <span style="color:blue">lemma</span> Conclusion&lt;T&gt;()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> x: T :: P(x) ==&gt; Q(x)
+  {
+    <span style="color:darkgreen">// T |- forall x: T :: P(x) ==&gt; Q(x)</span>
+    <span style="color:blue">forall</span> x: T
+      <span style="color:purple">ensures</span> P(x) ==&gt; Q(x)
+    {
+      <span style="color:darkgreen">// T , x: T |- P(x) ==&gt; Q(x)</span>
+      <span style="color:blue">if</span> P(x) {
+        Premise(x); <span style="color:darkgreen">// T, x: T, P(x) |- P(x)</span>
+        <span style="color:darkgreen">// T, x: T, P(x) |- Q(x)</span>
+      }
+      <span style="color:darkgreen">// T, x: T, P(x) ==&gt; Q(x) |- P(x) ==&gt; Q(x)</span>
+    }
+    <span style="color:darkgreen">// T , forall x: T :: P(x) ==&gt; Q(x) |- forall x: T :: P(x) ==&gt; Q(x)</span>
+  }</code></pre></section>
+<section id="sec-structuring-a-proof" class="section section1" data-section-depth="1" data-line="488"><h2 id="heading-sec-structuring-a-proof" class="h1" data-heading-depth="1" style="display:block">Structuring a proof</h2>
+<ul class="ul list-dash compact" data-line="490">
+<li class="li ul-li list-dash-li compact-li" data-line="490"><span data-line="490"></span>Two sets of rules
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="491"><span data-line="491"></span>Going backward from the goal
+
+<ul class="ul list-dash compact" data-line="492">
+<li class="li ul-li list-dash-li compact-li" data-line="492"><span data-line="492"></span>How to prove
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="493"><span data-line="493"></span>Follow the structure of the goal
+</li></ul></li>
+<li class="li ul-li list-dash-li compact-li" data-line="494"><span data-line="494"></span>Going forward from the premises
+
+<ul class="ul list-dash compact" data-line="495">
+<li class="li ul-li list-dash-li compact-li" data-line="495"><span data-line="495"></span>How to use
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="496"><span data-line="496"></span>Use existing facts or generalize
+</li></ul></li></ul>
+</section>
+<section id="sec-incrementally-writing-a-proof-with-assume" class="section section1" data-section-depth="1" data-line="498"><h2 id="heading-sec-incrementally-writing-a-proof-with-assume" class="h1" data-heading-depth="1" style="display:block">Incrementally writing a proof with assume</h2>
+<ul class="ul list-dash loose" data-line="500">
+<li class="li ul-li list-dash-li loose-li" data-line="500">
+<p data-line="500"><span data-line="500"></span>A proof is not done until you have removed all uses of <span data-line="500"></span><code class="code code1">assume</code><span data-line="500"></span> statements 
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="501">
+<p data-line="501"><span data-line="501"></span>In the end, you do not want any <span data-line="501"></span><code class="code code1">assume</code><span data-line="501"></span> to appear in your proof 
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="502">
+<p data-line="502"><span data-line="502"></span>However, <span data-line="502"></span><code class="code code1">assume</code><span data-line="502"></span> is a fantastic tool to grow a proof and make sure that it is going in the right direction 
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="503">
+<p data-line="503"><span data-line="503"></span>One by one, you will need to replace an <span data-line="503"></span><code class="code code1">assume</code><span data-line="503"></span>, and this can be done in one of two ways
+</p><!-- inline-dafny ProofMethod/Assume1 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="506" data-line-first="507" style="display:block"><code data-line="507">  <span style="color:blue">lemma</span> Example() 
+  {
+    <span style="color:darkgreen">// ...</span>
+    <span style="color:blue">assume</span> A; <span style="color:darkgreen">// TODO</span>
+    <span style="color:darkgreen">// ...</span>
+  }</code></pre></li></ul>
+</section>
+<section id="sec-removing-an-assumption--assert" class="section section1" data-section-depth="1" data-line="515"><h2 id="heading-sec-removing-an-assumption--assert" class="h1" data-heading-depth="1" style="display:block">Removing an assumption: assert</h2><!-- inline-dafny ProofMethod/Assume2 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="518" data-line-first="519" style="display:block"><code data-line="519">  <span style="color:blue">lemma</span> Example() 
+  {
+    <span style="color:darkgreen">// ...</span>
+    <span style="color:blue">assert</span> A <span style="color:blue">by</span> {
+      <span style="color:blue">assume</span> <span style="color:blue">false</span>; <span style="color:darkgreen">// TODO</span>
+    }
+    <span style="color:darkgreen">// ...</span>
+  }</code></pre></section>
+<section id="sec-removing-an-assumption--lemma-call" class="section section1" data-section-depth="1" data-line="529"><h2 id="heading-sec-removing-an-assumption--lemma-call" class="h1" data-heading-depth="1" style="display:block">Removing an assumption: lemma call</h2><!-- inline-dafny ProofMethod/Assume3 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="532" data-line-first="533" style="display:block"><code data-line="533">  <span style="color:blue">lemma</span> Prior() 
+    <span style="color:purple">ensures</span> A
+
+  <span style="color:blue">lemma</span> Example() 
+  {
+    <span style="color:darkgreen">// ...</span>
+    Prior();
+    <span style="color:darkgreen">// ...</span>
+  }</code></pre></section>
+<section id="sec-how-to-prove--conjunction----procedural" class="section section1" data-section-depth="1" data-line="544"><h2 id="heading-sec-how-to-prove--conjunction----procedural" class="h1" data-heading-depth="1" style="display:block">How to prove: conjunction &#8211; procedural</h2>
+<ul class="ul list-dash compact" data-line="546">
+<li class="li ul-li list-dash-li compact-li" data-line="546"><span data-line="546"></span>Procedural approach: add to the hypothesis toward an easy challenge
+</li></ul>
+<!-- inline-dafny ProofMethod/ConjunctionIntro -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="549" data-line-first="550" style="display:block"><code data-line="550">  <span style="color:blue">lemma</span> Example()
+    <span style="color:purple">ensures</span> A &amp;&amp; B
+  {
+    <span style="color:darkgreen">// |- A &amp;&amp; B</span>
+    <span style="color:blue">assume</span> A; 
+    <span style="color:darkgreen">// A |- A &amp;&amp; B</span>
+    <span style="color:blue">assume</span> B; 
+    <span style="color:darkgreen">// A , B |- A &amp;&amp; B</span>
+  }</code></pre></section>
+<section id="sec-how-to-prove--conjunction----procedural-to-declarative" class="section section1" data-section-depth="1" data-line="561"><h2 id="heading-sec-how-to-prove--conjunction----procedural-to-declarative" class="h1" data-heading-depth="1" style="display:block">How to prove: conjunction &#8211; procedural to declarative</h2>
+<ul class="ul list-dash compact" data-line="563">
+<li class="li ul-li list-dash-li compact-li" data-line="563"><span data-line="563"></span>You can always assume what you want to prove 
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="564"><span data-line="564"></span>This allows you to refine the proof using a more declarative style
+</li></ul>
+<!-- inline-dafny ProofMethod/ConjunctionLeft -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="567" data-line-first="568" style="display:block"><code data-line="568">  <span style="color:blue">lemma</span> Example()
+    <span style="color:purple">ensures</span> A &amp;&amp; B
+  {
+    <span style="color:darkgreen">// |- A &amp;&amp; B</span>
+    <span style="color:blue">assume</span> A &amp;&amp; B;
+    <span style="color:darkgreen">// A &amp;&amp; B |- A &amp;&amp; B</span>
+  }</code></pre></section>
+<section id="sec-how-to-prove--conjunction----declarative" class="section section1" data-section-depth="1" data-line="577"><h2 id="heading-sec-how-to-prove--conjunction----declarative" class="h1" data-heading-depth="1" style="display:block">How to prove: conjunction &#8211; declarative</h2><table class="columns block" data-line="579">
+<tbody><tr><td class="column" data-line="580" style="width:40%;vertical-align:middle"><!-- inline-dafny ProvingByConvincing/HTP1A -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="582" data-line-first="583" style="display:block"><code data-line="583">    <span style="color:blue">assume</span> A &amp;&amp; B;</code></pre></td><td class="column" data-line="586" style="width:20%;vertical-align:middle">
+<div class="center align-center" data-line="587" style="text-align:center">
+<p class="p noindent" data-line="588"><span data-line="588"></span><span class="math-inline">$\Rightarrow$</span></p></div></td><td class="column" data-line="591" style="width:40%;vertical-align:middle"><!-- inline-dafny ProvingByConvincing/HTP1B -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="593" data-line-first="594" style="display:block"><code data-line="594">    <span style="color:blue">assert</span> A &amp;&amp; B <span style="color:blue">by</span> {
+      <span style="color:blue">assume</span> A;
+      <span style="color:blue">assume</span> B;
+    }</code></pre></td></tr></tbody></table></section>
+<section id="sec-how-to-prove--disjunction-procedural----1" class="section section1" data-section-depth="1" data-line="602"><h2 id="heading-sec-how-to-prove--disjunction-procedural----1" class="h1" data-heading-depth="1" style="display:block">How to prove: disjunction, procedural &#8211; 1</h2><!-- inline-dafny ProofMethod/DisjunctionIntroLeft -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="605" data-line-first="606" style="display:block"><code data-line="606">  <span style="color:blue">lemma</span> Example()
+    <span style="color:purple">ensures</span> A || B
+  {
+    <span style="color:darkgreen">// |- A || B</span>
+    <span style="color:blue">assume</span> A; 
+    <span style="color:darkgreen">// A |- A || B</span>
+  }</code></pre></section>
+<section id="sec-how-to-prove--disjunction-procedural----2" class="section section1" data-section-depth="1" data-line="616"><h2 id="heading-sec-how-to-prove--disjunction-procedural----2" class="h1" data-heading-depth="1" style="display:block">How to prove: disjunction, procedural &#8211; 2</h2><!-- inline-dafny ProofMethod/DisjunctionIntroRight -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="619" data-line-first="620" style="display:block"><code data-line="620">  <span style="color:blue">lemma</span> Example()
+    <span style="color:purple">ensures</span> A || B
+  {
+    <span style="color:darkgreen">// |- A || B</span>
+    <span style="color:blue">assume</span> B; 
+    <span style="color:darkgreen">// B |- A || B</span>
+  }</code></pre></section>
+<section id="sec-how-to-prove--disjunction-declarative----1" class="section section1" data-section-depth="1" data-line="629"><h2 id="heading-sec-how-to-prove--disjunction-declarative----1" class="h1" data-heading-depth="1" style="display:block">How to prove: disjunction, declarative &#8211; 1</h2><table class="columns block" data-line="631">
+<tbody><tr><td class="column" data-line="632" style="width:40%;vertical-align:middle"><!-- inline-dafny ProvingByConvincing/HTP3A -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="634" data-line-first="635" style="display:block"><code data-line="635">    <span style="color:blue">assume</span> A || B;</code></pre></td><td class="column" data-line="638" style="width:20%;vertical-align:middle">
+<div class="center align-center" data-line="639" style="text-align:center">
+<p class="p noindent" data-line="640"><span data-line="640"></span><span class="math-inline">$\Rightarrow$</span></p></div></td><td class="column" data-line="643" style="width:40%;vertical-align:middle"><!-- inline-dafny ProvingByConvincing/HTP3B -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="645" data-line-first="646" style="display:block"><code data-line="646">    <span style="color:blue">assert</span> A || B <span style="color:blue">by</span> {
+      <span style="color:blue">assume</span> A;
+    }</code></pre></td></tr></tbody></table></section>
+<section id="sec-how-to-prove--disjunction-declarative----2" class="section section1" data-section-depth="1" data-line="653"><h2 id="heading-sec-how-to-prove--disjunction-declarative----2" class="h1" data-heading-depth="1" style="display:block">How to prove: disjunction, declarative &#8211; 2</h2><table class="columns block" data-line="655">
+<tbody><tr><td class="column" data-line="656" style="width:40%;vertical-align:middle"><!-- inline-dafny ProvingByConvincing/HTP3A -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="658" data-line-first="659" style="display:block"><code data-line="659">    <span style="color:blue">assume</span> A || B;</code></pre></td><td class="column" data-line="662" style="width:20%;vertical-align:middle">
+<div class="center align-center" data-line="663" style="text-align:center">
+<p class="p noindent" data-line="664"><span data-line="664"></span><span class="math-inline">$\Rightarrow$</span></p></div></td><td class="column" data-line="667" style="width:40%;vertical-align:middle"><!-- inline-dafny ProvingByConvincing/HTP3C -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="669" data-line-first="670" style="display:block"><code data-line="670">    <span style="color:blue">assert</span> A || B <span style="color:blue">by</span> {
+      <span style="color:blue">assume</span> B;
+    }</code></pre></td></tr></tbody></table></section>
+<section id="sec-how-to-prove--disjunction-declarative----3" class="section section1" data-section-depth="1" data-line="677"><h2 id="heading-sec-how-to-prove--disjunction-declarative----3" class="h1" data-heading-depth="1" style="display:block">How to prove: disjunction, declarative &#8211; 3</h2><table class="columns block" data-line="679">
+<tbody><tr><td class="column" data-line="680" style="width:40%;vertical-align:middle"><!-- inline-dafny ProvingByConvincing/HTP3A -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="682" data-line-first="683" style="display:block"><code data-line="683">    <span style="color:blue">assume</span> A || B;</code></pre></td><td class="column" data-line="686" style="width:20%;vertical-align:middle">
+<div class="center align-center" data-line="687" style="text-align:center">
+<p class="p noindent" data-line="688"><span data-line="688"></span><span class="math-inline">$\Rightarrow$</span></p></div></td><td class="column" data-line="691" style="width:40%;vertical-align:middle"><!-- inline-dafny ProvingByConvincing/HTP3D -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="693" data-line-first="694" style="display:block"><code data-line="694">    <span style="color:blue">assert</span> A || B <span style="color:blue">by</span> {
+      <span style="color:blue">if</span> !A {
+        <span style="color:blue">assume</span> B;
+      }
+    }</code></pre></td></tr></tbody></table></section>
+<section id="sec-how-to-prove--disjunction-declarative----4" class="section section1" data-section-depth="1" data-line="703"><h2 id="heading-sec-how-to-prove--disjunction-declarative----4" class="h1" data-heading-depth="1" style="display:block">How to prove: disjunction, declarative &#8211; 4</h2><table class="columns block" data-line="705">
+<tbody><tr><td class="column" data-line="706" style="width:40%;vertical-align:middle"><!-- inline-dafny ProvingByConvincing/HTP3A -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="708" data-line-first="709" style="display:block"><code data-line="709">    <span style="color:blue">assume</span> A || B;</code></pre></td><td class="column" data-line="712" style="width:20%;vertical-align:middle">
+<div class="center align-center" data-line="713" style="text-align:center">
+<p class="p noindent" data-line="714"><span data-line="714"></span><span class="math-inline">$\Rightarrow$</span></p></div></td><td class="column" data-line="717" style="width:40%;vertical-align:middle"><!-- inline-dafny ProvingByConvincing/HTP3E -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="719" data-line-first="720" style="display:block"><code data-line="720">    <span style="color:blue">assert</span> A || B <span style="color:blue">by</span> {
+      <span style="color:blue">if</span> !B {
+        <span style="color:blue">assume</span> A;
+      }
+    }</code></pre></td></tr></tbody></table></section>
+<section id="sec-how-to-prove--implication-procedural" class="section section1" data-section-depth="1" data-line="729"><h2 id="heading-sec-how-to-prove--implication-procedural" class="h1" data-heading-depth="1" style="display:block">How to prove: implication, procedural</h2><!-- inline-dafny ProofMethod/ImplicationIntro -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="732" data-line-first="733" style="display:block"><code data-line="733">  <span style="color:blue">lemma</span> Example()
+    <span style="color:purple">ensures</span> A ==&gt; B
+  {
+    <span style="color:darkgreen">// |- A ==&gt; B</span>
+    <span style="color:blue">if</span> A {
+      <span style="color:blue">assume</span> B;
+    }
+    <span style="color:darkgreen">// A ==&gt; B |- A ==&gt; B</span>
+  }</code></pre></section>
+<section id="sec-how-to-prove--implication-declarative----1" class="section section1" data-section-depth="1" data-line="744"><h2 id="heading-sec-how-to-prove--implication-declarative----1" class="h1" data-heading-depth="1" style="display:block">How to prove: implication, declarative &#8211; 1</h2><table class="columns block" data-line="746">
+<tbody><tr><td class="column" data-line="747" style="width:40%;vertical-align:middle"><!-- inline-dafny ProvingByConvincing/HTP2A -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="749" data-line-first="750" style="display:block"><code data-line="750">    <span style="color:blue">assume</span> A ==&gt; B;</code></pre></td><td class="column" data-line="753" style="width:20%;vertical-align:middle">
+<div class="center align-center" data-line="754" style="text-align:center">
+<p class="p noindent" data-line="755"><span data-line="755"></span><span class="math-inline">$\Rightarrow$</span></p></div></td><td class="column" data-line="758" style="width:40%;vertical-align:middle"><!-- inline-dafny ProvingByConvincing/HTP2B -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="760" data-line-first="761" style="display:block"><code data-line="761">    <span style="color:blue">assert</span> A ==&gt; B <span style="color:blue">by</span> {
+      <span style="color:blue">if</span> A {
+        <span style="color:blue">assume</span> B;
+      }
+    }</code></pre></td></tr></tbody></table></section>
+<section id="sec-how-to-prove--implication-declarative----2" class="section section1" data-section-depth="1" data-line="770"><h2 id="heading-sec-how-to-prove--implication-declarative----2" class="h1" data-heading-depth="1" style="display:block">How to prove: implication, declarative &#8211; 2</h2><table class="columns block" data-line="772">
+<tbody><tr><td class="column" data-line="773" style="width:40%;vertical-align:middle"><!-- inline-dafny ProvingByConvincing/HTP2A -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="775" data-line-first="776" style="display:block"><code data-line="776">    <span style="color:blue">assume</span> A ==&gt; B;</code></pre></td><td class="column" data-line="779" style="width:20%;vertical-align:middle">
+<div class="center align-center" data-line="780" style="text-align:center">
+<p class="p noindent" data-line="781"><span data-line="781"></span><span class="math-inline">$\Rightarrow$</span></p></div></td><td class="column" data-line="784" style="width:40%;vertical-align:middle"><!-- inline-dafny ProvingByConvincing/HTP2C -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="786" data-line-first="787" style="display:block"><code data-line="787">    <span style="color:blue">assert</span> A ==&gt; B <span style="color:blue">by</span> {
+      <span style="color:blue">if</span> !B {
+        <span style="color:blue">assume</span> !A;
+      }
+    }</code></pre></td></tr></tbody></table></section>
+<section id="sec-how-to-prove--negation-procedural" class="section section1" data-section-depth="1" data-line="796"><h2 id="heading-sec-how-to-prove--negation-procedural" class="h1" data-heading-depth="1" style="display:block">How to prove: negation procedural</h2><!-- inline-dafny ProofMethod/NegationIntro -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="799" data-line-first="800" style="display:block"><code data-line="800">  <span style="color:blue">lemma</span> Example()
+    <span style="color:purple">ensures</span> !A
+  {
+    <span style="color:darkgreen">// |- !A</span>
+    <span style="color:blue">if</span> A {
+      <span style="color:blue">assume</span> <span style="color:blue">false</span>;
+    }
+    <span style="color:darkgreen">// A ==&gt; false |- !A</span>
+  }</code></pre></section>
+<section id="sec-how-to-prove--negation-declarative" class="section section1" data-section-depth="1" data-line="811"><h2 id="heading-sec-how-to-prove--negation-declarative" class="h1" data-heading-depth="1" style="display:block">How to prove: negation, declarative</h2><table class="columns block" data-line="813">
+<tbody><tr><td class="column" data-line="814" style="width:40%;vertical-align:middle"><!-- inline-dafny ProvingByConvincing/HTP7A -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="816" data-line-first="817" style="display:block"><code data-line="817">    <span style="color:blue">assume</span> !A;</code></pre></td><td class="column" data-line="820" style="width:20%;vertical-align:middle">
+<div class="center align-center" data-line="821" style="text-align:center">
+<p class="p noindent" data-line="822"><span data-line="822"></span><span class="math-inline">$\Rightarrow$</span></p></div></td><td class="column" data-line="825" style="width:40%;vertical-align:middle"><!-- inline-dafny ProvingByConvincing/HTP7B -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="827" data-line-first="828" style="display:block"><code data-line="828">    <span style="color:blue">assert</span> !A <span style="color:blue">by</span> {
+      <span style="color:blue">if</span> A {
+        <span style="color:blue">assume</span> <span style="color:blue">false</span>;
+      }
+    }</code></pre></td></tr></tbody></table></section>
+<section id="sec-how-to-prove--universal-quantification-procedural" class="section section1" data-section-depth="1" data-line="837"><h2 id="heading-sec-how-to-prove--universal-quantification-procedural" class="h1" data-heading-depth="1" style="display:block">How to prove: universal quantification, procedural</h2><!-- inline-dafny ProofMethod/UniversalIntro -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="840" data-line-first="841" style="display:block"><code data-line="841">  <span style="color:blue">lemma</span> Exampl&lt;T&gt;()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> x: T :: P(x)
+  {
+    <span style="color:darkgreen">// |- forall x: T :: P(x)</span>
+    <span style="color:blue">forall</span> x: T
+      <span style="color:purple">ensures</span> P(x)
+    {
+      <span style="color:blue">assume</span> P(x);
+    }
+    <span style="color:darkgreen">// forall x: T :: P(x) |- forall x: T :: P(x)</span>
+  }</code></pre></section>
+<section id="sec-how-to-prove--universal-quantification-declarative" class="section section1" data-section-depth="1" data-line="854"><h2 id="heading-sec-how-to-prove--universal-quantification-declarative" class="h1" data-heading-depth="1" style="display:block">How to prove: universal quantification, declarative</h2><table class="columns block" data-line="856">
+<tbody><tr><td class="column" data-line="857" style="width:40%;vertical-align:middle"><!-- inline-dafny ProvingByConvincing/HTP5A -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="859" data-line-first="860" style="display:block"><code data-line="860">    <span style="color:blue">assume</span> <span style="color:blue">forall</span> x: <span style="color:teal">nat</span> :: P(x);</code></pre></td><td class="column" data-line="863" style="width:20%;vertical-align:middle">
+<div class="center align-center" data-line="864" style="text-align:center">
+<p class="p noindent" data-line="865"><span data-line="865"></span><span class="math-inline">$\Rightarrow$</span></p></div></td><td class="column" data-line="868" style="width:40%;vertical-align:middle"><!-- inline-dafny ProvingByConvincing/HTP5B -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="870" data-line-first="871" style="display:block"><code data-line="871">    <span style="color:blue">assert</span> <span style="color:blue">forall</span> x: <span style="color:teal">nat</span> :: P(x) <span style="color:blue">by</span> {
+      <span style="color:blue">forall</span> x: <span style="color:teal">nat</span>
+        <span style="color:purple">ensures</span> P(x)
+      {
+        <span style="color:blue">assume</span> P(x);
+      }
+    }</code></pre></td></tr></tbody></table></section>
+<section id="sec-how-to-prove--existential-quantification-procedural" class="section section1" data-section-depth="1" data-line="882"><h2 id="heading-sec-how-to-prove--existential-quantification-procedural" class="h1" data-heading-depth="1" style="display:block">How to prove: existential quantification, procedural</h2><!-- inline-dafny ProofMethod/ExistentialIntro -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="885" data-line-first="886" style="display:block"><code data-line="886">  <span style="color:blue">lemma</span> Example&lt;T&gt;(c: T)
+    <span style="color:purple">ensures</span> <span style="color:blue">exists</span> x: T :: P(x)
+  {
+    <span style="color:darkgreen">// |- exists x: T :: P(x)</span>
+    <span style="color:blue">assume</span> P(c);
+    <span style="color:darkgreen">// exists x: T :: P(x) |- exists x: T :: P(x)</span>
+  }</code></pre></section>
+<section id="sec-how-to-prove--existential-quantification-declarative" class="section section1" data-section-depth="1" data-line="895"><h2 id="heading-sec-how-to-prove--existential-quantification-declarative" class="h1" data-heading-depth="1" style="display:block">How to prove: existential quantification, declarative</h2><table class="columns block" data-line="897">
+<tbody><tr><td class="column" data-line="898" style="width:40%;vertical-align:middle"><!-- inline-dafny ProvingByConvincing/HTP6A -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="900" data-line-first="901" style="display:block"><code data-line="901">    <span style="color:blue">assume</span> <span style="color:blue">exists</span> x: <span style="color:teal">nat</span> :: P(x);</code></pre></td><td class="column" data-line="904" style="width:20%;vertical-align:middle">
+<div class="center align-center" data-line="905" style="text-align:center">
+<p class="p noindent" data-line="906"><span data-line="906"></span><span class="math-inline">$\Rightarrow$</span></p></div></td><td class="column" data-line="909" style="width:40%;vertical-align:middle"><!-- inline-dafny ProvingByConvincing/HTP6B -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="911" data-line-first="912" style="display:block"><code data-line="912">    <span style="color:blue">assert</span> <span style="color:blue">exists</span> x: <span style="color:teal">nat</span> :: P(x) <span style="color:blue">by</span> {
+      <span style="color:blue">assume</span> P(c);
+    }</code></pre></td></tr></tbody></table></section>
+<section id="sec-how-to-use--implication" class="section section1" data-section-depth="1" data-line="919"><h2 id="heading-sec-how-to-use--implication" class="h1" data-heading-depth="1" style="display:block">How to use: implication</h2><!-- inline-dafny ProofMethod/ImplicationElim -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="922" data-line-first="923" style="display:block"><code data-line="923">  <span style="color:blue">lemma</span> Example()
+    <span style="color:purple">requires</span> A ==&gt; B
+    <span style="color:purple">ensures</span> B
+  {
+    <span style="color:darkgreen">// A ==&gt; B |- B</span>
+    <span style="color:blue">assume</span> A;
+    <span style="color:darkgreen">// A ==&gt; B, A |- B</span>
+  }</code></pre></section>
+<section id="sec-how-to-use--disjunction" class="section section1" data-section-depth="1" data-line="933"><h2 id="heading-sec-how-to-use--disjunction" class="h1" data-heading-depth="1" style="display:block">How to use: disjunction</h2><!-- inline-dafny ProofMethod/DisjunctionElim -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="936" data-line-first="937" style="display:block"><code data-line="937">  <span style="color:blue">lemma</span> Example() 
+    <span style="color:purple">requires</span> A || B 
+    <span style="color:purple">ensures</span> C
+  {
+    <span style="color:darkgreen">// A || B |- C</span>
+    <span style="color:blue">if</span> A {
+      <span style="color:blue">assume</span> C;
+    }
+    <span style="color:darkgreen">// A || B, A ==&gt; C |- C </span>
+    <span style="color:blue">if</span> B {
+      <span style="color:blue">assume</span> C;
+    }
+    <span style="color:darkgreen">// A || B, A ==&gt; C, B ==&gt; C |- C</span>
+  }</code></pre></section>
+<section id="sec-how-to-use--negation" class="section section1" data-section-depth="1" data-line="953"><h2 id="heading-sec-how-to-use--negation" class="h1" data-heading-depth="1" style="display:block">How to use: negation</h2><!-- inline-dafny ProofMethod/NegationElim -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="956" data-line-first="957" style="display:block"><code data-line="957">  <span style="color:blue">lemma</span> Example() 
+    <span style="color:purple">requires</span> !A
+    <span style="color:purple">ensures</span> <span style="color:blue">false</span> 
+    {
+      <span style="color:darkgreen">// !A |- false </span>
+      <span style="color:blue">assume</span> A; 
+      <span style="color:darkgreen">// !A, A |- false</span>
+    }</code></pre></section>
+<section id="sec-how-to-use--existential" class="section section1" data-section-depth="1" data-line="967"><h2 id="heading-sec-how-to-use--existential" class="h1" data-heading-depth="1" style="display:block">How to use: existential</h2><!-- inline-dafny ProofMethod/ExistentialElim -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="970" data-line-first="971" style="display:block"><code data-line="971">  <span style="color:blue">lemma</span> Example&lt;T&gt;() 
+    <span style="color:purple">requires</span> <span style="color:blue">exists</span> c: T :: P(c)
+    <span style="color:purple">ensures</span> C 
+  {
+    <span style="color:darkgreen">// exists c: T :: P(c) |- C </span>
+    <span style="color:blue">assume</span> <span style="color:blue">forall</span> x: T :: P(x) ==&gt; C;
+    <span style="color:darkgreen">// exists c: T :: P(c), forall x: T :: P(x) ==&gt; C |- C </span>
+    <span style="color:blue">var</span> c: T :| P(c);
+    <span style="color:darkgreen">// exists c: T :: P(c), c:T, P(c), forall x: T :: P(x) ==&gt; C |- C </span>
+  }</code></pre></section>
+<section id="sec-how-to-use--congruence-of-propositions" class="section section1" data-section-depth="1" data-line="983"><h2 id="heading-sec-how-to-use--congruence-of-propositions" class="h1" data-heading-depth="1" style="display:block">How to use: congruence of propositions</h2><table class="columns block" data-line="985">
+<tbody><tr><td class="column" data-line="986" style="width:40%;vertical-align:middle"><!-- inline-dafny ProvingByConvincing/HTUBase -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="988" data-line-first="989" style="display:block"><code data-line="989">    <span style="color:blue">assume</span> A;</code></pre></td><td class="column" data-line="992" style="width:20%;vertical-align:middle">
+<div class="center align-center" data-line="993" style="text-align:center">
+<p class="p noindent" data-line="994"><span data-line="994"></span><span class="math-inline">$\Rightarrow$</span></p></div></td><td class="column" data-line="997" style="width:40%;vertical-align:middle"><!-- inline-dafny ProvingByConvincing/HTU6B -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="999" data-line-first="1000" style="display:block"><code data-line="1000">    <span style="color:blue">assert</span> A <span style="color:blue">by</span> {
+      <span style="color:blue">assume</span> A == B;
+      <span style="color:blue">assume</span> B;
+    }</code></pre></td></tr></tbody></table></section>
+<section id="sec-how-to-use--congruence-of-terms" class="section section1" data-section-depth="1" data-line="1008"><h2 id="heading-sec-how-to-use--congruence-of-terms" class="h1" data-heading-depth="1" style="display:block">How to use: congruence of terms</h2><table class="columns block" data-line="1010">
+<tbody><tr><td class="column" data-line="1011" style="width:40%;vertical-align:middle"><!-- inline-dafny ProvingByConvincing/HTUBase' -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="1013" data-line-first="1014" style="display:block"><code data-line="1014">    <span style="color:blue">assume</span> P(c);</code></pre></td><td class="column" data-line="1017" style="width:20%;vertical-align:middle">
+<div class="center align-center" data-line="1018" style="text-align:center">
+<p class="p noindent" data-line="1019"><span data-line="1019"></span><span class="math-inline">$\Rightarrow$</span></p></div></td><td class="column" data-line="1022" style="width:40%;vertical-align:middle"><!-- inline-dafny ProvingByConvincing/HTU6C -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="1024" data-line-first="1025" style="display:block"><code data-line="1025">    <span style="color:blue">assert</span> P(c) <span style="color:blue">by</span> {
+      <span style="color:blue">assume</span> c == d;
+      <span style="color:blue">assume</span> P(d);
+    }</code></pre></td></tr></tbody></table></section>
+<section id="sec-detailed-example" class="section section1" data-section-depth="1" data-line="1033"><h2 id="heading-sec-detailed-example" class="h1" data-heading-depth="1" style="display:block">Detailed example</h2>
+<ul class="ul list-dash loose" data-line="1035">
+<li class="li ul-li list-dash-li loose-li" data-line="1035">
+<p data-line="1035"><span data-line="1035"></span>We have seen the basics of formalizing proofs
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="1036">
+<p data-line="1036"><span data-line="1036"></span>Rules of deduction
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="1037">
+<p data-line="1037"><span data-line="1037"></span>How they can be encoded in Dafny
+</p></li>
+<li class="li ul-li list-dash-li loose-li" data-line="1038">
+<p data-line="1038"><span data-line="1038"></span>Let<span data-line="1038"></span>&#39;<span data-line="1038"></span>s formalize the proof of the following lemma
+</p>
+<div class="lemma" data-line="1040" style="display:block;margin:1ex 0pt">
+<p class="p noindent para-continue" data-line="1041"><span data-line="1041"></span><span class="lemma-before"><strong class="strong-star2">Lemma&#160;<span class="lemma-label">1</span>.</strong> <span class="theorem-caption"></span><br>
+</span><span data-line="1041"></span>
+</p>
+<div class="math para-block" data-line="1042">
+<div class="mathdisplay para-block input-math" data-math-full="" data-line="1043" style="line-adjust:0"><span class="mathdisplay math-display" data-math-full="">\[  \forall x: nat \cdot\; x \% 2 = 0 \Rightarrow \exists y: nat \cdot\; x = 2 \times y
+\]</span></div></div></div></li></ul>
+</section>
+<section id="sec-in-english" class="section section1" data-section-depth="1" data-line="1047"><h2 id="heading-sec-in-english" class="h1" data-heading-depth="1" style="display:block">In english</h2>
+<div class="lemma" data-line="1049" style="display:block;margin:1ex 0pt">
+<p class="p noindent para-continue" data-line="1050"><span data-line="1050"></span><span class="lemma-before"><strong class="strong-star2">Lemma&#160;<span class="lemma-label">2</span>.</strong> <span class="theorem-caption"></span><br>
+</span><span data-line="1050"></span>
+</p>
+<div class="math para-block" data-line="1051">
+<div class="mathdisplay para-block input-math" data-math-full="" data-line="1052" style="line-adjust:0"><span class="mathdisplay math-display" data-math-full="">\[    \forall x: nat \cdot\; x \% 2 = 0 \Rightarrow \exists y: nat \cdot\; x = 2 \times y
+\]</span></div></div></div>
+<div class="proof" data-line="1055" style="theorem-caption-end: ;display:block;margin:1ex 0pt">
+<p class="p noindent" data-line="1056"><span data-line="1056"></span><span class="proof-before"><strong class="strong-star2">Proof</strong>. <span class="theorem-caption"></span> </span><span data-line="1056"></span>    <span data-line="1056"></span><br><span data-line="1056"></span>
+    Let <span data-line="1057"></span><span class="math-inline">$x$</span><span data-line="1057"></span> be some fixed but arbitrary natural number. <span data-line="1057"></span><br><span data-line="1057"></span> We assume that
+    <span data-line="1058"></span><span class="math-inline">$x\%2 = 0$</span><span data-line="1058"></span>. <span data-line="1058"></span><br><span data-line="1058"></span> Since the remainder of the division of <span data-line="1058"></span><span class="math-inline">$x$</span><span data-line="1058"></span> by <span data-line="1058"></span><span class="math-inline">$2$</span><span data-line="1058"></span>
+    is <span data-line="1059"></span><span class="math-inline">$0$</span><span data-line="1059"></span>, then by definition, <span data-line="1059"></span><span class="math-inline">$x$</span><span data-line="1059"></span> is divisible by <span data-line="1059"></span><span class="math-inline">$2$</span><span data-line="1059"></span> and has a
+    unique divisor. <span data-line="1060"></span><br><span data-line="1060"></span> Let<span data-line="1060"></span>&#39;<span data-line="1060"></span>s call this divisor <span data-line="1060"></span><span class="math-inline">$y$</span><span data-line="1060"></span>, we have that <span data-line="1060"></span><span class="math-inline">$x =2 \times y$</span><span data-line="1061"></span>.</p></div></section>
+<section id="sec-procedural----1" class="section section1" data-section-depth="1" data-line="1064"><h2 id="heading-sec-procedural----1" class="h1" data-heading-depth="1" style="display:block">Procedural &#8211; 1</h2><!-- inline-dafny Mathematics/New1 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="1067" data-line-first="1068" style="display:block"><code data-line="1068">  <span style="color:blue">lemma</span> s1()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> x: <span style="color:teal">nat</span> :: x % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; <span style="color:blue">exists</span> y: <span style="color:teal">nat</span> :: x == <span class="constant" style="color:purple">2</span> * y</code></pre></section>
+<section id="sec-procedural----2" class="section section1" data-section-depth="1" data-line="1072"><h2 id="heading-sec-procedural----2" class="h1" data-heading-depth="1" style="display:block">Procedural &#8211; 2</h2><!-- inline-dafny Mathematics/New2 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="1075" data-line-first="1076" style="display:block"><code data-line="1076">  <span style="color:blue">lemma</span> s1()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> x: <span style="color:teal">nat</span> :: x % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; <span style="color:blue">exists</span> y: <span style="color:teal">nat</span> :: x == <span class="constant" style="color:purple">2</span> * y
+  {
+    <span style="color:darkgreen">// |- GOAL</span>
+    <span style="color:blue">assume</span> <span style="color:blue">false</span>; <span style="color:darkgreen">// TODO</span>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    <span style="color:darkgreen">// false |- GOAL</span>
+  }</code></pre></section>
+<section id="sec-procedural----3" class="section section1" data-section-depth="1" data-line="1098"><h2 id="heading-sec-procedural----3" class="h1" data-heading-depth="1" style="display:block">Procedural &#8211; 3</h2><!-- inline-dafny Mathematics/New3 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="1101" data-line-first="1102" style="display:block"><code data-line="1102">  <span style="color:blue">lemma</span> s1()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> x: <span style="color:teal">nat</span> :: x % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; <span style="color:blue">exists</span> y: <span style="color:teal">nat</span> :: x == <span class="constant" style="color:purple">2</span> * y
+  {
+    <span style="color:darkgreen">// |- GOAL</span>
+    <span style="color:blue">assume</span> <span style="color:blue">forall</span> x: <span style="color:teal">nat</span> :: x % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; <span style="color:blue">exists</span> y: <span style="color:teal">nat</span> :: x == <span class="constant" style="color:purple">2</span> * y; <span style="color:darkgreen">// TODO</span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <span style="color:darkgreen">// GOAL |- GOAL</span>
+  }</code></pre></section>
+<section id="sec-procedural----4" class="section section1" data-section-depth="1" data-line="1124"><h2 id="heading-sec-procedural----4" class="h1" data-heading-depth="1" style="display:block">Procedural &#8211; 4</h2><!-- inline-dafny Mathematics/New4 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="1127" data-line-first="1128" style="display:block"><code data-line="1128">  <span style="color:blue">lemma</span> s1()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> x: <span style="color:teal">nat</span> :: x % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; <span style="color:blue">exists</span> y: <span style="color:teal">nat</span> :: x == <span class="constant" style="color:purple">2</span> * y
+  {
+    <span style="color:darkgreen">// |- GOAL</span>
+    <span style="color:blue">forall</span> x: <span style="color:teal">nat</span>
+      <span style="color:purple">ensures</span> x % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; <span style="color:blue">exists</span> y: <span style="color:teal">nat</span> :: x == <span class="constant" style="color:purple">2</span> * y
+    {
+      <span style="color:darkgreen">// x: nat |- x % 2 == 0 ==&gt; exists y: nat :: x == 2 * y</span>
+      <span style="color:blue">assume</span> <span style="color:blue">false</span>; <span style="color:darkgreen">// TODO</span>
+
+
+
+
+
+
+
+
+
+      <span style="color:darkgreen">// x: nat, false |- x % 2 == 0 ==&gt; exists y: nat :: x == 2 * y</span>
+    }
+    <span style="color:darkgreen">// GOAL |- GOAL</span>
+  }</code></pre></section>
+<section id="sec-procedural----5" class="section section1" data-section-depth="1" data-line="1152"><h2 id="heading-sec-procedural----5" class="h1" data-heading-depth="1" style="display:block">Procedural &#8211; 5</h2><!-- inline-dafny Mathematics/New5 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="1155" data-line-first="1156" style="display:block"><code data-line="1156">  <span style="color:blue">lemma</span> s1()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> x: <span style="color:teal">nat</span> :: x % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; <span style="color:blue">exists</span> y: <span style="color:teal">nat</span> :: x == <span class="constant" style="color:purple">2</span> * y
+  {
+    <span style="color:darkgreen">// |- GOAL</span>
+    <span style="color:blue">forall</span> x: <span style="color:teal">nat</span>
+      <span style="color:purple">ensures</span> x % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; <span style="color:blue">exists</span> y: <span style="color:teal">nat</span> :: x == <span class="constant" style="color:purple">2</span> * y
+    {
+      <span style="color:darkgreen">// x: nat |- x % 2 == 0 ==&gt; exists y: nat :: x == 2 * y</span>
+      <span style="color:blue">assume</span> x % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; <span style="color:blue">exists</span> y: <span style="color:teal">nat</span> :: x == <span class="constant" style="color:purple">2</span> * y; <span style="color:darkgreen">// TODO</span>
+
+
+
+
+
+
+
+
+      <span style="color:darkgreen">// x: nat, x % 2 == 0 ==&gt; exists y: nat :: x == 2 * y </span>
+      <span style="color:darkgreen">//                  |- x % 2 == 0 ==&gt; exists y: nat :: x == 2 * y</span>
+    }
+    <span style="color:darkgreen">// GOAL |- GOAL</span>
+  }</code></pre></section>
+<section id="sec-procedural----6" class="section section1" data-section-depth="1" data-line="1180"><h2 id="heading-sec-procedural----6" class="h1" data-heading-depth="1" style="display:block">Procedural &#8211; 6</h2><!-- inline-dafny Mathematics/New6 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="1183" data-line-first="1184" style="display:block"><code data-line="1184">  <span style="color:blue">lemma</span> s1()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> x: <span style="color:teal">nat</span> :: x % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; <span style="color:blue">exists</span> y: <span style="color:teal">nat</span> :: x == <span class="constant" style="color:purple">2</span> * y
+  {
+    <span style="color:darkgreen">// |- GOAL</span>
+    <span style="color:blue">forall</span> x: <span style="color:teal">nat</span>
+      <span style="color:purple">ensures</span> x % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; <span style="color:blue">exists</span> y: <span style="color:teal">nat</span> :: x == <span class="constant" style="color:purple">2</span> * y
+    {
+      <span style="color:darkgreen">// x: nat |- x % 2 == 0 ==&gt; exists y: nat :: x == 2 * y</span>
+      <span style="color:blue">if</span> x % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> {
+        <span style="color:darkgreen">// x: nat, x % 2 == 0 |- exists y: nat :: x == 2 * y</span>
+        <span style="color:blue">assume</span> <span style="color:blue">false</span>; <span style="color:darkgreen">// TODO</span>
+
+
+
+
+        <span style="color:darkgreen">// x: nat, x % 2 == 0, false |- exists y: nat :: x == 2 * y</span>
+      }
+      <span style="color:darkgreen">// x: nat, x % 2 == 0 ==&gt; exists y: nat :: x == 2 * y </span>
+      <span style="color:darkgreen">//                  |- x % 2 == 0 ==&gt; exists y: nat :: x == 2 * y</span>
+    }
+    <span style="color:darkgreen">// GOAL |- GOAL</span>
+  }</code></pre></section>
+<section id="sec-procedural----7" class="section section1" data-section-depth="1" data-line="1208"><h2 id="heading-sec-procedural----7" class="h1" data-heading-depth="1" style="display:block">Procedural &#8211; 7</h2><!-- inline-dafny Mathematics/New7 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="1211" data-line-first="1212" style="display:block"><code data-line="1212">  <span style="color:blue">lemma</span> s1()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> x: <span style="color:teal">nat</span> :: x % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; <span style="color:blue">exists</span> y: <span style="color:teal">nat</span> :: x == <span class="constant" style="color:purple">2</span> * y
+  {
+    <span style="color:darkgreen">// |- GOAL</span>
+    <span style="color:blue">forall</span> x: <span style="color:teal">nat</span>
+      <span style="color:purple">ensures</span> x % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; <span style="color:blue">exists</span> y: <span style="color:teal">nat</span> :: x == <span class="constant" style="color:purple">2</span> * y
+    {
+      <span style="color:darkgreen">// x: nat |- x % 2 == 0 ==&gt; exists y: nat :: x == 2 * y</span>
+      <span style="color:blue">if</span> x % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> {
+        <span style="color:darkgreen">// x: nat, x % 2 == 0 |- exists y: nat :: x == 2 * y</span>
+        <span style="color:blue">assert</span> <span style="color:blue">exists</span> y: <span style="color:teal">nat</span> :: x == <span class="constant" style="color:purple">2</span> * y <span style="color:blue">by</span> {
+          <span style="color:darkgreen">// x: nat, x % 2 == 0 |- exists y: nat :: x == 2 * y</span>
+          <span style="color:blue">assume</span> <span style="color:blue">false</span>; <span style="color:darkgreen">// TODO</span>
+          <span style="color:darkgreen">// x: nat, x % 2 == 0, false |- exists y: nat :: x == 2 * y</span>
+        }
+        <span style="color:darkgreen">// x: nat, x % 2 == 0, exists y: nat :: x == 2 * y |- exists y: nat :: x == 2 * y</span>
+      }
+      <span style="color:darkgreen">// x: nat, x % 2 == 0 ==&gt; exists y: nat :: x == 2 * y </span>
+      <span style="color:darkgreen">//                  |- x % 2 == 0 ==&gt; exists y: nat :: x == 2 * y</span>
+    }
+    <span style="color:darkgreen">// GOAL |- GOAL</span>
+  }</code></pre></section>
+<section id="sec-procedural----8" class="section section1" data-section-depth="1" data-line="1236"><h2 id="heading-sec-procedural----8" class="h1" data-heading-depth="1" style="display:block">Procedural &#8211; 8</h2><!-- inline-dafny Mathematics/New8 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="1239" data-line-first="1240" style="display:block"><code data-line="1240">  <span style="color:blue">lemma</span> s1()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> x: <span style="color:teal">nat</span> :: x % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; <span style="color:blue">exists</span> y: <span style="color:teal">nat</span> :: x == <span class="constant" style="color:purple">2</span> * y
+  {
+    <span style="color:darkgreen">// |- GOAL</span>
+    <span style="color:blue">forall</span> x: <span style="color:teal">nat</span>
+      <span style="color:purple">ensures</span> x % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; <span style="color:blue">exists</span> y: <span style="color:teal">nat</span> :: x == <span class="constant" style="color:purple">2</span> * y
+    {
+      <span style="color:darkgreen">// x: nat |- x % 2 == 0 ==&gt; exists y: nat :: x == 2 * y</span>
+      <span style="color:blue">if</span> x % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> {
+        <span style="color:darkgreen">// x: nat, x % 2 == 0 |- exists y: nat :: x == 2 * y</span>
+        <span style="color:blue">assert</span> <span style="color:blue">exists</span> y: <span style="color:teal">nat</span> :: x == <span class="constant" style="color:purple">2</span> * y <span style="color:blue">by</span> {
+          <span style="color:darkgreen">// x: nat, x % 2 == 0 |- exists y: nat :: x == 2 * y</span>
+          <span style="color:blue">assert</span> x == <span class="constant" style="color:purple">2</span> * (x / <span class="constant" style="color:purple">2</span>);
+          <span style="color:darkgreen">// x: nat, x % 2 == 0, exists y: nat :: x == 2 * y |- exists y: nat :: x == 2 * y</span>
+        }
+        <span style="color:darkgreen">// x: nat, x % 2 == 0, exists y: nat :: x == 2 * y |- exists y: nat :: x == 2 * y</span>
+      }
+      <span style="color:darkgreen">// x: nat, x % 2 == 0 ==&gt; exists y: nat :: x == 2 * y </span>
+      <span style="color:darkgreen">//                  |- x % 2 == 0 ==&gt; exists y: nat :: x == 2 * y</span>
+    }
+    <span style="color:darkgreen">// GOAL |- GOAL</span>
+  }</code></pre></section>
+<section id="sec-declarative----1" class="section section1" data-section-depth="1" data-line="1264"><h2 id="heading-sec-declarative----1" class="h1" data-heading-depth="1" style="display:block">Declarative &#8211; 1</h2><!-- inline-dafny Mathematics/Dec1 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="1267" data-line-first="1268" style="display:block"><code data-line="1268">  <span style="color:blue">lemma</span> s1()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> x: <span style="color:teal">nat</span> :: x % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; <span style="color:blue">exists</span> y: <span style="color:teal">nat</span> :: x == <span class="constant" style="color:purple">2</span> * y</code></pre></section>
+<section id="sec-declarative----2" class="section section1" data-section-depth="1" data-line="1272"><h2 id="heading-sec-declarative----2" class="h1" data-heading-depth="1" style="display:block">Declarative &#8211; 2</h2><!-- inline-dafny Mathematics/Dec2 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="1275" data-line-first="1276" style="display:block"><code data-line="1276">  <span style="color:blue">lemma</span> s1()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> x: <span style="color:teal">nat</span> :: x % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; <span style="color:blue">exists</span> y: <span style="color:teal">nat</span> :: x == <span class="constant" style="color:purple">2</span> * y
+  {
+    <span style="color:blue">assume</span> <span style="color:blue">false</span>; <span style="color:darkgreen">// TODO</span>
+  }</code></pre></section>
+<section id="sec-declarative----3" class="section section1" data-section-depth="1" data-line="1283"><h2 id="heading-sec-declarative----3" class="h1" data-heading-depth="1" style="display:block">Declarative &#8211; 3</h2><!-- inline-dafny Mathematics/Dec3 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="1286" data-line-first="1287" style="display:block"><code data-line="1287">  <span style="color:blue">lemma</span> s1()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> x: <span style="color:teal">nat</span> :: x % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; <span style="color:blue">exists</span> y: <span style="color:teal">nat</span> :: x == <span class="constant" style="color:purple">2</span> * y
+  {
+    <span style="color:blue">forall</span> x: <span style="color:teal">nat</span>
+      <span style="color:purple">ensures</span> x % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; <span style="color:blue">exists</span> y: <span style="color:teal">nat</span> :: x == <span class="constant" style="color:purple">2</span> * y
+    {
+      <span style="color:blue">assume</span> <span style="color:blue">false</span>; <span style="color:darkgreen">// TODO</span>
+    }
+  }</code></pre></section>
+<section id="sec-declarative----4" class="section section1" data-section-depth="1" data-line="1298"><h2 id="heading-sec-declarative----4" class="h1" data-heading-depth="1" style="display:block">Declarative &#8211; 4</h2><!-- inline-dafny Mathematics/Dec4 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="1301" data-line-first="1302" style="display:block"><code data-line="1302">  <span style="color:blue">lemma</span> s1()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> x: <span style="color:teal">nat</span> :: x % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; <span style="color:blue">exists</span> y: <span style="color:teal">nat</span> :: x == <span class="constant" style="color:purple">2</span> * y
+  {
+    <span style="color:blue">forall</span> x: <span style="color:teal">nat</span>
+      <span style="color:purple">ensures</span> x % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; <span style="color:blue">exists</span> y: <span style="color:teal">nat</span> :: x == <span class="constant" style="color:purple">2</span> * y
+    {
+      <span style="color:blue">if</span> x % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> {
+        <span style="color:blue">assume</span> <span style="color:blue">false</span>; <span style="color:darkgreen">// TODO</span>
+      }
+    }
+  }</code></pre></section>
+<section id="sec-declarative----5" class="section section1" data-section-depth="1" data-line="1315"><h2 id="heading-sec-declarative----5" class="h1" data-heading-depth="1" style="display:block">Declarative &#8211; 5</h2><!-- inline-dafny Mathematics/Dec5 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="1318" data-line-first="1319" style="display:block"><code data-line="1319">  <span style="color:blue">lemma</span> s1()
+    <span style="color:purple">ensures</span> <span style="color:blue">forall</span> x: <span style="color:teal">nat</span> :: x % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; <span style="color:blue">exists</span> y: <span style="color:teal">nat</span> :: x == <span class="constant" style="color:purple">2</span> * y
+  {
+    <span style="color:blue">forall</span> x: <span style="color:teal">nat</span>
+      <span style="color:purple">ensures</span> x % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> ==&gt; <span style="color:blue">exists</span> y: <span style="color:teal">nat</span> :: x == <span class="constant" style="color:purple">2</span> * y
+    {
+      <span style="color:blue">if</span> x % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">0</span> {
+        <span style="color:blue">assert</span> x == <span class="constant" style="color:purple">2</span> * (x / <span class="constant" style="color:purple">2</span>);
+      }
+    }
+  }</code></pre></section>
+<section id="sec-proofs-that-calculate" class="section section1" data-section-depth="1" data-line="1332"><h2 id="heading-sec-proofs-that-calculate" class="h1" data-heading-depth="1" style="display:block">Proofs that calculate</h2>
+<ul class="ul list-dash compact" data-line="1334">
+<li class="li ul-li list-dash-li compact-li" data-line="1334"><span data-line="1334"></span>An important class of propositions are of the form <span data-line="1334"></span><span class="math-inline">$\exists x \cdot P(x)$</span><span data-line="1334"></span>
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="1335"><span data-line="1335"></span>One way to prove that a value satisfying a predicate exist is to explicitely compute one 
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="1336"><span data-line="1336"></span>Example:
+
+<ul class="ul list-dash compact" data-line="1337">
+<li class="li ul-li list-dash-li compact-li" data-line="1337"><span data-line="1337"></span>Prove that for any rational number, there exists another in normal form that has the same value 
+</li>
+<li class="li ul-li list-dash-li compact-li" data-line="1338"><span data-line="1338"></span>One intuitive way to prove this is to show how to cancel out common factors
+</li></ul></li></ul>
+</section>
+<section id="sec-back-of-the-envelope-calculations" class="section section1" data-section-depth="1" data-line="1340"><h2 id="heading-sec-back-of-the-envelope-calculations" class="h1" data-heading-depth="1" style="display:block">Back-of-the-envelope calculations</h2>
+<ul class="ul list-dash loose" data-line="1342">
+<li class="li ul-li list-dash-li loose-li" data-line="1342">
+<p data-line="1342"><span data-line="1342"></span>Instead of:
+</p><!-- inline-dafny ProvingByComputing/A16 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="1345" data-line-first="1346" style="display:block"><code data-line="1346">  <span style="color:blue">lemma</span> OddFactor(n: <span style="color:teal">nat</span>)
+    <span style="color:purple">requires</span> n % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">1</span>
+    <span style="color:purple">ensures</span> <span style="color:blue">exists</span> m: <span style="color:teal">nat</span> :: n == m * <span class="constant" style="color:purple">2</span> + <span class="constant" style="color:purple">1</span>
+  {
+    <span style="color:blue">assert</span> n == n/<span class="constant" style="color:purple">2</span> * <span class="constant" style="color:purple">2</span> + <span class="constant" style="color:purple">1</span>;
+  }</code></pre></li>
+<li class="li ul-li list-dash-li loose-li" data-line="1354">
+<p data-line="1354"><span data-line="1354"></span>In the same way that you would prove <span data-line="1354"></span><span class="math-inline">$2 + 2 = 4$</span><span data-line="1354"></span> by doing the math:
+</p><!-- inline-dafny ProvingByComputing/A17 -->
+
+
+<pre class="para-block pre-fenced pre-fenced3 language-dafnyx lang-dafnyx dafnyx colorized" data-line="1357" data-line-first="1358" style="display:block"><code data-line="1358">  <span style="color:blue">lemma</span> OffFactorComputed(n: <span style="color:teal">nat</span>) <span style="color:blue">returns</span> (m: <span style="color:teal">nat</span>)
+    <span style="color:purple">requires</span> n % <span class="constant" style="color:purple">2</span> == <span class="constant" style="color:purple">1</span>
+    <span style="color:purple">ensures</span> n == m * <span class="constant" style="color:purple">2</span> + <span class="constant" style="color:purple">1</span>
+  {
+    m := n/<span class="constant" style="color:purple">2</span>;
+  }</code></pre></li></ul>
+</section></div></div><span data-line=""></span></div>
+</body>
+<script type="text/javascript">
+  Reveal.initialize({
+          history: true,
+          transition: "none",
+          width: 1600,
+            height: 900,
+          center: false,
+          controls: false,
+             progress: false,
+          slideNumber: true
+          });
+  Reveal.configure({
+          history: true,
+          transition: "none",
+          width: 1600,
+            height: 900,
+          center: false,
+          controls: false,
+             progress: false,
+          slideNumber: true
+     });
+</script>
+<script>
+    // initialize printing
+    revealConfig.initPrint();
+    // initialize background embedded images
+    revealConfig.getEmbeddedImages();
+    </script>
+</html>
